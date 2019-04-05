@@ -2,10 +2,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
+/***
+ * Parte que trata de fazer parse ao XML
+ */
 class SAXHandler extends DefaultHandler {
     private final xmlParser unparsed;
 

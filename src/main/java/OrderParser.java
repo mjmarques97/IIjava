@@ -1,7 +1,10 @@
-import javax.sound.midi.SysexMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * Pega nas strings que XMLparser tirou do ficheiro XML e coloca-as "bonitinhas"
+ */
 public class OrderParser {
     private List<Order> transformationOrders=new ArrayList<>();
     private List<Order> unloadOrders=new ArrayList<>();

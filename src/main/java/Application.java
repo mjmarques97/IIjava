@@ -1,7 +1,6 @@
-
-
-
-
+/***
+ * Parte que trata de correr os testes
+ */
 
 public class Application {
 

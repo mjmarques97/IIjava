@@ -1,3 +1,7 @@
+/***
+ * Ordem de Unload, como é uma ordem herda atributos do Pai, Order
+ */
+
 public class UnloadOrder extends Order {
     private final String type;
     private final String destination;

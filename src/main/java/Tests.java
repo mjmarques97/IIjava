@@ -1,3 +1,7 @@
+/***
+ * Testes para ver se está tudo a funcionar como deve ser
+ */
+
 public class Tests {
 
         public static void xmlTest(){

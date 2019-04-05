@@ -1,3 +1,7 @@
+/***
+ * Classe Abstrata order
+ */
+
 abstract class Order {
     final String number;
     final String quantity;
