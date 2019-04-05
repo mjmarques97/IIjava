@@ -1,4 +1,4 @@
-package xml;
+package order;
 
 /***
  * Ordem de transformação, como é uma order herda atributos do pai, Oder
@@ -16,7 +16,7 @@ public class TransformationOrder extends Order {
     }
 
     @Override
-    void print() {
-        System.out.println("xml.Order Number: "+this.number+" From: " +this.from+" To: "+this.to+ " Quantity: "+ this.quantity);
+    public void print() {
+        System.out.println("Order Number:"+this.number+" From:" +this.from+" To: "+this.to+ "Quantity: "+ this.quantity);
     }
 }

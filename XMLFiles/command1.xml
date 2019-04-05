@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE PRODUCTION_ORDERS [
-<!ELEMENT ORDERS (Request_Stores | xml.Order*)>
+<!ELEMENT ORDERS (Request_Stores | order.Order*)>
 <!ELEMENT Request_Stores EMPTY>
-<!ELEMENT xml.Order (Transform | Unload)>
-<!ATTLIST xml.Order
+<!ELEMENT order.Order (Transform | Unload)>
+<!ATTLIST order.Order
           Number   (CDATA) #REQUIRED
 >
 <!ELEMENT Transform EMPTY>
@@ -20,7 +20,7 @@
 >
 ]>
 <ORDERS>
-<xml.Order Number="001">
+<order.Order Number="001">
 <Transform From="P1" To="P7" Quantity="18"/>
-</xml.Order>
+</order.Order>
 </ORDERS>

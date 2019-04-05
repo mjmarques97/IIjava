@@ -1,7 +1,7 @@
-package xml;
+package order;
 
 /***
- * Ordem de Unload, como é uma ordem herda atributos do Pai, xml.Order
+ * Ordem de Unload, como é uma ordem herda atributos do Pai, order.Order
  */
 
 public class UnloadOrder extends Order {
@@ -15,7 +15,7 @@ public class UnloadOrder extends Order {
     }
 
     @Override
-    void print() {
-        System.out.println("xml.Order Number:"+this.number+" Type:" +this.type+" To: "+this.destination+" Quantity:"+ this.quantity);
+    public void print() {
+        System.out.println("Order Number:"+this.number+" Type:" +this.type+" To:"+this.destination+" Quantity:"+ this.quantity);
     }
 }

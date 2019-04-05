@@ -20,7 +20,8 @@ class SAXHandler extends DefaultHandler {
             throws SAXException {
 
         int attributeLength = attributes.getLength();
-        addtoUnparsedList("xml.Order",qName, attributes, attributeLength);
+
+        addtoUnparsedList("order.Order",qName, attributes, attributeLength);
         addtoUnparsedList("Transform",qName, attributes, attributeLength);
         addtoUnparsedList("Unload",qName, attributes, attributeLength);
 
@@ -38,7 +39,7 @@ class SAXHandler extends DefaultHandler {
                 add=add+ attrName + "=" + attrVal + ";";
                // System.out.println(add);
             }
-            this.unparsed.addUnparsedOrder(add);
+            this.unparsed.addUnparsedOrder(add.replace("order.",""));
 
 
         }

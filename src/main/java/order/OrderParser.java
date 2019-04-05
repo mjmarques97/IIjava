@@ -1,4 +1,9 @@
-package xml;
+package order;
+
+
+import order.TransformationOrder;
+import order.UnloadOrder;
+import xml.xmlParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +12,8 @@ import java.util.List;
  * Pega nas strings que XMLparser tirou do ficheiro XML e coloca-as "bonitinhas"
  */
 public class OrderParser {
-    private List<Order> transformationOrders=new ArrayList<>();
-    private List<Order> unloadOrders=new ArrayList<>();
+    private List<TransformationOrder> transformationOrders=new ArrayList<>();
+    private List<UnloadOrder> unloadOrders=new ArrayList<>();
 
 
 
@@ -64,7 +69,7 @@ public class OrderParser {
             return;
         }
 
-        for(Order order: transformationOrders)
+        for(TransformationOrder order: transformationOrders)
             order.print();
 
     }
@@ -75,7 +80,7 @@ public class OrderParser {
             System.out.println("No Unloads to print.");
             return;
         }
-        for(Order order: unloadOrders)
+        for(UnloadOrder order: unloadOrders)
             order.print();
     }
 
