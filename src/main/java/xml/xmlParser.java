@@ -33,7 +33,7 @@ public class xmlParser {
                     new FileInputStream(name);
             DefaultHandler handler = new SAXHandler(this);
             parser.parse(is, handler);
-            //print();
+            //dprint();
 
         } catch (Exception e) {
             e.printStackTrace();
