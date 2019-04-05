@@ -1,3 +1,6 @@
+import xml.OrderParser;
+import xml.xmlParser;
+
 /***
  * Testes para ver se está tudo a funcionar como deve ser
  */

@@ -1,4 +1,4 @@
-
+package xml;
 
 
 import org.xml.sax.helpers.DefaultHandler;
@@ -28,7 +28,7 @@ public class xmlParser {
             SAXParser parser = factory.newSAXParser();
 
             // Get an InputStream to the elements.xml file and parse
-            // its contents using the SAXHandler.
+            // its contents using the xml.SAXHandler.
             InputStream is =
                     new FileInputStream(name);
             DefaultHandler handler = new SAXHandler(this);
