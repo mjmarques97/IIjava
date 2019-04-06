@@ -1,40 +1,47 @@
 import order.OrderParser;
-import xml.xmlParser;
+import xml.XMLParser;
 
 /***
  * Testes para ver se está tudo a funcionar como deve ser
  */
 
 public class Tests {
+    private static final String LINES="\n ---------------------------";
+    public Tests() {
+        xmlTest();
+    }
 
-        public static void xmlTest(){
-            // XML test
-            xmlParser test= new xmlParser("XMLFiles//command1.xml");
+    private static void xmlTest(){
+
+            XMLParser test= new XMLParser("XMLFiles//command1.xml");
             OrderParser order1=new OrderParser(test);
             order1.printAll();
-            System.out.println("\n ---------------------------");
+            System.out.println(LINES);
 
-            xmlParser test1= new xmlParser("XMLFiles//command2.xml");
+            XMLParser test1= new XMLParser("XMLFiles//command2.xml");
             OrderParser order2=new OrderParser(test1);
             order2.printAll();
-            System.out.println("\n ---------------------------");
-            xmlParser test2= new xmlParser("XMLFiles//command3.xml");
+            System.out.println(LINES);
+            XMLParser test2= new XMLParser("XMLFiles//command3.xml");
             OrderParser order3=new OrderParser(test2);
             order3.printAll();
 
-            System.out.println("\n ---------------------------");
-            xmlParser test3= new xmlParser("XMLFiles//command4.xml");
+            System.out.println(LINES);
+            XMLParser test3= new XMLParser("XMLFiles//command4.xml");
             OrderParser order4= new OrderParser(test3);
             order4.printAll();
 
-            System.out.println("\n ---------------------------");
-            xmlParser test4= new xmlParser("XMLFiles//command5.xml");
+            System.out.println(LINES);
+            XMLParser test4= new XMLParser("XMLFiles//command5.xml");
             OrderParser order5=new OrderParser(test4);
             order5.printAll();
-            System.out.println("\n ---------------------------");
+            System.out.println(LINES);
+
+            System.out.println("XML Test Successful");
         }
 
         public static void dbTest(){
+        //Por implementars
 
         }
     }

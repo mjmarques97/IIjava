@@ -1,9 +1,8 @@
 package order;
 
 
-import order.TransformationOrder;
-import order.UnloadOrder;
-import xml.xmlParser;
+
+import xml.XMLParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class OrderParser {
         }
     }
 
-    public OrderParser(xmlParser xml) {
+    public OrderParser(XMLParser xml) {
        List<String> list=xml.getUnparsedOrder();
        while(!list.isEmpty()){
 
@@ -57,7 +56,6 @@ public class OrderParser {
            String a2=list.get(1);
            list.remove(0);
            list.remove(0);
-          // System.out.println(a1+a2);
            this.parseOrder(a1,a2);
        }
     }

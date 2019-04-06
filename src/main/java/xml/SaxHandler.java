@@ -9,9 +9,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * Parte que trata de fazer parse ao XML
  */
 class SAXHandler extends DefaultHandler {
-    private final xmlParser unparsed;
+    private final XMLParser unparsed;
 
-    public SAXHandler(xmlParser unparsed){
+    public SAXHandler(XMLParser unparsed){
         this.unparsed=unparsed;
     }
     @Override
@@ -37,7 +37,6 @@ class SAXHandler extends DefaultHandler {
                 String attrName = attributes.getQName(i);
                 String attrVal = attributes.getValue(i);
                 add=add+ attrName + "=" + attrVal + ";";
-               // System.out.println(add);
             }
             this.unparsed.addUnparsedOrder(add.replace("order.",""));
 

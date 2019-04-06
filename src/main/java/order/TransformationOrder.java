@@ -17,6 +17,6 @@ public class TransformationOrder extends Order {
 
     @Override
     public void print() {
-        System.out.println("Order Number:"+this.number+" From:" +this.from+" To: "+this.to+ "Quantity: "+ this.quantity);
+        System.out.println("Order Number:"+this.number+" From:" +this.from+" To:"+this.to+ " Quantity: "+ this.quantity);
     }
 }
