@@ -8,8 +8,5 @@ public class Application {
         // XML test
 
         Tests tests=new Tests();
-
-
-
     }
 }

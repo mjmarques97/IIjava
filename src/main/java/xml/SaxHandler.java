@@ -21,7 +21,7 @@ class SAXHandler extends DefaultHandler {
 
         int attributeLength = attributes.getLength();
 
-        addtoUnparsedList("order.Order",qName, attributes, attributeLength);
+        addtoUnparsedList("Order",qName, attributes, attributeLength);
         addtoUnparsedList("Transform",qName, attributes, attributeLength);
         addtoUnparsedList("Unload",qName, attributes, attributeLength);
 

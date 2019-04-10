@@ -20,11 +20,11 @@
 >
 ]>
 <ORDERS>
-<order.Order Number="007">
+<Order Number="007">
 <Unload Type="P7" Destination="D3" Quantity="9"/>
-</order.Order>
-<order.Order Number="101">
+</Order>
+<Order Number="101">
 <Unload Type="P2" Destination="D1" Quantity="4"/>
-</order.Order>
+</Order>
 </ORDERS>
 

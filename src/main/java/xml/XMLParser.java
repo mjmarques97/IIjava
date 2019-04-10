@@ -3,8 +3,10 @@ package xml;
 
 import org.xml.sax.helpers.DefaultHandler;
 
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 
 import java.io.InputStream;
@@ -23,8 +25,10 @@ public class XMLParser {
         this.unparsedOrder.add(unparsedorder);
     }
 
-    public XMLParser(String name) {
+
+    public XMLParser(String string) {
         try {
+
             // Create SAXParserFactory instance and a SAXParser
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
@@ -35,7 +39,31 @@ public class XMLParser {
 
             InputStream is =
 
-                    new FileInputStream(name);
+                    new FileInputStream(string);
+
+            DefaultHandler handler = new SAXHandler(this);
+            parser.parse(is, handler);
+            is.close();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public XMLParser(byte[] bytes) {
+        try {
+
+            // Create SAXParserFactory instance and a SAXParser
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser parser = factory.newSAXParser();
+
+            // Get an InputStream to the elements.xml file and parse
+            // its contents using the xml.SAXHandler.
+
+
+            InputStream is =
+
+                   new ByteArrayInputStream(bytes);
 
             DefaultHandler handler = new SAXHandler(this);
             parser.parse(is, handler);

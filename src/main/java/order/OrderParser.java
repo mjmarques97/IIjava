@@ -11,6 +11,7 @@ import java.util.List;
  * Pega nas strings que XMLparser tirou do ficheiro XML e coloca-as "bonitinhas"
  */
 public class OrderParser {
+    private static final String LINES = "\n ---------------------------";
     private List<TransformationOrder> transformationOrders=new ArrayList<>();
     private List<UnloadOrder> unloadOrders=new ArrayList<>();
 
@@ -22,7 +23,12 @@ public class OrderParser {
         String type=unloadOrder[1].substring(11);
         String destination=unloadOrder[2].substring(12);
         String quantity=unloadOrder[3].substring(9);
-        unloadOrders.add(new UnloadOrder(orderNumber,quantity,type,destination));
+        try {
+            this.unLoadOrdersAdd(new UnloadOrder(orderNumber, quantity, type, destination));
+        }
+        catch (DuplicateOrderException e){
+            System.out.println("Order already exists");
+        }
     }
 
     private void parseTransformation(String[] transformOrder){
@@ -30,8 +36,25 @@ public class OrderParser {
         String from=transformOrder[1].substring(14);
         String to=transformOrder[2].substring(3);
         String quantity=transformOrder[3].substring(9);
-        this.transformationOrders.add(new TransformationOrder(orderNumber,quantity,from,to));
+        try {
+            this.transformationsAdd(new TransformationOrder(orderNumber, quantity, from, to));
+        }
+        catch (DuplicateOrderException e){
+            System.out.println("Order already exists");
+        }
 
+    }
+    private void unLoadOrdersAdd(UnloadOrder order) throws DuplicateOrderException{
+        if(this.unloadOrders.contains(order)){
+            throw new DuplicateOrderException("Order already exists");
+        }
+        this.unloadOrders.add(order);
+    }
+    private void transformationsAdd(TransformationOrder order) throws DuplicateOrderException{
+        if (this.transformationOrders.contains(order)) {
+            throw new DuplicateOrderException("Order already exists");
+        }
+        this.transformationOrders.add(order);
     }
 
     private void parseOrder(String order, String type){
@@ -49,6 +72,10 @@ public class OrderParser {
     }
 
     public OrderParser(XMLParser xml) {
+        if (xml.getUnparsedOrder().size()==0){
+            return;
+        }
+
        List<String> list=xml.getUnparsedOrder();
        while(!list.isEmpty()){
 
@@ -58,6 +85,7 @@ public class OrderParser {
            list.remove(0);
            this.parseOrder(a1,a2);
        }
+
     }
 
     public void printTransformations(){
@@ -85,9 +113,11 @@ public class OrderParser {
     public void printAll(){
         if(this.transformationOrders.isEmpty() && unloadOrders.isEmpty()){
             System.out.println("Get Stores");
+            System.out.println(LINES);
             return;
         }
         this.printTransformations();
         this.printUnloads();
+        System.out.println(LINES);
     }
 }

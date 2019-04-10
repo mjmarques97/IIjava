@@ -20,10 +20,10 @@
 >
 ]>
 <ORDERS>
-<order.Order Number="002">
+<Order Number="002">
 <Transform From="P4" To="P5" Quantity="10"/>
-</order.Order>
-<order.Order Number="003">
+</Order>
+<Order Number="003">
 <Transform From="P8" To="P9" Quantity="8"/>
-</order.Order>
+</Order>
 </ORDERS>
