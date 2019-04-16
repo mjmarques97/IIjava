@@ -35,7 +35,7 @@ Código do projeto
 
 * **Mário Marques** - *Trabalho inicial*
 
-##Acknowledgements
+## Acknowledgements
 
 * **[André Restivo](https://web.fe.up.pt/~arestivo/page/)**
 
