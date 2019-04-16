@@ -1,6 +1,6 @@
-package order;
+package mario.order;
 
-import storage.Storage;
+import mario.storage.Storage;
 
 /***
  * Ficheiro XML request stores
@@ -19,11 +19,11 @@ public class RequestStores {
      *
      *
      *
-     * @return String com xml, enviar depois para a porta.
+     * @return String com mario.xml, enviar depois para a porta.
      */
     public String returnCurrentStores() {
         Integer[][] stores=storage.getPieceList();
-        StringBuilder xmlBuilder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        StringBuilder xmlBuilder = new StringBuilder("<?mario.xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xmlBuilder.append("<Current_Stores>\n");
         for (int i = 0; i < 9; i++) {
 

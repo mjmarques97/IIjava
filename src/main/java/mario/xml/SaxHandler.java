@@ -1,4 +1,4 @@
-package xml;
+package mario.xml;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -38,7 +38,7 @@ class SAXHandler extends DefaultHandler {
                 String attrVal = attributes.getValue(i);
                 add=add+ attrName + "=" + attrVal + ";";
             }
-            this.unparsed.addUnparsedOrder(add.replace("order.",""));
+            this.unparsed.addUnparsedOrder(add);
 
 
         }

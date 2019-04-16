@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE PRODUCTION_ORDERS [
-<!ELEMENT ORDERS (Request_Stores | order.Order*)>
+<!ELEMENT ORDERS (Request_Stores | Order*)>
 <!ELEMENT Request_Stores EMPTY>
-<!ELEMENT order.Order (Transform | Unload)>
-<!ATTLIST order.Order
+<!ELEMENT Order (Transform | Unload)>
+<!ATTLIST Order
           Number   (CDATA) #REQUIRED
 >
 <!ELEMENT Transform EMPTY>

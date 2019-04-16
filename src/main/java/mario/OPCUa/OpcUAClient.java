@@ -1,4 +1,4 @@
-package OPCUa;
+package mario.OPCUa;
 
 /***
  * Cliente OPC-UA, ainda por implementar

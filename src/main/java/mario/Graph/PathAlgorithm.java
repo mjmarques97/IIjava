@@ -1,4 +1,4 @@
-package Graph;
+package mario.Graph;
 
 /***
  * Algoritmo para as ordens de transformação, por implementar

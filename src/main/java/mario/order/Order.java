@@ -1,9 +1,9 @@
-package order;
+package mario.order;
 
 import java.util.Objects;
 
 /***
- * Classe Abstrata order
+ * Classe Abstrata mario.order
  */
 
 abstract class Order {

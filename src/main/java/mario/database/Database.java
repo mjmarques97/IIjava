@@ -1,4 +1,4 @@
-package database;
+package mario.database;
 
 import java.sql.*;
 
@@ -47,7 +47,7 @@ public class Database{
             }
 
         } catch (SQLException e) {
-            System.out.println("Error connecting to the database. Check if you are connected to the FEUP network, if yes, try again with a VPN connection");
+            System.out.println("Error connecting to the mario.database. Check if you are connected to the FEUP network, if yes, try again with a VPN connection");
            // e.printStackTrace();
         }
     }

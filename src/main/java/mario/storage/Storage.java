@@ -1,4 +1,4 @@
-package storage;
+package mario.storage;
 
 /***
  * Armazem. Array 8,2,

@@ -1,14 +1,14 @@
-package UDP;
+package mario.UDP;
 
-import order.OrderParser;
-import xml.XMLParser;
+import mario.order.OrderParser;
+import mario.xml.XMLParser;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
 /***
- * Recebe ficheiros por UDP na porta especificada, extende thread porque pretende-se correr esta parte numa thread à parte.
+ * Recebe ficheiros por mario.UDP na porta especificada, extende thread porque pretende-se correr esta parte numa thread à parte.
  */
 public class UDPReceive extends Thread {
     OrderParser orderParser;
@@ -29,7 +29,7 @@ public class UDPReceive extends Thread {
 
     /***
      *
-     * @param port Porta UDP de onde se recebe o ficheiro.
+     * @param port Porta mario.UDP de onde se recebe o ficheiro.
      */
     public UDPReceive(int port) {
         this.message="";

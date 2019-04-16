@@ -1,4 +1,4 @@
-package UDP;
+package mario.UDP;
 
 public class UDPSend {
 }

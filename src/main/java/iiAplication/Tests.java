@@ -1,12 +1,11 @@
 package iiAplication;
 
-import UDP.UDPReceive;
-import database.Database;
-import order.OrderParser;
-import order.RequestStores;
-import org.junit.Test;
-import storage.Storage;
-import xml.XMLParser;
+import mario.UDP.UDPReceive;
+import mario.database.Database;
+import mario.order.OrderParser;
+import mario.order.RequestStores;
+import mario.storage.Storage;
+import mario.xml.XMLParser;
 
 import java.net.SocketException;
 import java.sql.SQLException;
@@ -67,7 +66,7 @@ public class Tests extends Thread {
 
     public void UDPTest() throws SocketException {
 
-        System.out.println("Starting UDP test");
+        System.out.println("Starting mario.UDP test");
         UDPReceive a=new UDPReceive(54321);
         a.start();
     }
@@ -83,7 +82,7 @@ public class Tests extends Thread {
 
     }
 
-    @Test
+
     public void requestStoresTest(){
         Storage storage=new Storage();
         storage.setQuantity("p9",2);

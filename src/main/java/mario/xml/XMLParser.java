@@ -1,4 +1,4 @@
-package xml;
+package mario.xml;
 
 
 import org.xml.sax.helpers.DefaultHandler;
@@ -16,7 +16,7 @@ import java.util.List;
 /***
  * Coloca elementos do ficheiro numa String.
  * Formato dos elemento da lista: Order Number=, Transform From= To= Quantity= ,Unload Type="P2" Destination="D1" Quantity="4"
- * As ordens aparecem aos pares, há sempre uma order number e um tipo de ordem, pelo que a lista tem sempre tamanho par.
+ * As ordens aparecem aos pares, há sempre uma mario.order number e um tipo de ordem, pelo que a lista tem sempre tamanho par.
  * Se o comando for "<Request_Stores/>" a lista não tem um número par de elementos.
  *
  */
@@ -39,8 +39,8 @@ public class XMLParser {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
 
-            // Get an InputStream to the elements.xml file and parse
-            // its contents using the xml.SAXHandler.
+            // Get an InputStream to the elements.mario.xml file and parse
+            // its contents using the mario.xml.SAXHandler.
 
 
             InputStream is =
@@ -64,8 +64,8 @@ public class XMLParser {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
 
-            // Get an InputStream to the elements.xml file and parse
-            // its contents using the xml.SAXHandler.
+            // Get an InputStream to the elements.mario.xml file and parse
+            // its contents using the mario.xml.SAXHandler.
 
 
             InputStream is =
