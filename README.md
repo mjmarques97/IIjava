@@ -15,6 +15,7 @@ Código do projeto
 ## Como escrever código
 * Colocar código escrito em package
 * Testar código criando um método na classe Tests, que por sua vez está no package iiApplication
+* MUITO IMPORTANTE- Não esquecer comentar tudo!!!
 
 ## Como usar bibliotecas da net
 * Visitar [Maven](https://mvnrepository.com) e procurar biblioteca pretendida
