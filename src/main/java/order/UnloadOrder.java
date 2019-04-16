@@ -1,7 +1,7 @@
 package order;
 
 /***
- * Ordem de Unload, como é uma ordem herda atributos do Pai, order.Order
+ * Ordem de Unload, como é uma ordem herda atributos do Pai, Order
  */
 
 public class UnloadOrder extends Order {

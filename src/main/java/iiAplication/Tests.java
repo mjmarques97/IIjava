@@ -1,25 +1,37 @@
+package iiAplication;
 
 import UDP.UDPReceive;
+import database.Database;
 import order.OrderParser;
 import xml.XMLParser;
 
 import java.net.SocketException;
+import java.sql.SQLException;
 
 /***
- * Testes para ver se está tudo a funcionar como deve ser
+ * Testes definidos nesta classe
  */
 
 public class Tests extends Thread {
     private static final String LINES = "\n ---------------------------";
+    private static final String SUCCESS="() test successful!";
 
 
     public Tests() {
+
         xmlTest();
         try {
             UDPTest();
         } catch (SocketException e) {
             e.printStackTrace();
         }
+        try {
+            databaseTest();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+
 
     }
 
@@ -46,16 +58,24 @@ public class Tests extends Thread {
         order5.printAll();
         System.out.println(LINES);
 
-        System.out.println("XML Test Successful");
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName()+SUCCESS);
     }
 
     public void UDPTest() throws SocketException {
+
         System.out.println("Starting UDP test");
         UDPReceive a=new UDPReceive(54321);
         a.start();
     }
 
-    public void DatabaseTest(){
+    public void databaseTest() throws SQLException{
+        System.out.println("Starting DB Test");
+        Database database = new Database();
+        database.query("SELECT * from \"II\".armazem");
+        database.closeConnection();
+        System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName()+SUCCESS);
+        System.out.println(LINES);
+
 
     }
 

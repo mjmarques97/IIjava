@@ -1,12 +1,15 @@
 package UDP;
-import order.OrderParser;
 
+import order.OrderParser;
 import xml.XMLParser;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+/***
+ * Recebe ficheiros por UDP na porta especificada, extende thread porque pretende-se correr esta parte numa thread à parte.
+ */
 public class UDPReceive extends Thread {
     OrderParser orderParser;
     private static int port;
@@ -24,9 +27,12 @@ public class UDPReceive extends Thread {
         this.message = message;
     }
 
+    /***
+     *
+     * @param port Porta UDP de onde se recebe o ficheiro.
+     */
     public UDPReceive(int port) {
         this.message="";
-        this.port=port;
         try {
             dsocket = new DatagramSocket(port);
         } catch (SocketException e) {
@@ -43,7 +49,12 @@ public class UDPReceive extends Thread {
     }
 
 
+
     @Override
+
+    /***
+     * Corre
+     */
     public void run() {
         while (true) {
             try {

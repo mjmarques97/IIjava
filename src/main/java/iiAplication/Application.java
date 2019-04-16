@@ -1,5 +1,7 @@
+package iiAplication;
+
 /***
- * Parte que trata de correr os testes
+ * Parte que corre os testes
  */
 
 public class Application {

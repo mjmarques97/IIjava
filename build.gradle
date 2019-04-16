@@ -23,6 +23,10 @@ dependencies {
     compile group: 'org.eclipse.milo', name: 'sdk-client', version: '0.2.5'
     // https://mvnrepository.com/artifact/org.eclipse.milo/sdk-server
     compile group: 'org.eclipse.milo', name: 'sdk-server', version: '0.2.5'
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    compile group: 'com.google.guava', name: 'guava', version: '27.1-jre'
+
+
 
 
 

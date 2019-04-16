@@ -13,15 +13,21 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/***
+ * Coloca elementos do ficheiro numa String.
+ * Formato dos elemento da lista: Order Number=, Transform From= To= Quantity= ,Unload Type="P2" Destination="D1" Quantity="4"
+ * As ordens aparecem aos pares, há sempre uma order number e um tipo de ordem, pelo que a lista tem sempre tamanho par.
+ * Se o comando for "<Request_Stores/>" a lista não tem um número par de elementos.
+ *
+ */
 public class XMLParser {
-    private List<String> unparsedOrder=new ArrayList<>();
+    private List<String> unparsedOrder = new ArrayList<>();
 
     public List<String> getUnparsedOrder() {
         return unparsedOrder;
     }
 
-    public void addUnparsedOrder(String unparsedorder){
+    public void addUnparsedOrder(String unparsedorder) {
         this.unparsedOrder.add(unparsedorder);
     }
 
@@ -50,6 +56,7 @@ public class XMLParser {
             e.printStackTrace();
         }
     }
+
     public XMLParser(byte[] bytes) {
         try {
 
@@ -63,7 +70,7 @@ public class XMLParser {
 
             InputStream is =
 
-                   new ByteArrayInputStream(bytes);
+                    new ByteArrayInputStream(bytes);
 
             DefaultHandler handler = new SAXHandler(this);
             parser.parse(is, handler);
@@ -75,8 +82,8 @@ public class XMLParser {
         }
     }
 
-    public void print(){
-        for(String a: unparsedOrder) {
+    public void print() {
+        for (String a : unparsedOrder) {
             System.out.println(a);
 
         }

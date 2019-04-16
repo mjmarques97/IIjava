@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /***
- * Pega nas strings que XMLparser tirou do ficheiro XML e coloca-as "bonitinhas"
+ * XMLparser extrai os elementos do ficheiro XML, esta classe transforma esses elementos em ordens.
  */
 public class OrderParser {
     private static final String LINES = "\n ---------------------------";
@@ -44,12 +44,25 @@ public class OrderParser {
         }
 
     }
+
+    /***
+     * Adiciona ordem de Unload à lista
+     * @param order Ordem a adicionar
+     * @throws DuplicateOrderException Ordem não pode ser duplicada
+     */
     private void unLoadOrdersAdd(UnloadOrder order) throws DuplicateOrderException{
         if(this.unloadOrders.contains(order)){
             throw new DuplicateOrderException("Order already exists");
         }
         this.unloadOrders.add(order);
     }
+
+    /***
+     * Adiciona ordem de Transformação à lista
+     * @param order Ordem a adicionar
+     * @throws DuplicateOrderException Ordem não pode ser duplicada
+     */
+
     private void transformationsAdd(TransformationOrder order) throws DuplicateOrderException{
         if (this.transformationOrders.contains(order)) {
             throw new DuplicateOrderException("Order already exists");
@@ -58,19 +71,23 @@ public class OrderParser {
     }
 
     private void parseOrder(String order, String type){
-        String tobeproccessed=order+type;
+        String toBeProccessed=order+type;
 
-        if(tobeproccessed.contains("TransformFrom=")){
-            parseTransformation(tobeproccessed.split(";"));
+        if(toBeProccessed.contains("TransformFrom=")){
+            parseTransformation(toBeProccessed.split(";"));
         }
-        else if(tobeproccessed.contains("UnloadType=")){
-            parseUnload(tobeproccessed.split(";"));
+        else if(toBeProccessed.contains("UnloadType=")){
+            parseUnload(toBeProccessed.split(";"));
         }
         else {
             System.out.println("Request Stores");
         }
     }
 
+    /***
+     * Como os elementos aparecem aos pares (explicado na classe XMLParser), método processa lista de strings de XMLParser aos pares também
+     * @param xml self-explanatory
+     */
     public OrderParser(XMLParser xml) {
         if (xml.getUnparsedOrder().size()==0){
             return;
@@ -88,6 +105,9 @@ public class OrderParser {
 
     }
 
+    /***
+     * Imprime ordens de transformação
+     */
     public void printTransformations(){
         System.out.println("Transformations");
         if(transformationOrders.isEmpty()){
@@ -100,6 +120,9 @@ public class OrderParser {
 
     }
 
+    /***
+     * Imprime ordens de Unload
+     */
     public void printUnloads(){
         System.out.println("Unloads:");
         if(unloadOrders.isEmpty()){
@@ -110,6 +133,11 @@ public class OrderParser {
             order.print();
     }
 
+
+
+    /***
+     * Imprime todas as ordens
+     */
     public void printAll(){
         if(this.transformationOrders.isEmpty() && unloadOrders.isEmpty()){
             System.out.println("Get Stores");

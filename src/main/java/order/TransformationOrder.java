@@ -1,7 +1,7 @@
 package order;
 
 /***
- * Ordem de transformação, como é uma order herda atributos do pai, Oder
+ * Ordem de transformação, como é uma order herda atributos do pai, Order
  */
 
 public class TransformationOrder extends Order {

@@ -4,8 +4,10 @@ import java.sql.*;
 
 /***
  * (user="up201506597", password="JsY5w3sWP", host="db.fe.up.pt", port="5432")
- * Ainda nao funciona
+ *
+ *
  */
+
 public class Database{
     private Connection connection;
     public Database() {
@@ -27,6 +29,11 @@ public class Database{
             e.printStackTrace();
         }
     }
+
+    /***
+     * Faz queries à base de dados
+     * @param query Query a executar
+     */
     public void query(String query){
 
         try {
@@ -40,14 +47,10 @@ public class Database{
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error connecting to the database. Check if you are connected to the FEUP network, if yes, try again with a VPN connection");
+           // e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
-        Database database=new Database();
-        database.query("SELECT * from \"II\".armazem");
-        database.closeConnection();
-    }
 
 }

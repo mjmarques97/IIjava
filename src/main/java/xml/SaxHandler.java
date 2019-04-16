@@ -6,7 +6,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 
 /***
- * Parte que trata de fazer parse ao XML
+ * Parte que extrai elementos do ficheiro XML, sacado da net.
  */
 class SAXHandler extends DefaultHandler {
     private final XMLParser unparsed;
