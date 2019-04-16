@@ -3,6 +3,9 @@ package iiAplication;
 import UDP.UDPReceive;
 import database.Database;
 import order.OrderParser;
+import order.RequestStores;
+import org.junit.Test;
+import storage.Storage;
 import xml.XMLParser;
 
 import java.net.SocketException;
@@ -31,6 +34,7 @@ public class Tests extends Thread {
             e.printStackTrace();
 
         }
+        requestStoresTest();
 
 
     }
@@ -77,6 +81,17 @@ public class Tests extends Thread {
         System.out.println(LINES);
 
 
+    }
+
+    @Test
+    public void requestStoresTest(){
+        Storage storage=new Storage();
+        storage.setQuantity("p9",2);
+        storage.setQuantity("P3",5);
+        storage.setQuantity("p5",1000);
+        RequestStores requestStores=new RequestStores(storage);
+
+        System.out.println(requestStores.returnCurrentStores());
     }
 
 

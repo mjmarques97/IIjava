@@ -25,6 +25,8 @@ dependencies {
     compile group: 'org.eclipse.milo', name: 'sdk-server', version: '0.2.5'
     // https://mvnrepository.com/artifact/com.google.guava/guava
     compile group: 'com.google.guava', name: 'guava', version: '27.1-jre'
+    // https://mvnrepository.com/artifact/com.jcabi.incubator/xembly
+    compile group: 'com.jcabi.incubator', name: 'xembly', version: '0.22.1'
 
 
 
