@@ -13,7 +13,7 @@ Código do projeto
 * [IntelliJ](https://www.jetbrains.com/idea/) - IDE de Java, nós, sendo estudantes, temos direito à versão paga gratuitamente
 
 ## Como escrever código
-* Colocar código escrito em package
+* Colocar código escrito em package dentro da package com o vosso nome.
 * Testar código criando um método na classe Tests, que por sua vez está no package iiApplication
 * MUITO IMPORTANTE- Não esquecer comentar tudo!!!
 
