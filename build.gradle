@@ -27,6 +27,10 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '27.1-jre'
     // https://mvnrepository.com/artifact/com.jcabi.incubator/xembly
     compile group: 'com.jcabi.incubator', name: 'xembly', version: '0.22.1'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+
+
 }
 
 

@@ -3,12 +3,10 @@ package mario.xml;
 
 import org.xml.sax.helpers.DefaultHandler;
 
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +53,7 @@ public class XMLParser {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public XMLParser(byte[] bytes) {

@@ -2,6 +2,8 @@ package mario.order;
 
 
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Stopwatch;
 import mario.xml.XMLParser;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class OrderParser {
         catch (DuplicateOrderException e){
             System.out.println("Order already exists");
         }
+
     }
 
     private void parseTransformation(String[] transformOrder){
@@ -42,7 +45,6 @@ public class OrderParser {
         catch (DuplicateOrderException e){
             System.out.println("Order already exists");
         }
-
     }
 
     /***
@@ -71,8 +73,9 @@ public class OrderParser {
     }
 
     private void parseOrder(String order, String type){
-        String toBeProccessed=order+type;
 
+        String toBeProccessed= Joiner.on("").join(order,type);
+        Stopwatch stopwatch=Stopwatch.createStarted();
         if(toBeProccessed.contains("TransformFrom=")){
             parseTransformation(toBeProccessed.split(";"));
         }
@@ -82,6 +85,9 @@ public class OrderParser {
         else {
             System.out.println("Request Stores");
         }
+
+        stopwatch.stop();
+        System.out.println("Time elapsed on "+Thread.currentThread().getStackTrace()[1].getMethodName()+":"+ stopwatch);
     }
 
     /***
@@ -89,7 +95,7 @@ public class OrderParser {
      * @param xml self-explanatory
      */
     public OrderParser(XMLParser xml) {
-        if (xml.getUnparsedOrder().size()==0){
+        if (xml.getUnparsedOrder().isEmpty()){
             return;
         }
 

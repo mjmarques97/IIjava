@@ -48,6 +48,18 @@ public class UDPReceive extends Thread {
         packet = new DatagramPacket(buffer, buffer.length);
     }
 
+    public boolean receiveString(){
+        this.message="";
+        try {
+            packet.setLength(buffer.length);
+            dsocket.receive(packet);
+            this.message=new String(buffer, 0, packet.getLength());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
     @Override
@@ -60,18 +72,14 @@ public class UDPReceive extends Thread {
             try {
 
 
-                dsocket.receive(packet);
 
                 // Convert the contents to a string, and display them
-                String msg = new String(buffer, 0, packet.getLength());
-                this.setMessage(msg);
                // System.out.println(packet.getAddress().getHostName() + ": "
                       // + msg)
-               this.orderParser=new OrderParser(new XMLParser(msg.getBytes()));
+                if(receiveString())
+               this.orderParser=new OrderParser(new XMLParser(this.message.getBytes()));
                orderParser.printAll();
                 // Reset the length of the packet before reusing it.
-                packet.setLength(buffer.length);
-                this.setMessage("");
             } catch (Exception e) {
                 System.err.println(e);
             }

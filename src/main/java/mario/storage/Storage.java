@@ -1,5 +1,7 @@
 package mario.storage;
 
+import mario.order.RequestStores;
+
 /***
  * Armazem. Array 8,2,
  * primeira posição representa o tipo de peça,
@@ -19,6 +21,7 @@ public class Storage {
             {7,0},
             {8,0},
             {9,0},};
+    private RequestStores requestStore=new RequestStores();
 
 
     /***
@@ -46,6 +49,10 @@ public class Storage {
     public int getQuantity(String piece){
              return this.pieceList[Integer.parseInt(piece.toUpperCase().replace("P",""))-1][1];
 
+    }
+
+    public String requestStores(){
+        return requestStore.returnCurrentStores(pieceList);
     }
 
 

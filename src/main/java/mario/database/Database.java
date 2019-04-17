@@ -1,5 +1,7 @@
 package mario.database;
 
+import com.google.common.base.Stopwatch;
+
 import java.sql.*;
 
 /***
@@ -35,7 +37,7 @@ public class Database{
      * @param query Query a executar
      */
     public void query(String query){
-
+        Stopwatch stopwatch=Stopwatch.createStarted();
         try {
             Statement statement=connection.createStatement();
             ResultSet resultSet= statement.executeQuery(query);
@@ -47,9 +49,11 @@ public class Database{
             }
 
         } catch (SQLException e) {
-            System.out.println("Error connecting to the mario.database. Check if you are connected to the FEUP network, if yes, try again with a VPN connection");
+            System.out.println("Error connecting to the database. Check if you are connected to the FEUP network, if yes, try again with a VPN connection");
            // e.printStackTrace();
         }
+        stopwatch.stop();
+        System.out.println("Time elapsed on "+Thread.currentThread().getStackTrace()[1].getMethodName()+":"+ stopwatch);
     }
 
 

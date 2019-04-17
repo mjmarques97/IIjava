@@ -30,15 +30,19 @@ class SAXHandler extends DefaultHandler {
 
 
     private void addtoUnparsedList(String compare,String qName, Attributes attributes, int attributeLength) {
-        String add = compare + "";
+        StringBuilder add=new StringBuilder();
+        add.append(compare);
         if (compare.equals(qName)) {
             for (int i = 0; i < attributeLength; i++) {
                 // Get attribute names and values
                 String attrName = attributes.getQName(i);
                 String attrVal = attributes.getValue(i);
-                add=add+ attrName + "=" + attrVal + ";";
+                add.append(attrName);
+                add.append("=");
+                add.append(attrVal);
+                add.append(";");
             }
-            this.unparsed.addUnparsedOrder(add);
+            this.unparsed.addUnparsedOrder(add.toString());
 
 
         }

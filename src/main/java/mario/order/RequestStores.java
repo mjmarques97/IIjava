@@ -1,19 +1,19 @@
 package mario.order;
 
-import mario.storage.Storage;
+import com.google.common.base.Joiner;
+import com.google.common.base.Stopwatch;
+import com.google.common.collect.Lists;
+
+import java.util.List;
 
 /***
  * Ficheiro XML request stores
  */
 public class RequestStores {
-    private Storage storage;
     private String appendQuotes(String string) {
-        return "\"" + string + "\"";
+        return Joiner.on("").join("\"",string,"\"");
     }
 
-    public RequestStores(Storage storage) {
-        this.storage = storage;
-    }
 
     /***
      *
@@ -21,16 +21,28 @@ public class RequestStores {
      *
      * @return String com mario.xml, enviar depois para a porta.
      */
-    public String returnCurrentStores() {
-        Integer[][] stores=storage.getPieceList();
-        StringBuilder xmlBuilder = new StringBuilder("<?mario.xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        xmlBuilder.append("<Current_Stores>\n");
+    public String returnCurrentStores(Integer[][] stores) {
+        Stopwatch stopwatch=Stopwatch.createStarted();
+        List<String> list= Lists.newLinkedList();
+        list.add("<?mario.xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        list.add("<Current_Stores>\n");
         for (int i = 0; i < 9; i++) {
-
-            xmlBuilder.append("<WorkPiece type=" + appendQuotes("P" + (i + 1)) + " quantity=" + appendQuotes(Integer.toString(stores[i][1])) + "/>\n");
+            String first="<WorkPiece type=";
+            String second=appendQuotes(Joiner.on("").join("P",i+1));
+            String third=" quantity=";
+            String fourth=appendQuotes(Integer.toString(stores[i][1]));
+            String fifth="/>\n";
+            list.add(Joiner.on("").join(first,second,third,fourth,fifth));
         }
-        xmlBuilder.append("</Current_Stores>\n");
-        return  xmlBuilder.toString();
+       list.add("</Current_Stores>");
+
+        String a= Joiner.on("").join(list);
+        stopwatch.stop();
+        System.out.println("Time elapsed on "+Thread.currentThread().getStackTrace()[1].getMethodName()+":"+ stopwatch);
+
+        return a;
+
+
 
 
     }

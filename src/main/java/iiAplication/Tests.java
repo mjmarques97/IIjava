@@ -1,9 +1,9 @@
 package iiAplication;
 
 import mario.UDP.UDPReceive;
+import mario.UDP.UDPSend;
 import mario.database.Database;
 import mario.order.OrderParser;
-import mario.order.RequestStores;
 import mario.storage.Storage;
 import mario.xml.XMLParser;
 
@@ -20,20 +20,22 @@ public class Tests extends Thread {
 
 
     public Tests() {
-
         xmlTest();
         try {
             UDPTest();
         } catch (SocketException e) {
             e.printStackTrace();
         }
+
         try {
             databaseTest();
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
+
         requestStoresTest();
+
 
 
     }
@@ -88,9 +90,10 @@ public class Tests extends Thread {
         storage.setQuantity("p9",2);
         storage.setQuantity("P3",5);
         storage.setQuantity("p5",1000);
-        RequestStores requestStores=new RequestStores(storage);
+        String stores= storage.requestStores();
+        System.out.println(stores);
+        UDPSend.sendUDP(stores,5555);
 
-        System.out.println(requestStores.returnCurrentStores());
     }
 
 
