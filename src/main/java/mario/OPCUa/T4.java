@@ -34,11 +34,11 @@ public class T4 {
        OpcUaClient client = new OpcUaClient(cfg.build());
        client.connect().get();
         System.out.println("----------------------------");
-       Object ValorL = null;
+       Object valorL = null;
        NodeId nodeidstring=new NodeId(4,"|var|CODESYS Control Win V3 x64.Application.GVL.a");
        DataValue value = client.readValue(0, TimestampsToReturn.Both, nodeidstring) .get();
-       ValorL = value.getValue().getValue();
-       System.out.println("o valor da variável e  : "+ ValorL); 
+       valorL = value.getValue().getValue();
+       System.out.println("o valor da variável e  : "+ valorL);
         boolean i = true;
        Variant v = new Variant(i);
        DataValue dv = new DataValue(v);
