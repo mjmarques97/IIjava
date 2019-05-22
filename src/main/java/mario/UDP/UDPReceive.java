@@ -76,8 +76,9 @@ public class UDPReceive extends Thread {
                 // Convert the contents to a string, and display them
                // System.out.println(packet.getAddress().getHostName() + ": "
                       // + msg)
-                if(receiveString())
-               this.orderParser=new OrderParser(new XMLParser(this.message.getBytes()));
+                if(receiveString()) {
+                    this.orderParser = new OrderParser(new XMLParser(this.message.getBytes()));
+                }
                orderParser.printAll();
                 // Reset the length of the packet before reusing it.
             } catch (Exception e) {

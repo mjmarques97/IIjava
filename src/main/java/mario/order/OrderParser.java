@@ -13,6 +13,7 @@ import java.util.List;
  * XMLparser extrai os elementos do ficheiro XML, esta classe transforma esses elementos em ordens.
  */
 public class OrderParser {
+    public static final String ORDER_ALREADY_EXISTS = "Order already exists";
     private static final String LINES = "\n ---------------------------";
     private List<TransformationOrder> transformationOrders=new ArrayList<>();
     private List<UnloadOrder> unloadOrders=new ArrayList<>();
@@ -29,7 +30,7 @@ public class OrderParser {
             this.unLoadOrdersAdd(new UnloadOrder(orderNumber, quantity, type, destination));
         }
         catch (DuplicateOrderException e){
-            System.out.println("Order already exists");
+            System.out.println(ORDER_ALREADY_EXISTS);
         }
 
     }
@@ -43,7 +44,7 @@ public class OrderParser {
             this.transformationsAdd(new TransformationOrder(orderNumber, quantity, from, to));
         }
         catch (DuplicateOrderException e){
-            System.out.println("Order already exists");
+            System.out.println(ORDER_ALREADY_EXISTS);
         }
     }
 
@@ -54,7 +55,7 @@ public class OrderParser {
      */
     private void unLoadOrdersAdd(UnloadOrder order) throws DuplicateOrderException{
         if(this.unloadOrders.contains(order)){
-            throw new DuplicateOrderException("Order already exists");
+            throw new DuplicateOrderException(ORDER_ALREADY_EXISTS);
         }
         this.unloadOrders.add(order);
     }
@@ -67,7 +68,7 @@ public class OrderParser {
 
     private void transformationsAdd(TransformationOrder order) throws DuplicateOrderException{
         if (this.transformationOrders.contains(order)) {
-            throw new DuplicateOrderException("Order already exists");
+            throw new DuplicateOrderException(ORDER_ALREADY_EXISTS);
         }
         this.transformationOrders.add(order);
     }

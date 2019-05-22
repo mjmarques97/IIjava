@@ -5,4 +5,5 @@ package mario.Graph;
  */
 public class PathAlgorithm {
 
+
 }

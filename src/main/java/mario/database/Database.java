@@ -22,6 +22,7 @@ public class Database{
         catch (Exception e){
             e.printStackTrace();
         }
+
     }
     public void closeConnection(){
 
@@ -50,7 +51,6 @@ public class Database{
 
         } catch (SQLException e) {
             System.out.println("Error connecting to the database. Check if you are connected to the FEUP network, if yes, try again with a VPN connection");
-           // e.printStackTrace();
         }
         stopwatch.stop();
         System.out.println("Time elapsed on "+Thread.currentThread().getStackTrace()[1].getMethodName()+":"+ stopwatch);

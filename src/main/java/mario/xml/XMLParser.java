@@ -54,6 +54,7 @@ public class XMLParser {
             e.printStackTrace();
         }
 
+
     }
 
     public XMLParser(byte[] bytes) {

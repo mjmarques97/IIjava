@@ -11,7 +11,7 @@ import java.net.SocketException;
 import java.sql.SQLException;
 
 /***
- * Testes definidos nesta classe
+ *
  */
 
 public class Tests extends Thread {
@@ -89,10 +89,10 @@ public class Tests extends Thread {
         Storage storage=new Storage();
         storage.setQuantity("p9",2);
         storage.setQuantity("P3",5);
-        storage.setQuantity("p5",1000);
+        storage.setQuantity("p5",90);
         String stores= storage.requestStores();
         System.out.println(stores);
-        UDPSend.sendUDP(stores,5555);
+        UDPSend.sendUDP(stores,54321);
 
     }
 
