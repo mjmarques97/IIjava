@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package teste_rs_ordem.opc;
-
-import mario.OPCUa.OPCUAConnection;
+package mario.OPCUa;
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 
 import java.util.concurrent.ExecutionException;
