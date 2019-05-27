@@ -63,18 +63,21 @@ public class OPCUAConnection {
 	
 	/*Função para ler o valor de uma variavel em especifico de uma célula em especifico
 	 * String celulaName -> contém o nome do POU da célula
-	 * String VarName -> contém o nome da variavál que se pretende ler o valor
+	 * String varName -> contém o nome da variavál que se pretende ler o valor
 	 */
-	public static void getValue(String cellName, String VarName) {
+	public static String getValue(String cellName, String varName) {
 		String aux1;
-		aux1 = aux + cellName + "." + VarName;
+		aux1 = aux + cellName + "." + varName;
 		NodeId nodeidstring = new NodeId(id_node, aux1);
 		DataValue value;
+
 		try {
 		value = client.readValue(0, TimestampsToReturn.Both, nodeidstring).get();
 		setValueL(value);
 		ValueL = ((DataValue)getValueL()).getValue().getValue();
-		System.out.println("O valor da variável é: " + ValueL);
+		//System.out.println("O valor da variável "+varName+" é: " + ValueL.toString());
+		return ValueL.toString();
+
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,17 +85,17 @@ public class OPCUAConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		return null;
 	}
 	
 	/*Função para inserir valores
 	 * String celulaName -> contém o nome do POU da célula
-	 * String VarName -> contém o nome da variavál que se pretende mudar o valor
+	 * String varName -> contém o nome da variavál que se pretende mudar o valor
 	 * boolean ValueSet -> contém o valor "true" ou "false" que se pretende atribuir à variável
 	 */
-	static void setValue(String cellName, String VarName, boolean ValueSet) {
+	public static void setValue(String cellName, String varName, boolean ValueSet) {
 		String aux2;
-		aux2 = aux + cellName + "." + VarName;
+		aux2 = aux + cellName + "." + varName;
 		NodeId nodeidstring = new NodeId(id_node, aux2);
 		
 		boolean i = ValueSet;
@@ -101,7 +104,7 @@ public class OPCUAConnection {
 		
 		try {
 			getClient().writeValue(nodeidstring, dv).get();
-			System.out.println("Variavel alterada para: " + ((DataValue) client.readValue(0, TimestampsToReturn.Both, nodeidstring).get()).getValue().getValue());
+			//System.out.println("Variavel "+varName+ " alterada para: " + ((DataValue) client.readValue(0, TimestampsToReturn.Both, nodeidstring).get()).getValue().getValue());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,9 +113,9 @@ public class OPCUAConnection {
 			e.printStackTrace();
 		}
 	}
-        public static void setValueInt(String cellName, String VarName, int ValueSet) {
+        public static void setValue(String cellName, String varName, int ValueSet) {
 		String aux2;
-		aux2 = aux + cellName + "." + VarName;
+		aux2 = aux + cellName + "." + varName;
 		NodeId nodeidstring = new NodeId(id_node, aux2);
 		
 		int i = ValueSet;
@@ -121,7 +124,7 @@ public class OPCUAConnection {
 		
 		try {
 			getClient().writeValue(nodeidstring, dv).get();
-			System.out.println("Variavel alterada para: " + ((DataValue) client.readValue(0, TimestampsToReturn.Both, nodeidstring).get()).getValue().getValue());
+			//System.out.println("Variavel "+varName+ " alterada para: " + ((DataValue) client.readValue(0, TimestampsToReturn.Both, nodeidstring).get()).getValue().getValue());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
