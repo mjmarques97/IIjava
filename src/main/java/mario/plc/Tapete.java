@@ -9,4 +9,8 @@ public class Tapete{
         this.plcCellName ="PLC_PRG.C"+ plcCellName;
 
     }
+
+    public String getPlcCellName() {
+        return plcCellName;
+    }
 }

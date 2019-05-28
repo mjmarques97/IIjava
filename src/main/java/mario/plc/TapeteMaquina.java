@@ -33,28 +33,37 @@ public class TapeteMaquina extends Tapete {
     private void setPiece(boolean value){
         OPCUAConnection.setValue(this.plcCellName,esperaPeca,value);
     }
-    public void waitForPieceToComeIn(){
+    private void doWork(){
         this.setPiece(true);
     }
-    public void doNotWaitForPieceToComeIn(){
+    public void stopDoingWork(){
         this.setPiece(false);
     }
-    public String getWaitForPieceToComein(){
+    public String isWorking(){
         return OPCUAConnection.getValue(this.plcCellName,esperaPeca);
     }
 
-    public void selectTool(int toolNumber){
+    private void selectTool(int toolNumber){
         OPCUAConnection.setValue(this.plcCellName,ferramenta,toolNumber);
     }
     public String getTool(){
         return OPCUAConnection.getValue(this.plcCellName,ferramenta);
     }
 
-    public void selectTimeToOperateOnPiece(int time){
+    private void selectTimeToOperateOnPiece(int time){
         OPCUAConnection.setValue(this.plcCellName,tempoServico,time);
     }
 
     public String getTimeToOperateOnPiece(){
         return OPCUAConnection.getValue(this.plcCellName,tempoServico);
     }
+
+    public void getToWork(int toolNumber, int time){
+        this.doWork();
+        this.selectTimeToOperateOnPiece(time);
+        this.selectTool(toolNumber);
+        this.stopDownDirection();
+    }
+
+
 }

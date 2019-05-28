@@ -1,5 +1,6 @@
 package mario.storage;
 
+import mario.OPCUa.OPCUAConnection;
 import mario.order.RequestStores;
 
 /***
@@ -12,15 +13,15 @@ import mario.order.RequestStores;
  */
 public class Storage {
     private  Integer[][] pieceList={
-            {1,0},
-            {2,0},
-            {3,0},
-            {4,0},
-            {5,0},
-            {6,0},
-            {7,0},
-            {8,0},
-            {9,0},};
+            {1,27},
+            {2,27},
+            {3,27},
+            {4,27},
+            {5,27},
+            {6,27},
+            {7,27},
+            {8,27},
+            {9,27},};
     private RequestStores requestStore=new RequestStores();
 
 
@@ -53,6 +54,15 @@ public class Storage {
 
     public String requestStores(){
         return requestStore.returnCurrentStores(pieceList);
+    }
+
+    public void retrievePieceOPCua(int pieceType) {
+        if (pieceType >= 1 && pieceType <= 9) {
+            if (!Boolean.parseBoolean(OPCUAConnection.getValue("GVL", "AT1"))) {
+                OPCUAConnection.setValue("GVL", "Peca_Remover", pieceType);
+
+            }
+        }
     }
 
 

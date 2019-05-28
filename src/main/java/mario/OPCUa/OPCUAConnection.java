@@ -133,5 +133,16 @@ public class OPCUAConnection {
 			e.printStackTrace();
 		}
 	}
+	public static void retrievePiece(int pieceType){
+		if(pieceType>=1 &&pieceType<=9) {
+			if (!Boolean.parseBoolean(OPCUAConnection.getValue("GVL", "AT1"))) {
+				OPCUAConnection.setValue("GVL", "Peca_Remover", pieceType);
+
+			}
+		}
+
+
+
+	}
 	
 }

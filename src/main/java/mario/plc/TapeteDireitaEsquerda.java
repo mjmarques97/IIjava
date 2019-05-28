@@ -10,7 +10,7 @@ public class TapeteDireitaEsquerda extends Tapete {
         this.plcVariableName=plcVariableName;
     }
 
-    public void goRight(){
+    public void moveRight(){
         OPCUAConnection.setValue(this.plcCellName,this.plcVariableName,true);
     }
 
