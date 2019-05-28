@@ -65,5 +65,13 @@ public class Storage {
         }
     }
 
+    public boolean hasPieceTapeteDiscarga(){
+        return Boolean.parseBoolean(OPCUAConnection.getValue("GVL","AT1"));
+    }
+
+    public boolean hasPieceTapeteEntradaDoArmazem(){
+        return Boolean.parseBoolean(OPCUAConnection.getValue("GVL","AT2"));
+    }
+
 
 }

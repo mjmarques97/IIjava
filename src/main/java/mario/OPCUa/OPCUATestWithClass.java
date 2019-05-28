@@ -29,8 +29,11 @@ public class OPCUATestWithClass {
         UnloadCell unloadCell=new UnloadCell();
 
         c1.getMaquina4().stopDoingWork();
+        c1.getMaquina4().goDownDirection();
         c1.getMaquina5().stopDoingWork();
+        c1.getMaquina5().goDownDirection();
         c1.getMaquina6().stopDoingWork();
+        c1.getMaquina6().goDownDirection();
         c1.getTapeteRotator().moveDown();
 
         c2.getTapeteRotator().moveRight();
@@ -42,6 +45,74 @@ public class OPCUATestWithClass {
         unloadCell.stopUnLoad4();
         unloadCell.stopUnLoad5();
         unloadCell.stopUnLoad6();
+
+        while(true){
+            if(storage.hasPieceTapeteDiscarga()) {
+                System.out.println("Passou celula de Discarga");
+                break;
+            }
+        }
+
+        while(true){
+            if(c1.hasPieceOnTapeteAEsquerdaDoTapeteRotadorDeCima()) {
+                System.out.println("Passou Tapete a Esquerda do Rotativo de Cima!!!");
+                break;
+            }
+        }
+
+        while(true){
+            if(c1.hasPieceOnTapeteRotatorDeCima()) {
+                System.out.println("Rotador De cima!!!");
+                break;
+            }
+        }
+        while(true) {
+            if (c1.hasPieceOnTapeteAcimaDaMaquina4()) {
+                System.out.println("Tapete Acima da máquina 4!!!");
+                break;
+            }
+        }
+
+
+        while(true){
+            if(c1.hasPieceOnMaquina4()) {
+                System.out.println("PassouMaquina4!!!");
+                break;
+            }
+        }
+        while(true){
+            if(c1.hasPieceOnMaquina5()) {
+                System.out.println("PassouMaquina5!!!");
+                break;
+            }
+        }
+
+        while(true){
+            if(c1.hasPieceOnMaquina6()) {
+                System.out.println("PassouMaquina6!!!");
+                break;
+            }
+        }
+        while(true){
+            if(c1.hasPieceOnTapeteRotadorAbaixoDaMaquina6()) {
+                System.out.println("PassouMaquinaRotadorDeBaixo!!!");
+                break;
+            }
+        }
+
+        while(true){
+            if(c1.hasPieceOnTapeteAEsquerdaDoRotadorDeBaixo()) {
+                System.out.println("Passou Tapete da Esquerda do de baixo!!!");
+                break;
+            }
+        }
+
+        while(true){
+            if(storage.hasPieceTapeteEntradaDoArmazem()) {
+                System.out.println("Tapete de Entrada do Armazem!!!");
+                break;
+            }
+        }
 
 
 

@@ -40,4 +40,36 @@ public class UnloadCell {
     public String getUnload6(){
         return getValue(5);
     }
+
+    private boolean hasPiece(int tapeteNumber){
+        return Boolean.parseBoolean(OPCUAConnection.getValue("GVL","C5"+"T"+tapeteNumber));
+    }
+
+    public boolean hasPieceOnTapeteRotadorDeCima(){
+        return hasPiece(1);
+    }
+
+    public boolean hasPieceOnTapeteADireitaDoRotadorDeCima(){
+        return hasPiece(2);
+    }
+    public boolean hasPieceOnTapeteAbaixoDoRotadorDeCima(){
+        return hasPiece(3);
+    }
+    public boolean hasPieceOnPrimeiroPusher(){
+        return hasPiece(4);
+    }
+
+    public boolean hasPieceOnSegundoPusher(){
+        return hasPiece(5);
+    }
+    public boolean hasPieceOnTerceiroPusher(){
+        return hasPiece(6);
+    }
+
+    public boolean hasPieceOnTapeteRotadorAbaixoDoTerceiroPusher(){
+        return hasPiece(7);
+    }
+    public boolean hasPieceOnTapeteADireitaDoRotadorDeBaixo(){
+        return hasPiece(8);
+    }
 }
