@@ -1,5 +1,6 @@
-package mario.OPCUa;
+package mario.plc;
 
+import mario.OPCUa.OPCUAConnection;
 import mario.plc.TapeteMaquina;
 import mario.plc.TapeteRotator;
 

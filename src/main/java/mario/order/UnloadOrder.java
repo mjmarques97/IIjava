@@ -14,6 +14,14 @@ public class UnloadOrder extends Order {
         this.destination = destination;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
     @Override
     public void print() {
         System.out.println("Order Number:"+this.number+" Type:" +this.type+" To:"+this.destination+" Quantity:"+ this.quantity);

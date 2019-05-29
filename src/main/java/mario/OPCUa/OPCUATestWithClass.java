@@ -1,15 +1,13 @@
 package mario.OPCUa;
 
-import mario.plc.Tapete;
-import mario.plc.TapeteMaquina;
-import mario.plc.TapeteRotator;
+import mario.plc.Celula;
 import mario.storage.Storage;
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 
 public class OPCUATestWithClass {
     public static OPCUAConnection myConnection;
     public static OpcUaClient client;
-    public static String aux = "DESKTOP-4ODUT2H";
+    public static String aux = "DESKTOP-LA0FL5M";
     public static String clientName = "opc.tcp://"+aux+":4840";
 
     public static void main(String[] args) {
@@ -19,7 +17,7 @@ public class OPCUATestWithClass {
 
 
         Storage storage=new Storage();
-        storage.retrievePieceOPCua(2);
+
 
 
         Celula c1=new Celula(1);
@@ -28,7 +26,88 @@ public class OPCUATestWithClass {
         Celula c4=new Celula(4);
         UnloadCell unloadCell=new UnloadCell();
 
-        c1.getMaquina4().stopDoingWork();
+
+        ////NOTAS:C2T2->C3T1 possivel problema nos sensores, possivel falha na maquinaçao
+
+        /// from p8 to p9, 8 pieces - simulate order 003 of command2.xml
+
+        for (int i = 0; i < 15; i++) {
+
+            //verifica celulas livre capazes de transformaçao
+            while (true) {
+                System.out.println("Entrou ciclo 1");
+
+                if (!c2.hasPieceOnTapeteAbaixoDoRotadorDeCima() || !c4.hasPieceOnTapeteAbaixoDoRotadorDeCima()) {
+                    break;
+                }
+
+            }
+
+            //prioridade a celula mais a direita para nao entupir
+            if (!c4.hasPieceOnTapeteAbaixoDoRotadorDeCima() || !c4.hasPieceOnMaquina4()) {
+
+                ///aramazem lento e programa rapido sem estes dois while's o programa vai ignorar multiplas ordens de
+                // descargado armazem
+
+                if(i!=0) {
+                    while (true) {
+                        System.out.println("Entrou ciclo 2");
+                        if (!storage.hasPieceTapeteDiscarga()) {
+                            break;
+                        }
+
+                    }
+                }
+                 //contagem do armazem esta a ser feita?
+                storage.retrievePieceOPCua(8);
+                while (true) {
+                    System.out.println("Entrou ciclo 3");
+                    if (storage.hasPieceTapeteDiscarga()) {
+                        break;
+                    }
+                }
+                c1.getTapeteRotator().moveRight();
+                c2.getTapeteRotator().moveRight();
+                c3.getTapeteRotator().moveRight();
+                c4.getTapeteRotator().moveDown();
+                c4.getMaquina4().goDownDirection();
+                c4.getMaquina5().goDownDirection();
+                c4.getMaquina6().getToWork(3, 8000);
+                c4.getMaquina6().goDownDirection();
+
+            }
+
+            else {
+
+                if(i!=0) {
+                    while (true) {
+                        System.out.println("Entrou ciclo 4");
+                        if (!storage.hasPieceTapeteDiscarga()) {
+                            break;
+                        }
+
+                    }
+                }
+
+                storage.retrievePieceOPCua(8);
+                while (true) {
+                    System.out.println("Entrou ciclo 5");
+                    if (storage.hasPieceTapeteDiscarga()) {
+                        break;
+                    }
+                }
+
+                c1.getTapeteRotator().moveRight();
+                //caso esteja alguma peça no processo em andamento, será que virá a meio?
+                c2.getTapeteRotator().moveDown();
+                c2.getMaquina4().goDownDirection();
+                c2.getMaquina5().goDownDirection();
+                c2.getMaquina6().getToWork(3, 8000);
+                c2.getMaquina6().goDownDirection();
+            }
+            System.out.print("first statement. ");
+        }
+        /**c1.getMaquina4().stopDoingWork();
         c1.getMaquina4().goDownDirection();
         c1.getMaquina5().stopDoingWork();
         c1.getMaquina5().goDownDirection();
@@ -39,8 +118,9 @@ public class OPCUATestWithClass {
         c2.getTapeteRotator().moveRight();
         c3.getTapeteRotator().moveRight();
         c4.getTapeteRotator().moveRight();
-        c1.getMaquina4().stopDoingWork();
-
+        c1.getMaquina4().goDownDirection();
+        c1.getMaquina5().goDownDirection();
+        c1.getMaquina6().goDownDirection();
         unloadCell.unLoad4();
         unloadCell.stopUnLoad4();
         unloadCell.stopUnLoad5();
@@ -113,6 +193,7 @@ public class OPCUATestWithClass {
                 break;
             }
         }
+         */
 
 
 

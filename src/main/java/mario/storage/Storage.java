@@ -57,10 +57,13 @@ public class Storage {
     }
 
     public void retrievePieceOPCua(int pieceType) {
-        if (pieceType >= 1 && pieceType <= 9) {
-            if (!Boolean.parseBoolean(OPCUAConnection.getValue("GVL", "AT1"))) {
-                OPCUAConnection.setValue("GVL", "Peca_Remover", pieceType);
+        if (!hasPieceTapeteEntradaDoArmazem()) {
 
+            if (pieceType >= 1 && pieceType <= 9) {
+                if (!Boolean.parseBoolean(OPCUAConnection.getValue("GVL", "AT1"))) {
+                    OPCUAConnection.setValue("GVL", "Peca_Remover", pieceType);
+
+                }
             }
         }
     }

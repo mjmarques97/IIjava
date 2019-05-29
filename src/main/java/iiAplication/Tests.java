@@ -43,10 +43,9 @@ public class Tests extends Thread {
     private static void xmlTest() {
         System.out.println("Starting XML Test");
 
-        XMLParser test = new XMLParser("XMLFiles//command1.xml");
-        OrderParser order1 = new OrderParser(test);
-        order1.printAll();
 
+        OrderParser order1 = new OrderParser("XMLFiles//command1.xml");
+        order1.printAll();
         XMLParser test1 = new XMLParser("XMLFiles//command2.xml");
         OrderParser order2 = new OrderParser(test1);
         order2.printAll();

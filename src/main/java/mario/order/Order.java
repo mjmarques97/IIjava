@@ -23,6 +23,14 @@ abstract class Order {
         return number.equals(order.number);
     }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(number);

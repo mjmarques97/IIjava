@@ -15,6 +15,14 @@ public class TransformationOrder extends Order {
         this.to = to;
     }
 
+    public String getFrom() {
+        return from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
     @Override
     public void print() {
         System.out.println("Order Number:"+this.number+" From:" +this.from+" To:"+this.to+ " Quantity: "+ this.quantity);

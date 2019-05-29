@@ -18,8 +18,13 @@ public class OrderParser {
     private List<TransformationOrder> transformationOrders=new ArrayList<>();
     private List<UnloadOrder> unloadOrders=new ArrayList<>();
 
+    public List<TransformationOrder> getTransformationOrders() {
+        return transformationOrders;
+    }
 
-
+    public List<UnloadOrder> getUnloadOrders() {
+        return unloadOrders;
+    }
 
     private void parseUnload(String[] unloadOrder){
         String orderNumber=unloadOrder[0].substring(12);
@@ -110,6 +115,8 @@ public class OrderParser {
            this.parseOrder(a1,a2);
        }
 
+    } public OrderParser(String fileName){
+        new OrderParser(new XMLParser(fileName));
     }
 
     /***
