@@ -15,6 +15,9 @@ public class TapeteMaquina extends Tapete {
         this.tempoServico="T"+machineNumber+"_tempo_Servico";
 
     }
+    public void setPlcVariableName(){
+
+    }
 
 
     private void setDownDirection(boolean value){

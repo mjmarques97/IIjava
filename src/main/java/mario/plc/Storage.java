@@ -1,4 +1,4 @@
-package mario.storage;
+package mario.plc;
 
 import mario.OPCUa.OPCUAConnection;
 import mario.order.RequestStores;
@@ -11,7 +11,7 @@ import mario.order.RequestStores;
  * IE: pieceList[0][1]: quantidade de peças P1
  *
  */
-public class Storage {
+public class Storage extends Celula {
     private  Integer[][] pieceList={
             {1,27},
             {2,27},
@@ -24,6 +24,17 @@ public class Storage {
             {9,27},};
     private RequestStores requestStore=new RequestStores();
 
+    private Tapete tapeteUnload;
+    private Tapete tapeteLoad;
+
+    public Storage() {
+        this.tapeteUnload = new Tapete("GVL", "AT1");
+        tapeteLoad = new Tapete("GVL", "AT2");
+    }
+    public void setUp(){
+        tapeteUnload.addtapetesAssociado(this.getCelula1().getTapeteAEsquerdaDoRotadorDeCima());
+        tapeteLoad.addtapetesAssociado(this.getCelula1().getTapeteAEsquedaDoRotadorDeBaixo());
+    }
 
     /***
      *Define quantidade de uma determinada peça no armazém
@@ -76,5 +87,11 @@ public class Storage {
         return Boolean.parseBoolean(OPCUAConnection.getValue("GVL","AT2"));
     }
 
+    public Tapete getTapeteUnload() {
+        return tapeteUnload;
+    }
 
+    public Tapete getTapeteLoad() {
+        return tapeteLoad;
+    }
 }

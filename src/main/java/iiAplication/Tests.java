@@ -4,7 +4,7 @@ import mario.UDP.UDPReceive;
 import mario.UDP.UDPSend;
 import mario.database.Database;
 import mario.order.OrderParser;
-import mario.storage.Storage;
+import mario.plc.Storage;
 import mario.xml.XMLParser;
 
 import java.net.SocketException;

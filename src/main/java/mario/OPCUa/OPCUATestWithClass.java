@@ -1,7 +1,8 @@
 package mario.OPCUa;
 
-import mario.plc.Celula;
-import mario.storage.Storage;
+import mario.plc.CelulaFactory;
+import mario.plc.UnloadCell;
+import mario.plc.Storage;
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 
 public class OPCUATestWithClass {
@@ -20,10 +21,10 @@ public class OPCUATestWithClass {
 
 
 
-        Celula c1=new Celula(1);
-        Celula c2=new Celula(2);
-        Celula c3=new Celula(3);
-        Celula c4=new Celula(4);
+        CelulaFactory c1=new CelulaFactory(1);
+        CelulaFactory c2=new CelulaFactory(2);
+        CelulaFactory c3=new CelulaFactory(3);
+        CelulaFactory c4=new CelulaFactory(4);
         UnloadCell unloadCell=new UnloadCell();
 
 
@@ -66,10 +67,10 @@ public class OPCUATestWithClass {
                         break;
                     }
                 }
-                c1.getTapeteRotator().moveRight();
-                c2.getTapeteRotator().moveRight();
-                c3.getTapeteRotator().moveRight();
-                c4.getTapeteRotator().moveDown();
+                c1.getTapeteRotatorDeCima().moveRight();
+                c2.getTapeteRotatorDeCima().moveRight();
+                c3.getTapeteRotatorDeCima().moveRight();
+                c4.getTapeteRotatorDeCima().moveDown();
                 c4.getMaquina4().goDownDirection();
                 c4.getMaquina5().goDownDirection();
                 c4.getMaquina6().getToWork(3, 8000);
@@ -97,9 +98,9 @@ public class OPCUATestWithClass {
                     }
                 }
 
-                c1.getTapeteRotator().moveRight();
+                c1.getTapeteRotatorDeCima().moveRight();
                 //caso esteja alguma peça no processo em andamento, será que virá a meio?
-                c2.getTapeteRotator().moveDown();
+                c2.getTapeteRotatorDeCima().moveDown();
                 c2.getMaquina4().goDownDirection();
                 c2.getMaquina5().goDownDirection();
                 c2.getMaquina6().getToWork(3, 8000);
@@ -113,11 +114,11 @@ public class OPCUATestWithClass {
         c1.getMaquina5().goDownDirection();
         c1.getMaquina6().stopDoingWork();
         c1.getMaquina6().goDownDirection();
-        c1.getTapeteRotator().moveDown();
+        c1.getTapeteRotatorDeCima().moveDown();
 
-        c2.getTapeteRotator().moveRight();
-        c3.getTapeteRotator().moveRight();
-        c4.getTapeteRotator().moveRight();
+        c2.getTapeteRotatorDeCima().moveRight();
+        c3.getTapeteRotatorDeCima().moveRight();
+        c4.getTapeteRotatorDeCima().moveRight();
         c1.getMaquina4().goDownDirection();
         c1.getMaquina5().goDownDirection();
         c1.getMaquina6().goDownDirection();

@@ -1,83 +1,63 @@
 package mario.plc;
 
-import mario.OPCUa.OPCUAConnection;
-import mario.plc.TapeteMaquina;
-import mario.plc.TapeteRotator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Celula {
-    private int name;
-    private TapeteRotator tapeteRotator;
-    private TapeteMaquina maquina4;
-    private TapeteMaquina maquina5;
-    private TapeteMaquina maquina6;
+    protected List<Celula> celulaList=new ArrayList<>();
 
-    public Celula(int name) {
-        this.name = name;
-         tapeteRotator=new TapeteRotator(this.name);
-         maquina4=new TapeteMaquina(this.name,4);
-         maquina5= new TapeteMaquina(this.name,5);
-         maquina6 =new TapeteMaquina(this.name,6);
+    public List<Celula> getCelulaList() {
+        return celulaList;
     }
 
-    public int getName() {
-        return name;
+    public void setCelulaList(List<Celula> celulaList) {
+        this.celulaList = celulaList;
+    }
+    public void addToList(Celula celula){
+        this.celulaList.add(celula);
+    }
+    public Storage getStorage(){
+        return (Storage) celulaList.get(0);
     }
 
-    public TapeteRotator getTapeteRotator() {
-        return tapeteRotator;
+    public CelulaFactory getCelula1(){
+        return (CelulaFactory) celulaList.get(1);
+    }
+    public CelulaFactory getCelula2(){
+        return (CelulaFactory) celulaList.get(2);
+    }
+    public CelulaFactory getCelula3(){
+        return (CelulaFactory) celulaList.get(3);
+    }
+    public CelulaFactory getCelula4(){
+        return (CelulaFactory) celulaList.get(4);
+    }
+    public UnloadCell getUnload(){
+        return (UnloadCell) celulaList.get(5);
     }
 
-    public TapeteMaquina getMaquina4() {
-        return maquina4;
-    }
-
-    public TapeteMaquina getMaquina5() {
-        return maquina5;
-    }
-
-    public TapeteMaquina getMaquina6() {
-        return maquina6;
-    }
-
-    private boolean hasPiece(int tapeteNumber){
-        return Boolean.parseBoolean(OPCUAConnection.getValue("GVL","C"+this.name+"T"+tapeteNumber));
-    }
-
-    public boolean hasPieceOnTapeteAEsquerdaDoTapeteRotadorDeCima(){
-        return hasPiece(1);
-    }
-
-    public boolean hasPieceOnTapeteRotatorDeCima(){
-        return hasPiece(2);
-    }
-    public boolean hasPieceOnTapeteAcimaDaMaquina4(){
-        return hasPiece(3);
-    }
-    public boolean hasPieceOnTapeteAbaixoDoRotadorDeCima(){
-        return hasPiece(3);
-    }
-
-    public boolean hasPieceOnMaquina4(){
-        return hasPiece(4);
-    }
-
-    public boolean hasPieceOnMaquina5(){
-        return hasPiece(5);
-    }
-    public boolean hasPieceOnMaquina6(){
-        return hasPiece(6);
-    }
-
-    public boolean hasPieceOnTapeteRotadorAbaixoDaMaquina6(){
-        return hasPiece(7);
-    }
-    public boolean hasPieceOnTapeteRotadorDeBaixo(){
-        return hasPiece(7);
-    }
-
-    public boolean hasPieceOnTapeteAEsquerdaDoRotadorDeBaixo(){
-        return hasPiece(8);
-    }
+    public CelulaFactory getCell(int number){
+        switch (number){
+            case 1:
+                return getCelula1();
+            case 2:
+                return getCelula2();
+            case 3:
+                return getCelula3();
+            case 4:
+                return getCelula4();
 
 
+        }
+        return null;
+    }
+
+    public void add(Storage storage,CelulaFactory c1,CelulaFactory c2,CelulaFactory c3,CelulaFactory c4,UnloadCell unloadCell){
+        addToList(storage);
+        addToList(c1);
+        addToList(c2);
+        addToList(c3);
+        addToList(c4);
+        addToList(unloadCell);
+    }
 }
