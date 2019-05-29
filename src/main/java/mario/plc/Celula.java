@@ -3,7 +3,7 @@ package mario.plc;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Celula {
+public abstract class Celula {
     protected List<Celula> celulaList=new ArrayList<>();
 
     public List<Celula> getCelulaList() {
@@ -60,4 +60,5 @@ public class Celula {
         addToList(c4);
         addToList(unloadCell);
     }
+
 }

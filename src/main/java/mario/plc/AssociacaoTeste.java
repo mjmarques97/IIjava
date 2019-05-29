@@ -27,14 +27,8 @@ public class AssociacaoTeste {
         UnloadCell unloadCell=new UnloadCell();
         setEverythingUp(storage,c1,c2,c3,c4,unloadCell);
 
-
-
-
         c1.printAll();
-        c2.printAll();
-        c3.printAll();
-        c4.printAll();
-        unloadCell.printAll();
+
 
     }
 }

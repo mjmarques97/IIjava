@@ -13,10 +13,11 @@ public class TapeteMaquina extends Tapete {
         this.esperaPeca="T"+machineNumber+"_espera_peca";
         this.ferramenta="T"+machineNumber+"_ferramenta";
         this.tempoServico="T"+machineNumber+"_tempo_Servico";
+        this.plcVariableName="C"+plcCellName+"M"+machineNumber;
 
     }
-    public void setPlcVariableName(){
-
+    public void setPlcVariableName(String variableName){
+        this.plcVariableName=variableName;
     }
 
 

@@ -78,6 +78,19 @@ public class Storage extends Celula {
             }
         }
     }
+    public Tapete getTapeteADireitaDeODeUnload(){
+
+        Tapete tapete= tapeteUnload.tapetesAssociados.get(0);
+        System.out.println(tapete.plcVariableName);
+        return tapete;
+
+    }
+    public Tapete getTapeteADireitaDeODeLoad(){
+        Tapete tapete= tapeteLoad.tapetesAssociados.get(0);
+        System.out.println(tapete.plcVariableName);
+        return tapete;
+    }
+
 
     public boolean hasPieceTapeteDiscarga(){
         return Boolean.parseBoolean(OPCUAConnection.getValue("GVL","AT1"));

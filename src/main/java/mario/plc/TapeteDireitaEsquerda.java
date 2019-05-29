@@ -3,11 +3,13 @@ package mario.plc;
 import mario.OPCUa.OPCUAConnection;
 
 public class TapeteDireitaEsquerda extends Tapete {
-    private String plcVariableName;
+    protected String plcVariableName;
 
     public TapeteDireitaEsquerda(int plcCellName, String plcVariableName) {
         super(plcCellName);
         this.plcVariableName=plcVariableName;
+        super.plcVariableName=this.plcVariableName;
+
     }
 
     public void moveRight(){

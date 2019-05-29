@@ -14,6 +14,7 @@ public class UnloadCell extends Celula {
     private Tapete tapeteTerceiroPusher;
     private Tapete tapeteAbaixoDoTerceiroPusher;
     private Tapete tapeteADireitaDoTapeteDeBaixo;
+    private List<Tapete> lista=new ArrayList<>();
 
     public UnloadCell() {
         tapeteRotatorDeCima = new Tapete("GVL", "C5T1");
@@ -24,6 +25,14 @@ public class UnloadCell extends Celula {
         tapeteTerceiroPusher = new Tapete("GVL", "C5T6");
         tapeteAbaixoDoTerceiroPusher = new Tapete("GVL", "C5T7");
         tapeteADireitaDoTapeteDeBaixo = new Tapete("GVL", "C5T8");
+        lista.add(tapeteRotatorDeCima);
+        lista.add(tapeteADireitaDoDeCima);
+        lista.add(tapeteAcimaDoPrimeiroPusher);
+        lista.add(tapetePrimeiroPusher);
+        lista.add(tapeteSegundoPusher);
+        lista.add(tapeteTerceiroPusher);
+        lista.add(tapeteAbaixoDoTerceiroPusher);
+        lista.add(tapeteADireitaDoTapeteDeBaixo);
     }
     void setUpCell(){
          tapeteRotatorDeCima.addtapetesAssociado(getCelula4().getTapeteRotatorDeCima());
@@ -160,14 +169,16 @@ public class UnloadCell extends Celula {
                 lista.add(tapeteAcimaDoPrimeiroPusher);
                         lista.add(tapetePrimeiroPusher);
                                 lista.add(tapeteSegundoPusher);
-                                        lista.add(tapeteTerceiroPusher);
+                                lista.add(tapeteTerceiroPusher);
                                                 lista.add(tapeteAbaixoDoTerceiroPusher);
                                                         lista.add(tapeteADireitaDoTapeteDeBaixo);
                                                         return lista;
     }
 
+
+
     public void printAll(){
-        for(Tapete tapete: retornaTapetes()){
+        for(Tapete tapete: lista){
             tapete.printAssociados();
         }
     }
