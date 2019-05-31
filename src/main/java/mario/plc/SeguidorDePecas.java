@@ -1,5 +1,7 @@
 package mario.plc;
 
+import mario.OPCUa.OPCUAConnection;
+
 public class SeguidorDePecas {
     private UnloadCell unloadCell;
     Storage storage;
@@ -17,7 +19,7 @@ public class SeguidorDePecas {
         unloadCell.checkEachCycle();
     }
 
-    public SeguidorDePecas() {
+    public SeguidorDePecas(int delay) {
          storage=new Storage();
          c1=new CelulaFactory(1);
          c2=new CelulaFactory(2);
@@ -25,6 +27,7 @@ public class SeguidorDePecas {
          c4=new CelulaFactory(4);
          unloadCell=new UnloadCell();
         setEverythingUp(storage,c1,c2,c3,c4,unloadCell);
+        OPCUAConnection.setValue("GVL","Delay_Tapetes",delay);
     }
 
     public static void setEverythingUp(Storage storage, CelulaFactory c1, CelulaFactory c2, CelulaFactory c3, CelulaFactory c4, UnloadCell unloadCell){

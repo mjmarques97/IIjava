@@ -12,7 +12,7 @@ public class SeguidorDePecasTeste {
     public static void main(String[] args) {
         myConnection = new OPCUAConnection(clientName);
         myConnection.makeConnection();
-        SeguidorDePecas seguidorDePecas =new SeguidorDePecas();
+        SeguidorDePecas seguidorDePecas =new SeguidorDePecas(5);
 
        // seguidorDePecas.getStorage().printAll();
 
@@ -28,7 +28,8 @@ public class SeguidorDePecasTeste {
         seguidorDePecas.getC3().getMaquina6().goDownDirection();
 
 
-        //seguidorDePecas.getStorage().retrievePieceOPCua(2);
+
+        seguidorDePecas.getStorage().retrievePieceOPCua(2);
 
 
 

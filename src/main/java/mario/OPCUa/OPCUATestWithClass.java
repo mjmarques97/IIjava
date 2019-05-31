@@ -1,6 +1,7 @@
 package mario.OPCUa;
 
 import mario.plc.CelulaFactory;
+import mario.plc.SeguidorDePecas;
 import mario.plc.UnloadCell;
 import mario.plc.Storage;
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
@@ -8,232 +9,77 @@ import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 public class OPCUATestWithClass {
     public static OPCUAConnection myConnection;
     public static OpcUaClient client;
-    public static String aux = "DESKTOP-LA0FL5M";
+    public static String aux = "DESKTOP-4ODUT2H";
     public static String clientName = "opc.tcp://"+aux+":4840";
 
     public static void main(String[] args) {
         myConnection = new OPCUAConnection(clientName);
         myConnection.makeConnection();
 
+        SeguidorDePecas seguidorDePecas=new SeguidorDePecas(0);
 
 
-        Storage storage=new Storage();
+        for(int k=0;k<9;k++){
 
-
-
-        CelulaFactory c1=new CelulaFactory(1);
-        CelulaFactory c2=new CelulaFactory(2);
-        CelulaFactory c3=new CelulaFactory(3);
-        CelulaFactory c4=new CelulaFactory(4);
-        UnloadCell unloadCell=new UnloadCell();
-
-
-        ////NOTAS:C2T2->C3T1 possivel problema nos sensores, possivel falha na maquinaçao
-
-        /// from p8 to p9, 8 pieces - simulate order 003 of command2.xml
-
-        for (int i = 0; i < 15; i++) {
-
-            //verifica celulas livre capazes de transformaçao
+            seguidorDePecas.updateAllEachCycle();
             while (true) {
-                System.out.println("Entrou ciclo 1");
-
-                if (!c2.hasPieceOnTapeteAbaixoDoRotadorDeCima() || !c4.hasPieceOnTapeteAbaixoDoRotadorDeCima()) {
+                //System.out.println("Hello 1");
+                seguidorDePecas.updateAllEachCycle();
+                if (seguidorDePecas.getUnloadCell().getTapeteAcimaDoPrimeiroPusher().getPecaNoTapete().equals("NAOTEMPECA")) {
                     break;
                 }
 
             }
 
-            //prioridade a celula mais a direita para nao entupir
-            if (!c4.hasPieceOnTapeteAbaixoDoRotadorDeCima() || !c4.hasPieceOnMaquina4()) {
-
-                ///aramazem lento e programa rapido sem estes dois while's o programa vai ignorar multiplas ordens de
-                // descargado armazem
-
-                if(i!=0) {
-                    while (true) {
-                        System.out.println("Entrou ciclo 2");
-                        if (!storage.hasPieceTapeteDiscarga()) {
-                            break;
-                        }
-
-                    }
-                }
-                 //contagem do armazem esta a ser feita?
-                storage.retrievePieceOPCua(8);
+            if(k!=0) {
                 while (true) {
-                    System.out.println("Entrou ciclo 3");
-                    if (storage.hasPieceTapeteDiscarga()) {
+                    //System.out.println("Hello2");
+                    seguidorDePecas.updateAllEachCycle();
+                    if (seguidorDePecas.getStorage().getTapeteUnload().getPecaNoTapete().equals("NAOTEMPECA")) {
                         break;
                     }
+
                 }
-                c1.getTapeteRotatorDeCima().moveRight();
-                c2.getTapeteRotatorDeCima().moveRight();
-                c3.getTapeteRotatorDeCima().moveRight();
-                c4.getTapeteRotatorDeCima().moveDown();
-                c4.getMaquina4().goDownDirection();
-                c4.getMaquina5().goDownDirection();
-                c4.getMaquina6().getToWork(3, 8000);
-                c4.getMaquina6().goDownDirection();
-
             }
-
-            else {
-
-                if(i!=0) {
-                    while (true) {
-                        System.out.println("Entrou ciclo 4");
-                        if (!storage.hasPieceTapeteDiscarga()) {
-                            break;
-                        }
-
-                    }
+            seguidorDePecas.getStorage().retrievePieceOPCua(7);
+            while (true) {
+                seguidorDePecas.updateAllEachCycle();
+               String peca= seguidorDePecas.getStorage().getTapeteUnload().getPecaNoTapete();
+                if (!seguidorDePecas.getC1().getTapeteAEsquerdaDoRotadorDeCima().getPecaNoTapete().equals("NAOTEMPECA")) {
+                    //System.out.println(peca);
+                    break;
                 }
-
-                storage.retrievePieceOPCua(8);
-                while (true) {
-                    System.out.println("Entrou ciclo 5");
-                    if (storage.hasPieceTapeteDiscarga()) {
-                        break;
-                    }
-                }
-
-                c1.getTapeteRotatorDeCima().moveRight();
-                //caso esteja alguma peça no processo em andamento, será que virá a meio?
-                c2.getTapeteRotatorDeCima().moveDown();
-                c2.getMaquina4().goDownDirection();
-                c2.getMaquina5().goDownDirection();
-                c2.getMaquina6().getToWork(3, 8000);
-                c2.getMaquina6().goDownDirection();
             }
-            System.out.print("first statement. ");
+
+
+            seguidorDePecas.getC1().getTapeteRotatorDeCima().moveRight();
+            seguidorDePecas.getC2().getTapeteRotatorDeCima().moveRight();
+            seguidorDePecas.getC3().getTapeteRotatorDeCima().moveRight();
+            seguidorDePecas.getC4().getTapeteRotatorDeCima().moveRight();
+            seguidorDePecas.getUnloadCell().unLoad6();
+
+
         }
-        /**c1.getMaquina4().stopDoingWork();
-        c1.getMaquina4().goDownDirection();
-        c1.getMaquina5().stopDoingWork();
-        c1.getMaquina5().goDownDirection();
-        c1.getMaquina6().stopDoingWork();
-        c1.getMaquina6().goDownDirection();
-        c1.getTapeteRotatorDeCima().moveDown();
-
-        c2.getTapeteRotatorDeCima().moveRight();
-        c3.getTapeteRotatorDeCima().moveRight();
-        c4.getTapeteRotatorDeCima().moveRight();
-        c1.getMaquina4().goDownDirection();
-        c1.getMaquina5().goDownDirection();
-        c1.getMaquina6().goDownDirection();
-        unloadCell.unLoad4();
-        unloadCell.stopUnLoad4();
-        unloadCell.stopUnLoad5();
-        unloadCell.stopUnLoad6();
-
+        seguidorDePecas.getStorage().retrievePieceOPCua(7);
         while(true){
-            if(storage.hasPieceTapeteDiscarga()) {
-                System.out.println("Passou celula de Discarga");
-                break;
-            }
+            //System.out.println("Hello4");
+            seguidorDePecas.updateAllEachCycle();
+            if(!seguidorDePecas.getUnloadCell().getTapetePrimeiroPusher().getPecaNoTapete().equals("NAOTEMPECA"))break;
+
         }
 
         while(true){
-            if(c1.hasPieceOnTapeteAEsquerdaDoTapeteRotadorDeCima()) {
-                System.out.println("Passou Tapete a Esquerda do Rotativo de Cima!!!");
-                break;
-            }
+            //System.out.println("Hello 5");
+            seguidorDePecas.updateAllEachCycle();
+            if(!seguidorDePecas.getUnloadCell().hasPieceOnTapeteRotadorDeCima() && !seguidorDePecas.getUnloadCell().hasPieceOnTapeteAbaixoDoRotadorDeCima()
+                    && !seguidorDePecas.getUnloadCell().hasPieceOnPrimeiroPusher() && !seguidorDePecas.getUnloadCell().hasPieceOnSegundoPusher()
+                    &&!seguidorDePecas.getUnloadCell().hasPieceOnTerceiroPusher()) break;
+
         }
 
-        while(true){
-            if(c1.hasPieceOnTapeteRotatorDeCima()) {
-                System.out.println("Rotador De cima!!!");
-                break;
-            }
-        }
-        while(true) {
-            if (c1.hasPieceOnTapeteAcimaDaMaquina4()) {
-                System.out.println("Tapete Acima da máquina 4!!!");
-                break;
-            }
-        }
-
-
-        while(true){
-            if(c1.hasPieceOnMaquina4()) {
-                System.out.println("PassouMaquina4!!!");
-                break;
-            }
-        }
-        while(true){
-            if(c1.hasPieceOnMaquina5()) {
-                System.out.println("PassouMaquina5!!!");
-                break;
-            }
-        }
-
-        while(true){
-            if(c1.hasPieceOnMaquina6()) {
-                System.out.println("PassouMaquina6!!!");
-                break;
-            }
-        }
-        while(true){
-            if(c1.hasPieceOnTapeteRotadorAbaixoDaMaquina6()) {
-                System.out.println("PassouMaquinaRotadorDeBaixo!!!");
-                break;
-            }
-        }
-
-        while(true){
-            if(c1.hasPieceOnTapeteAEsquerdaDoRotadorDeBaixo()) {
-                System.out.println("Passou Tapete da Esquerda do de baixo!!!");
-                break;
-            }
-        }
-
-        while(true){
-            if(storage.hasPieceTapeteEntradaDoArmazem()) {
-                System.out.println("Tapete de Entrada do Armazem!!!");
-                break;
-            }
-        }
-         */
-
-
-
-       // TapeteRotator topRotatorHorizontal1= new TapeteRotator(2);
-       // System.out.println("True? "+topRotatorHorizontal1.getMovingRight());
-
-        /*topRotatorHorizontal1.stopMovingRight();
-        System.out.println("False? "+topRotatorHorizontal1.getMovingRight());
-
-        TapeteMaquina maquina4C1=new TapeteMaquina(1,4);
-
-        maquina4C1.selectTool(3);
-        System.out.println("3? "+maquina4C1.getTool());
-
-        maquina4C1.selectTool(2);
-        System.out.println("2? "+maquina4C1.getTool());
-
-        maquina4C1.doWork();
-        System.out.println("True? "+maquina4C1.isWorking());
-
-        maquina4C1.stopDoingWork();
-        System.out.println("False? "+maquina4C1.isWorking());
-
-        maquina4C1.selectTimeToOperateOnPiece(2000);
-        System.out.println("2000? "+maquina4C1.getTimeToOperateOnPiece());
-
-        maquina4C1.selectTimeToOperateOnPiece(1000);
-        System.out.println("1000? "+maquina4C1.getTimeToOperateOnPiece());
-
-        maquina4C1.goDownDirection();
-        System.out.println("True? "+maquina4C1.getDownDirection());
-
-        maquina4C1.stopDownDirection();
-        System.out.println("False? "+maquina4C1.getDownDirection());*/
-
-
-
+    }
 
 
 
     }
-}
+

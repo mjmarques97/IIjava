@@ -24,7 +24,8 @@ public class Storage extends Celula {
             {8,27},
             {9,27},};
     private RequestStores requestStore=new RequestStores();
-
+    private boolean fallingEdge;
+    private boolean risingEdge;
     private Tapete tapeteUnload;
     private Tapete tapeteLoad;
 
@@ -72,16 +73,11 @@ public class Storage extends Celula {
     }
 
     public void retrievePieceOPCua(int pieceType) {
-        if (!hasPieceTapeteDiscarga()) {
-            tapeteUnload.setPecaEsperadaNoTapete(new Peca("P"+pieceType));
+        if (tapeteUnload.getPecaNoTapete().equals("NAOTEMPECA")) {
             if (pieceType >= 1 && pieceType <= 9) {
+                tapeteUnload.setPecaEsperadaNoTapete(new Peca("P"+pieceType));
                 if (!Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca", "AT1"))) {
                     OPCUAConnection.setValue("GVL", "Peca_Remover", pieceType);
-                    try {
-                        Thread.sleep(5);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
 
 
                 }
@@ -126,6 +122,13 @@ public class Storage extends Celula {
         System.out.println("Unload");
         for(Tapete tapete: tapeteUnload.tapetesAssociados)
             System.out.println(tapete.getPlcCellName()+" "+tapete.plcVariableName);
+    }
+    public boolean entrouNoTapeteDeUnload(){
+        return risingEdge;
+    }
+
+    public boolean saiuTapeteUnload(){
+        return fallingEdge;
     }
 
     public void checkEachCycle(){

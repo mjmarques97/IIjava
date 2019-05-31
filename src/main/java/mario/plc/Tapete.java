@@ -18,6 +18,10 @@ public class Tapete {
     protected List<Tapete> tapetesAssociados = new ArrayList<>();
     protected Storage armazemAssociado;
     protected Celula celulaFactory;
+    private boolean fallingEdge=false;
+    private boolean risingEdge=false;
+
+
 
     public Storage getArmazemAssociado() {
         return armazemAssociado;
@@ -44,14 +48,15 @@ public class Tapete {
 
         //System.out.println(pecaEsperadaNoTapete.getTipo());
         if (previousHasPiece == false && hasPiece() == true) {
-
+            if(this.plcVariableName.equals("AT1"))
+                System.out.println(pecaEsperadaNoTapete.getTipo());
             previousHasPiece = true;
             if(pecaEsperadaNoTapete==null)
                 System.out.println("NULLLLLLLLL");
             pecaNoTapete=pecaEsperadaNoTapete;
             pecaAEnviar=pecaNoTapete;
             System.out.println("Peça "+pecaNoTapete.getTipo()+" no tapete "+this.plcVariableName+" acabaou de chegar!");
-            pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
+          //  pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
 
 
             if(this.plcVariableName.equals("C5T2")) {
@@ -79,10 +84,13 @@ public class Tapete {
     public void checkFallingAndRisingOrRisingEdge(){
         if(risingEdgePeca()){
             if(plcVariableName.equals("AT1")){
+                this.risingEdge=true;
                 Storage armazem=getArmazemAssociado();
                 armazem.setQuantity(pecaAEnviar.getTipo(),armazem.getQuantity(pecaAEnviar.getTipo())-1);
                 System.out.println("Peca "+pecaAEnviar.getTipo()+ " no armazem diminuida para "+armazem.getQuantity(pecaAEnviar.getTipo()));
             }
+            this.pecaNoTapete=this.pecaEsperadaNoTapete;
+            this.pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
         }
         if(fallingEdgePeca())
             notifyTapetesAssociados(pecaAEnviar);
@@ -162,7 +170,10 @@ public class Tapete {
         if(pecaNoTapete.equals("NAOTEMPECA") && !plcVariableName.contains("C5"))
             return false;
         if (previousHasPiece == true && hasPiece() == false) {
-
+            if(this.plcVariableName.equals("AT1")) {
+                this.risingEdge = false;
+                this.fallingEdge=true;
+            }
             previousHasPiece = false;
             pecaAEnviar=pecaNoTapete;
             //System.out.println("Peça "+pecaAEnviar.getTipo()+" no tapete "+this.plcVariableName+" acabou de sair!");
