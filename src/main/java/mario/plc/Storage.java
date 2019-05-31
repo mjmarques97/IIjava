@@ -1,6 +1,7 @@
 package mario.plc;
 
 import mario.OPCUa.OPCUAConnection;
+import mario.order.Peca;
 import mario.order.RequestStores;
 
 /***
@@ -28,13 +29,16 @@ public class Storage extends Celula {
     private Tapete tapeteLoad;
 
     public Storage() {
-        this.tapeteUnload = new Tapete("GVL", "AT1");
-        tapeteLoad = new Tapete("GVL", "AT2");
+        this.tapeteUnload = new Tapete("Sensores_Peca", "AT1");
+        tapeteLoad = new Tapete("Sensores_Peca", "AT2");
     }
     public void setUp(){
         tapeteUnload.addtapetesAssociado(this.getCelula1().getTapeteAEsquerdaDoRotadorDeCima());
+        tapeteUnload.armazemAssociado=this;
         tapeteLoad.addtapetesAssociado(this.getCelula1().getTapeteAEsquedaDoRotadorDeBaixo());
+        tapeteLoad.armazemAssociado=this;
     }
+
 
     /***
      *Define quantidade de uma determinada peça no armazém
@@ -68,11 +72,17 @@ public class Storage extends Celula {
     }
 
     public void retrievePieceOPCua(int pieceType) {
-        if (!hasPieceTapeteEntradaDoArmazem()) {
-
+        if (!hasPieceTapeteDiscarga()) {
+            tapeteUnload.setPecaEsperadaNoTapete(new Peca("P"+pieceType));
             if (pieceType >= 1 && pieceType <= 9) {
-                if (!Boolean.parseBoolean(OPCUAConnection.getValue("GVL", "AT1"))) {
+                if (!Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca", "AT1"))) {
                     OPCUAConnection.setValue("GVL", "Peca_Remover", pieceType);
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
 
                 }
             }
@@ -93,11 +103,11 @@ public class Storage extends Celula {
 
 
     public boolean hasPieceTapeteDiscarga(){
-        return Boolean.parseBoolean(OPCUAConnection.getValue("GVL","AT1"));
+        return Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca","AT1"));
     }
 
     public boolean hasPieceTapeteEntradaDoArmazem(){
-        return Boolean.parseBoolean(OPCUAConnection.getValue("GVL","AT2"));
+        return Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca","AT2"));
     }
 
     public Tapete getTapeteUnload() {
@@ -106,5 +116,20 @@ public class Storage extends Celula {
 
     public Tapete getTapeteLoad() {
         return tapeteLoad;
+    }
+
+    public void printAll(){
+        System.out.println("Tapetes Associados para Storage");
+        System.out.println("Load");
+        for(Tapete tapete: tapeteLoad.tapetesAssociados)
+            System.out.println(tapete.getPlcCellName()+" "+tapete.plcVariableName);
+        System.out.println("Unload");
+        for(Tapete tapete: tapeteUnload.tapetesAssociados)
+            System.out.println(tapete.getPlcCellName()+" "+tapete.plcVariableName);
+    }
+
+    public void checkEachCycle(){
+        tapeteUnload.checkFallingAndRisingOrRisingEdge();
+        tapeteLoad.checkFallingAndRisingOrRisingEdge();
     }
 }

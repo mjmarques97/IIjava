@@ -20,8 +20,8 @@ public class TapeteDireitaEsquerda extends Tapete {
         OPCUAConnection.setValue(this.plcCellName,this.plcVariableName,false);
     }
 
-    public String getMovingRight(){
-        return OPCUAConnection.getValue(this.plcCellName,this.plcVariableName);
+    public boolean getMovingRight(){
+        return Boolean.parseBoolean(OPCUAConnection.getValue(this.plcCellName,this.plcVariableName));
     }
 
 }

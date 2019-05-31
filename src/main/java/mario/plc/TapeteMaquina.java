@@ -1,19 +1,26 @@
 package mario.plc;
 
 import mario.OPCUa.OPCUAConnection;
+import mario.order.Peca;
 
 public class TapeteMaquina extends Tapete {
     private String down;
     private String esperaPeca;
     private String ferramenta;
     private String tempoServico;
-    public TapeteMaquina(int plcCellName,int machineNumber) {
+    private CelulaFactory celulaFactory;
+    private int machinenumber;
+    public boolean downDirection=false;
+
+    public TapeteMaquina(int plcCellName,int machineNumber,CelulaFactory celulaFactory) {
         super(plcCellName);
+        this.machinenumber=machineNumber;
         this.down="T"+machineNumber+"_direcao_baixo";
         this.esperaPeca="T"+machineNumber+"_espera_peca";
         this.ferramenta="T"+machineNumber+"_ferramenta";
         this.tempoServico="T"+machineNumber+"_tempo_Servico";
-        this.plcVariableName="C"+plcCellName+"M"+machineNumber;
+        this.plcVariableName="C"+plcCellName+"T"+machineNumber;
+        this.celulaFactory=celulaFactory;
 
     }
     public void setPlcVariableName(String variableName){
@@ -26,12 +33,14 @@ public class TapeteMaquina extends Tapete {
     }
     public void stopDownDirection(){
         this.setDownDirection(false);
+        downDirection=false;
     }
     public void goDownDirection(){
         this.setDownDirection(true);
+        downDirection=true;
     }
-    public String getDownDirection(){
-        return OPCUAConnection.getValue(this.plcCellName,down);
+    public Boolean getDownDirection(){
+        return downDirection;
     }
 
     private void setPiece(boolean value){
@@ -67,6 +76,80 @@ public class TapeteMaquina extends Tapete {
         this.selectTimeToOperateOnPiece(time);
         this.selectTool(toolNumber);
         this.stopDownDirection();
+    }
+
+    @Override
+    public void notifyTapetesAssociados(Peca pecaAEnviar) {
+        if (pecaAEnviar == null)
+            System.out.println("NULLLLL");
+        CelulaFactory celulaDoTapete = (CelulaFactory) celulaFactory;
+        if (this.equals(celulaDoTapete.getMaquina4())) {
+            getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+            return;
+        }
+        if(this.equals(celulaDoTapete.getMaquina5())){
+            if(celulaDoTapete.getMaquina5().downDirection==true){
+                getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+                return;
+            }
+            else if(celulaDoTapete.getMaquina5().downDirection==false){
+                getTapeteLadoEsquerdoOuEmCima().setPecaEsperadaNoTapete(pecaAEnviar);
+            }
+
+        }
+        if(this.equals(celulaDoTapete.getMaquina6())){
+            if(celulaDoTapete.getMaquina6().downDirection==true){
+                getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+                return;
+            }
+            else if(celulaDoTapete.getMaquina6().downDirection==false){
+                getTapeteLadoEsquerdoOuEmCima().setPecaEsperadaNoTapete(pecaAEnviar);
+            }
+
+        }
+    }
+
+            /*if(celulaDoTapete.getMaquina4().getDownDirection() || celulaDoTapete.getMaquina5().getDownDirection() ) {
+                this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+                return;
+            }
+            else  {
+                this.getTapeteLadoEsquerdoOuEmCima().setPecaEsperadaNoTapete(pecaAEnviar);
+                return;
+            }
+        }
+        if(this.equals(celulaDoTapete.getMaquina5())){
+            if(celulaDoTapete.getMaquina5().getDownDirection() || celulaDoTapete.getMaquina6().getDownDirection()) {
+                this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+            }
+            else {
+                this.getTapeteLadoEsquerdoOuEmCima().setPecaEsperadaNoTapete(pecaAEnviar);
+            }
+        }
+
+        if(this.equals(celulaDoTapete.getMaquina6())){
+            if(celulaDoTapete.getMaquina6().getDownDirection()) {
+                this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+            }
+            else {
+                this.getTapeteLadoEsquerdoOuEmCima().setPecaEsperadaNoTapete(pecaAEnviar);
+            }
+        }*/
+
+
+
+
+
+
+
+    @Override
+    public boolean hasPiece(){
+        boolean returnValue = Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca", plcVariableName));
+        if (true == returnValue) {
+        //    System.out.println("Tem peça em " + plcVariableName + " do tipo "+ pecaNoTapete.getTipo()+"!");
+        }
+        this.hasPiece=returnValue;
+        return hasPiece;
     }
 
 

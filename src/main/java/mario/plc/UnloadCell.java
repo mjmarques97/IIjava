@@ -1,6 +1,7 @@
 package mario.plc;
 
 import mario.OPCUa.OPCUAConnection;
+import mario.order.Peca;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +16,21 @@ public class UnloadCell extends Celula {
     private Tapete tapeteAbaixoDoTerceiroPusher;
     private Tapete tapeteADireitaDoTapeteDeBaixo;
     private List<Tapete> lista=new ArrayList<>();
+    private Peca p1=new Peca("P1");
+    private Peca p2=new Peca("P2");
 
     public UnloadCell() {
-        tapeteRotatorDeCima = new Tapete("GVL", "C5T1");
-        tapeteADireitaDoDeCima = new Tapete("GVL", "C5T2");
-        tapeteAcimaDoPrimeiroPusher = new Tapete("GVL", "C5T3");
-        tapetePrimeiroPusher = new Tapete("GVL", "C5T4");
-        tapeteSegundoPusher = new Tapete("GVL", "C5T5");
-        tapeteTerceiroPusher = new Tapete("GVL", "C5T6");
-        tapeteAbaixoDoTerceiroPusher = new Tapete("GVL", "C5T7");
-        tapeteADireitaDoTapeteDeBaixo = new Tapete("GVL", "C5T8");
+
+        tapeteRotatorDeCima = new Tapete("Sensores_Peca", "C5T1",this);
+        tapeteADireitaDoDeCima = new Tapete("Sensores_Peca", "C5T2",this);
+        tapeteAcimaDoPrimeiroPusher = new Tapete("Sensores_Peca", "C5T3",this);
+        tapetePrimeiroPusher = new Tapete("Sensores_Peca", "C5T4",this);
+        tapeteSegundoPusher = new Tapete("Sensores_Peca", "C5T5",this);
+        tapeteTerceiroPusher = new Tapete("Sensores_Peca", "C5T6",this);
+        tapeteAbaixoDoTerceiroPusher = new Tapete("Sensores_Peca", "C5T7",this);
+        tapeteADireitaDoTapeteDeBaixo = new Tapete("Sensores_Peca", "C5T8",this);
+        tapeteADireitaDoTapeteDeBaixo.pecaEsperadaNoTapete=new Peca("P2");
+        tapeteADireitaDoDeCima.pecaEsperadaNoTapete=new Peca("P1");
         lista.add(tapeteRotatorDeCima);
         lista.add(tapeteADireitaDoDeCima);
         lista.add(tapeteAcimaDoPrimeiroPusher);
@@ -34,6 +40,20 @@ public class UnloadCell extends Celula {
         lista.add(tapeteAbaixoDoTerceiroPusher);
         lista.add(tapeteADireitaDoTapeteDeBaixo);
     }
+    public void checkEachCycle(){
+        tapeteADireitaDoDeCima.pecaEsperadaNoTapete=p1;
+        tapeteADireitaDoTapeteDeBaixo.pecaEsperadaNoTapete=p2;
+        tapeteRotatorDeCima.checkFallingAndRisingOrRisingEdge();
+        tapeteADireitaDoDeCima.checkFallingAndRisingOrRisingEdge();
+        tapeteAcimaDoPrimeiroPusher.checkFallingAndRisingOrRisingEdge();
+        tapetePrimeiroPusher.checkFallingAndRisingOrRisingEdge();
+        tapeteSegundoPusher.checkFallingAndRisingOrRisingEdge();
+        tapeteTerceiroPusher.checkFallingAndRisingOrRisingEdge();
+        tapeteAbaixoDoTerceiroPusher.checkFallingAndRisingOrRisingEdge();
+        tapeteADireitaDoTapeteDeBaixo.checkFallingAndRisingOrRisingEdge();
+
+    }
+
     void setUpCell(){
          tapeteRotatorDeCima.addtapetesAssociado(getCelula4().getTapeteRotatorDeCima());
          tapeteRotatorDeCima.addtapetesAssociado(tapeteADireitaDoDeCima);
@@ -55,6 +75,7 @@ public class UnloadCell extends Celula {
 
          tapeteAbaixoDoTerceiroPusher.addtapetesAssociado(getCelula4().getTapeteRotativoDeBaixo());
          tapeteAbaixoDoTerceiroPusher.addtapetesAssociado(tapeteADireitaDoTapeteDeBaixo);
+         tapeteAbaixoDoTerceiroPusher.addtapetesAssociado(tapeteTerceiroPusher);
     }
 
 
@@ -131,7 +152,7 @@ public class UnloadCell extends Celula {
     }
 
     private boolean hasPiece(int tapeteNumber){
-        return Boolean.parseBoolean(OPCUAConnection.getValue("GVL","C5"+"T"+tapeteNumber));
+        return Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca","C5"+"T"+tapeteNumber));
     }
 
     public boolean hasPieceOnTapeteRotadorDeCima(){
