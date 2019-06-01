@@ -28,6 +28,7 @@ public class Storage extends Celula {
     private boolean risingEdge;
     private Tapete tapeteUnload;
     private Tapete tapeteLoad;
+    private boolean iCanWork=true;
 
     public Storage() {
         this.tapeteUnload = new Tapete("Sensores_Peca", "AT1");
@@ -71,15 +72,28 @@ public class Storage extends Celula {
     public String requestStores(){
         return requestStore.returnCurrentStores(pieceList);
     }
+    private void youCantWork(){
+        this.iCanWork=false;
+    }
+    public void youCanWork(){
+        this.iCanWork=true;
+    }
 
-    public void retrievePieceOPCua(int pieceType) {
+    public boolean canWork(){
+        return iCanWork;
+    }
+
+    public void retrievePieceOPCua(Peca peca) {
+        if(peca==null || !iCanWork)
+            return;
+        int type=Integer.parseInt(peca.getTipo().substring(1));
         if (tapeteUnload.getPecaNoTapete().equals("NAOTEMPECA")) {
-            if (pieceType >= 1 && pieceType <= 9) {
-                tapeteUnload.setPecaEsperadaNoTapete(new Peca("P"+pieceType));
-                if (!Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca", "AT1"))) {
-                    OPCUAConnection.setValue("GVL", "Peca_Remover", pieceType);
-
-
+            if (type >= 1 && type <= 9) {
+                tapeteUnload.setPecaEsperadaNoTapete(peca);
+                //!Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca", "AT1") Original
+                if (tapeteUnload.getPecaNoTapete().equals("NAOTEMPECA")) {
+                    OPCUAConnection.setValue("GVL", "Peca_Remover", type);
+                    youCantWork();
                 }
             }
         }

@@ -1,6 +1,7 @@
 package mario.plc;
 
 import mario.OPCUa.OPCUAConnection;
+import mario.OPCUa.OrderManager;
 
 public class SeguidorDePecas {
     private UnloadCell unloadCell;
@@ -9,7 +10,8 @@ public class SeguidorDePecas {
     CelulaFactory c2;
     CelulaFactory c3;
     CelulaFactory c4;
-    private final int time=100;
+
+
     public void updateAllEachCycle(){
         storage.checkEachCycle();
         c1.checkEachCycle();
@@ -19,7 +21,12 @@ public class SeguidorDePecas {
         unloadCell.checkEachCycle();
     }
 
+
+
     public SeguidorDePecas(int delay) {
+
+
+
          storage=new Storage();
          c1=new CelulaFactory(1);
          c2=new CelulaFactory(2);

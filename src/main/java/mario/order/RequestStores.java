@@ -22,7 +22,6 @@ public class RequestStores {
      * @return String com mario.xml, enviar depois para a porta.
      */
     public String returnCurrentStores(Integer[][] stores) {
-        Stopwatch stopwatch=Stopwatch.createStarted();
         List<String> list= Lists.newLinkedList();
         list.add("<?mario.xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         list.add("<Current_Stores>\n");
@@ -37,8 +36,7 @@ public class RequestStores {
        list.add("</Current_Stores>");
 
         String a= Joiner.on("").join(list);
-        stopwatch.stop();
-        System.out.println("Time elapsed on "+Thread.currentThread().getStackTrace()[1].getMethodName()+":"+ stopwatch);
+
 
         return a;
 

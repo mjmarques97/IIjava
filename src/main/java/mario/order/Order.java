@@ -6,13 +6,19 @@ import java.util.Objects;
  * Classe Abstrata mario.order
  */
 
-abstract class Order {
-    final String number;
-    final String quantity;
+public abstract class Order {
+    protected final String number;
+   protected String quantity;
+
 
     Order(String number, String quantity) {
         this.number = number;
         this.quantity=quantity;
+    }
+
+    public void decreaseQuantity(){
+        int a=Integer.valueOf(quantity);
+        this.quantity=Integer.toString(a);
     }
 
     @Override

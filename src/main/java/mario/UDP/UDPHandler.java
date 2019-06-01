@@ -1,6 +1,8 @@
 package mario.UDP;
 
+import mario.OPCUa.OrderManager;
 import mario.order.OrderParser;
+import mario.plc.Storage;
 import mario.xml.XMLParser;
 
 import java.net.DatagramPacket;
@@ -10,14 +12,18 @@ import java.net.SocketException;
 /***
  * Recebe ficheiros por mario.UDP na porta especificada, extende thread porque pretende-se correr esta parte numa thread à parte.
  */
-public class UDPReceive extends Thread {
-    OrderParser orderParser;
+public class UDPHandler extends Thread {
+    private OrderParser orderParser;
     private static int port;
     private static DatagramSocket dsocket;
    private static byte[] buffer;
    private static DatagramPacket packet;
    private String message;
    private OrderParser orders;
+   private Storage storage;
+   OrderManager orderManager;
+   private boolean requestStores=false;
+   Thread thread;
 
     public String getMessage() {
         return message;
@@ -31,7 +37,11 @@ public class UDPReceive extends Thread {
      *
      * @param port Porta mario.UDP de onde se recebe o ficheiro.
      */
-    public UDPReceive(int port) {
+    public UDPHandler(int port, Storage storage,OrderManager orderManager) {
+        this.storage=storage;
+        this.port=port;
+        this.orderParser=orderManager.getOrderParser();
+        this.orderManager=orderManager;
         this.message="";
         try {
             dsocket = new DatagramSocket(port);
@@ -62,12 +72,17 @@ public class UDPReceive extends Thread {
     }
 
 
+public OrderParser getOrderParser(){
+        return orderParser;
+}
+
     @Override
 
     /***
      * Corre
      */
     public void run() {
+        boolean proccessOrder=true;
         while (true) {
             try {
 
@@ -77,14 +92,49 @@ public class UDPReceive extends Thread {
                // System.out.println(packet.getAddress().getHostName() + ": "
                       // + msg)
                 if(receiveString()) {
-                    this.orderParser = new OrderParser(new XMLParser(this.message.getBytes()));
+                   //synchronized (this.orderParser) {
+                    //   System.out.println(message);
+
+                        this.orderParser = new OrderParser(new XMLParser(this.message.getBytes()));
+                        if(this.orderParser.getTransformationOrders().isEmpty() && this.orderParser.getUnloadOrders().isEmpty() && requestStores) {
+                            proccessOrder = false;
+                        }
+                        else {
+                            requestStores=false;
+                            proccessOrder=true;
+                        }
+
+                        if(proccessOrder) {
+                            sendStores();
+                            orderManager.addOrdersFromUdp(orderParser);
+                        }
+                        Thread.sleep(50);
+                //}
                 }
-               orderParser.printAll();
+               //orderParser.printAll();
                 // Reset the length of the packet before reusing it.
             } catch (Exception e) {
                 System.err.println(e);
             }
         }
+    }
+    public void start(){
+        System.out.println("Starting UDP Handler");
+        thread =new Thread(this);
+        thread.start();
+    }
+
+    public void sendStores(){
+        synchronized (this.orderParser) {
+            if (orderParser.getTransformationOrders().isEmpty() && orderParser.getUnloadOrders().isEmpty()) {
+                String stores = storage.requestStores();
+
+                UDPSend.sendUDP(stores, port);
+                requestStores=true;
+                System.out.println(stores);
+            }
+        }
+
     }
 
 

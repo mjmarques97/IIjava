@@ -55,12 +55,16 @@ public class Tapete {
                 System.out.println("NULLLLLLLLL");
             pecaNoTapete=pecaEsperadaNoTapete;
             pecaAEnviar=pecaNoTapete;
-            System.out.println("Peça "+pecaNoTapete.getTipo()+" no tapete "+this.plcVariableName+" acabaou de chegar!");
+            pecaNoTapete.setTapete(this);
+           // System.out.println("Peça "+pecaNoTapete.getTipo()+" no tapete "+this.plcVariableName+" acabou de chegar!");
           //  pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
 
+            if(this.plcVariableName.equals("C1T1")){
+                this.getTapeteLadoEsquerdoOuEmCima().getArmazemAssociado().youCanWork();
+            }
 
             if(this.plcVariableName.equals("C5T2")) {
-                Peca p=new Peca("P1");
+                Peca p=new Peca("P1",this);
                 pecaEsperadaNoTapete=p;
                 pecaNoTapete = p;
                 hasPiece=true;
@@ -68,7 +72,7 @@ public class Tapete {
 
             }
              if(this.plcVariableName.equals("C5T8")){
-                 Peca p=new Peca("P2");
+                 Peca p=new Peca("P2",this);
                  pecaEsperadaNoTapete=p;
                  pecaNoTapete=p;
                  hasPiece=true;
@@ -89,7 +93,8 @@ public class Tapete {
                 armazem.setQuantity(pecaAEnviar.getTipo(),armazem.getQuantity(pecaAEnviar.getTipo())-1);
                 System.out.println("Peca "+pecaAEnviar.getTipo()+ " no armazem diminuida para "+armazem.getQuantity(pecaAEnviar.getTipo()));
             }
-            this.pecaNoTapete=this.pecaEsperadaNoTapete;
+            // SE DER MERDA REMOVER O COMENTARIO this.pecaNoTapete=this.pecaEsperadaNoTapete;
+
             this.pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
         }
         if(fallingEdgePeca())
@@ -139,18 +144,6 @@ public class Tapete {
         else if(this.plcVariableName.equals("C5T6")){
             this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
         }
-
-
-
-
-
-
-
-
-
-
-
-
         else if(this.plcVariableName.contains("T3")) {
            // System.out.println(pecaAEnviar.getTipo());
             //System.out.println("Peça do tipo " + pecaAEnviar.getTipo() + " saiu do tapete " + this.plcVariableName);

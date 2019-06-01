@@ -29,7 +29,7 @@ public class SeguidorDePecasTeste {
 
 
 
-        seguidorDePecas.getStorage().retrievePieceOPCua(2);
+       // seguidorDePecas.getStorage().retrievePieceOPCua(2);
 
 
 

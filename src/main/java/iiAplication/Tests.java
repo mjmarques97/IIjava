@@ -1,14 +1,7 @@
 package iiAplication;
 
-import mario.UDP.UDPReceive;
-import mario.UDP.UDPSend;
-import mario.database.Database;
 import mario.order.OrderParser;
-import mario.plc.Storage;
 import mario.xml.XMLParser;
-
-import java.net.SocketException;
-import java.sql.SQLException;
 
 /***
  *
@@ -21,20 +14,20 @@ public class Tests extends Thread {
 
     public Tests() {
         xmlTest();
-        try {
+       /* try {
             UDPTest();
         } catch (SocketException e) {
             e.printStackTrace();
         }
 
-        try {
+     /*   try {
             databaseTest();
         } catch (SQLException e) {
             e.printStackTrace();
 
-        }
+        }*/
 
-        requestStoresTest();
+//        requestStoresTest();
 
 
 
@@ -46,29 +39,36 @@ public class Tests extends Thread {
 
         OrderParser order1 = new OrderParser("XMLFiles//command1.xml");
         order1.printAll();
-        XMLParser test1 = new XMLParser("XMLFiles//command2.xml");
-        OrderParser order2 = new OrderParser(test1);
+
+
+
+        OrderParser order2 = new OrderParser("XMLFiles//command2.xml");
         order2.printAll();
-        XMLParser test2 = new XMLParser("XMLFiles//command3.xml");
-        OrderParser order3 = new OrderParser(test2);
+
+
+        OrderParser order3 = new OrderParser("XMLFiles//command3.xml");
         order3.printAll();
 
         XMLParser test3 = new XMLParser("XMLFiles//command4.xml");
-        OrderParser order4 = new OrderParser(test3);
+
+
+        OrderParser order4 = new OrderParser("XMLFiles//command4.xml");
         order4.printAll();
 
+
+        System.out.println(LINES);
         XMLParser test4 = new XMLParser("XMLFiles//command5.xml");
-        OrderParser order5 = new OrderParser(test4);
+        OrderParser order5 = new OrderParser("XMLFiles//command5.xml");
         order5.printAll();
         System.out.println(LINES);
 
         System.out.println(Thread.currentThread().getStackTrace()[1].getMethodName()+SUCCESS);
     }
-
+/*
     public void UDPTest() throws SocketException {
 
         System.out.println("Starting mario.UDP test");
-        UDPReceive a=new UDPReceive(54321);
+        UDPHandler a=new UDPHandler(54321);
         a.start();
     }
 
@@ -96,7 +96,7 @@ public class Tests extends Thread {
     }
 
 
-
+*/
 
 }
 

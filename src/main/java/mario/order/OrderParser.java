@@ -81,7 +81,7 @@ public class OrderParser {
     private void parseOrder(String order, String type){
 
         String toBeProccessed= Joiner.on("").join(order,type);
-        Stopwatch stopwatch=Stopwatch.createStarted();
+
         if(toBeProccessed.contains("TransformFrom=")){
             parseTransformation(toBeProccessed.split(";"));
         }
@@ -92,8 +92,7 @@ public class OrderParser {
             System.out.println("Request Stores");
         }
 
-        stopwatch.stop();
-        System.out.println("Time elapsed on "+Thread.currentThread().getStackTrace()[1].getMethodName()+":"+ stopwatch);
+
     }
 
     /***
@@ -115,8 +114,26 @@ public class OrderParser {
            this.parseOrder(a1,a2);
        }
 
-    } public OrderParser(String fileName){
-        new OrderParser(new XMLParser(fileName));
+    }
+    public OrderParser(){
+
+    }
+
+    public OrderParser(String fileName){
+        XMLParser xml=new XMLParser(fileName);
+        if (xml.getUnparsedOrder().isEmpty()){
+            return;
+        }
+
+        List<String> list=xml.getUnparsedOrder();
+        while(!list.isEmpty()){
+
+            String a1=list.get(0);
+            String a2=list.get(1);
+            list.remove(0);
+            list.remove(0);
+            this.parseOrder(a1,a2);
+        }
     }
 
     /***
