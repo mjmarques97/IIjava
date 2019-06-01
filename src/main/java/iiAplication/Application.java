@@ -27,7 +27,7 @@ public class Application {
         MES mes=new MES(50);
         UDPHandler udpHandler=new UDPHandler(54321,mes.getSeguidorDePecas().getStorage(),mes.getOrderManager());
 
-        mes.getSeguidorDePecas().getC3().getMaquina4().goDownDirection();
+        mes.getSeguidorDePecas().getC3().getMaquina4().stopDownDirection();
         mes.getSeguidorDePecas().getC3().getMaquina5().goDownDirection();
         mes.getSeguidorDePecas().getC3().getMaquina6().goDownDirection();
 
@@ -35,26 +35,26 @@ public class Application {
         mes.getSeguidorDePecas().getC2().getMaquina5().goDownDirection();
         mes.getSeguidorDePecas().getC2().getMaquina6().goDownDirection();
 
-        mes.getSeguidorDePecas().getC1().getMaquina4().goDownDirection();
+        mes.getSeguidorDePecas().getC1().getMaquina4().stopDownDirection();
         mes.getSeguidorDePecas().getC1().getMaquina5().goDownDirection();
         mes.getSeguidorDePecas().getC1().getMaquina6().goDownDirection();
 
         mes.getSeguidorDePecas().getC4().getMaquina4().goDownDirection();
-        mes.getSeguidorDePecas().getC4().getMaquina5().goDownDirection();
+        mes.getSeguidorDePecas().getC4().getMaquina5().stopDownDirection();
         mes.getSeguidorDePecas().getC4().getMaquina6().goDownDirection();
 
 
-       // udpHandler.start();
+        udpHandler.start();
 
-        Tapete tapete=mes.getSeguidorDePecas().getStorage().getTapeteUnload();
+       /* Tapete tapete=mes.getSeguidorDePecas().getStorage().getTapeteUnload();
         Peca peca=new Peca(1,tapete);
         peca.setCelulaParaOndeVai(1);
 
-        mes.getSeguidorDePecas().getStorage().retrievePieceOPCua(peca);
+        mes.getSeguidorDePecas().getStorage().retrievePieceOPCua(peca);*/
 
         while (true){
             mes.getSeguidorDePecas().updateAllEachCycle();
-       //     mes.libertaPecas();
+            mes.libertaPecas();
         }
         // XML test
 

@@ -41,8 +41,13 @@ public class MES {
        if(orderManager.getUnloadOrdersToProcess().size()>0){
           UnloadOrder order= orderManager.getUnloadOrdersToProcess().get(0);
           orderManager.getUnloadOrdersToProcess().remove(0);
-          unloadOrdersBeingProcessed.add(order);
-           seguidorDePecas.getStorage().retrievePieceOPCua(new Peca(order.getType(),tapete,order));
+
+          Peca peca=new Peca(order.getType(),tapete,order);
+          peca.setCelulaParaOndeVai(5);
+          peca.setWhereToUnload(order.getDestination());
+          peca.setUnloadCell(this.getSeguidorDePecas().getUnloadCell());
+
+           seguidorDePecas.getStorage().retrievePieceOPCua(peca);
            return;
        }
 
@@ -50,10 +55,15 @@ public class MES {
            TransformationOrder order=orderManager.getTransformationOrdersToProcess().get(0);
            orderManager.getTransformationOrdersToProcess().remove(0);
            transformationOrdersBeingProcessed.add(order);
-           seguidorDePecas.getStorage().retrievePieceOPCua(new Peca(order.getFrom(),tapete,order));
+           Peca peca=new Peca(order.getFrom(),getSeguidorDePecas().getStorage().getTapeteUnload(),order);
+           peca.setCelulaParaOndeVai(celulaSelector(peca,order));
            return;
        }
 
+    }
+    public int celulaSelector(Peca peca,TransformationOrder transformationOrder){
+
+        return 1;
     }
 
 }

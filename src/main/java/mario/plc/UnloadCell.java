@@ -54,6 +54,8 @@ public class UnloadCell extends Celula {
 
     }
 
+
+
     void setUpCell(){
          tapeteRotatorDeCima.addtapetesAssociado(getCelula4().getTapeteRotatorDeCima());
          tapeteRotatorDeCima.addtapetesAssociado(tapeteADireitaDoDeCima);
@@ -115,6 +117,16 @@ public class UnloadCell extends Celula {
         OPCUAConnection.setValue("PLC_PRG.C5","T"+cell+"_expect_unload",value);
 
     }
+    public void loadEEE(String string){
+        String a=string.substring(2);
+        OPCUAConnection.setValue("PLC_PRG.C5",a+"_expect_unload",true);
+    }
+
+    public void unloadEEE(String string){
+        String a=string.substring(2);
+        OPCUAConnection.setValue("PLC_PRG.C5",a+"_expect_unload",false);
+    }
+
 
     private String getValue(int cell){
        return OPCUAConnection.getValue("PLC_PRG.C5","T"+cell+"_expect_unload");

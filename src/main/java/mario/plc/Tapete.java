@@ -49,6 +49,9 @@ public class Tapete {
         //System.out.println(pecaEsperadaNoTapete.getTipo());
         if (previousHasPiece == false && hasPiece() == true) {
 
+            if(this.plcVariableName.equals("AT2"))
+                this.getArmazemAssociado().youCantWork();
+
             previousHasPiece = true;
             if(pecaEsperadaNoTapete==null)
                 System.out.println("NULLLLLLLLL");
@@ -56,8 +59,8 @@ public class Tapete {
             pecaAEnviar=pecaNoTapete;
             pecaNoTapete.setTapete(this);
             pecaNoTapete.setTapeteParaOndeVai(null);
-            pecaNoTapete.printPecaNoTapete();
-          //  pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
+           // pecaNoTapete.printPecaNoTapete();
+            pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
 
             if(this.plcVariableName.equals("C1T1")){
                 this.getTapeteLadoEsquerdoOuEmCima().getArmazemAssociado().youCanWork();
@@ -100,12 +103,20 @@ public class Tapete {
         if(fallingEdgePeca()) {
             notifyTapetesAssociados(pecaAEnviar);
             pecaAEnviar.checkJaChegou();
+            pecaAEnviar.processaInstrucao();
         }
     }
 
 
     public String getPecaNoTapete() {
         return pecaNoTapete.getTipo();
+    }
+
+    public boolean disponivel(){
+        if(this.getPecaNoTapete().equals("NAOTEMPECA") && this.pecaEsperadaNoTapete.equals("NAOESPERAPECA")){
+            return true;
+        }
+        return false;
     }
 
     public void notifyTapetesAssociados(Peca pecaAEnviar) {
@@ -169,6 +180,8 @@ public class Tapete {
                 this.risingEdge = false;
                 this.fallingEdge=true;
             }
+            if(this.plcVariableName.equals("AT2"))
+                this.getArmazemAssociado().youCanWork();
             previousHasPiece = false;
             pecaAEnviar=pecaNoTapete;
             //System.out.println("Peça "+pecaAEnviar.getTipo()+" no tapete "+this.plcVariableName+" acabou de sair!");

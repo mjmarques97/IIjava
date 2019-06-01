@@ -74,7 +74,7 @@ public class Storage extends Celula {
     public String requestStores(){
         return requestStore.returnCurrentStores(pieceList);
     }
-    private void youCantWork(){
+    public void youCantWork(){
         this.iCanWork=false;
     }
     public void youCanWork(){

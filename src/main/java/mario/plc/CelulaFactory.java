@@ -30,6 +30,13 @@ public class CelulaFactory extends Celula {
         tapeteAEsquedaDoRotadorDeBaixo = new Tapete("Sensores_Peca", "C" + this.number + "T8",this);
     }
 
+    public boolean full(){
+       if(maquina4.disponivel() && maquina5.disponivel() && maquina6.disponivel() && tapeteAcimaDaMaquina4.disponivel())
+           return false;
+       return true;
+    }
+
+
     public void checkEachCycle(){
         tapeteAEsquerdaDoRotadorDeCima.checkFallingAndRisingOrRisingEdge();
         tapeteRotatorDeCima.checkFallingAndRisingOrRisingEdge();
