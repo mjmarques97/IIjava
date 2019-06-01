@@ -4,8 +4,10 @@ import mario.OPCUa.OPCUAConnection;
 import mario.OPCUa.OrderManager;
 import mario.UDP.UDPHandler;
 import mario.order.OrderParser;
+import mario.order.Peca;
 import mario.plc.SeguidorDePecas;
 import mario.plc.Storage;
+import mario.plc.Tapete;
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 
 /***
@@ -24,16 +26,35 @@ public class Application {
 
         MES mes=new MES(50);
         UDPHandler udpHandler=new UDPHandler(54321,mes.getSeguidorDePecas().getStorage(),mes.getOrderManager());
+
+        mes.getSeguidorDePecas().getC3().getMaquina4().goDownDirection();
+        mes.getSeguidorDePecas().getC3().getMaquina5().goDownDirection();
+        mes.getSeguidorDePecas().getC3().getMaquina6().goDownDirection();
+
+        mes.getSeguidorDePecas().getC2().getMaquina4().goDownDirection();
+        mes.getSeguidorDePecas().getC2().getMaquina5().goDownDirection();
+        mes.getSeguidorDePecas().getC2().getMaquina6().goDownDirection();
+
         mes.getSeguidorDePecas().getC1().getMaquina4().goDownDirection();
         mes.getSeguidorDePecas().getC1().getMaquina5().goDownDirection();
         mes.getSeguidorDePecas().getC1().getMaquina6().goDownDirection();
 
-        udpHandler.start();
+        mes.getSeguidorDePecas().getC4().getMaquina4().goDownDirection();
+        mes.getSeguidorDePecas().getC4().getMaquina5().goDownDirection();
+        mes.getSeguidorDePecas().getC4().getMaquina6().goDownDirection();
 
+
+       // udpHandler.start();
+
+        Tapete tapete=mes.getSeguidorDePecas().getStorage().getTapeteUnload();
+        Peca peca=new Peca(1,tapete);
+        peca.setCelulaParaOndeVai(1);
+
+        mes.getSeguidorDePecas().getStorage().retrievePieceOPCua(peca);
 
         while (true){
             mes.getSeguidorDePecas().updateAllEachCycle();
-            mes.libertaPecas();
+       //     mes.libertaPecas();
         }
         // XML test
 

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CelulaFactory extends Celula {
-    private int name;
+    private int number;
     private TapeteRotator tapeteRotatorDeCima;
     private TapeteMaquina maquina4;
     private TapeteMaquina maquina5;
@@ -17,17 +17,17 @@ public class CelulaFactory extends Celula {
     private Tapete tapeteAEsquedaDoRotadorDeBaixo;
 
 
-
-    public CelulaFactory(int name) {
-        this.name = name;
-        tapeteRotatorDeCima = new TapeteRotator(this.name,this);
-        maquina4 = new TapeteMaquina(this.name, 4,this);
-        maquina5 = new TapeteMaquina(this.name, 5,this);
-        maquina6 = new TapeteMaquina(this.name, 6,this);
-        tapeteAEsquerdaDoRotadorDeCima = new Tapete("Sensores_Peca", "C" + this.name + "T1",this);
-        tapeteAcimaDaMaquina4 = new Tapete("Sensores_Peca", "C" + this.name + "T3",this);
-        tapeteRotativoDeBaixo = new Tapete("Sensores_Peca", "C" + this.name + "T7",this);
-        tapeteAEsquedaDoRotadorDeBaixo = new Tapete("Sensores_Peca", "C" + this.name + "T8",this);
+    public CelulaFactory(int number) {
+        this.number = number;
+        this.name="C"+number;
+        tapeteRotatorDeCima = new TapeteRotator(this.number,this);
+        maquina4 = new TapeteMaquina(this.number, 4,this);
+        maquina5 = new TapeteMaquina(this.number, 5,this);
+        maquina6 = new TapeteMaquina(this.number, 6,this);
+        tapeteAEsquerdaDoRotadorDeCima = new Tapete("Sensores_Peca", "C" + this.number + "T1",this);
+        tapeteAcimaDaMaquina4 = new Tapete("Sensores_Peca", "C" + this.number + "T3",this);
+        tapeteRotativoDeBaixo = new Tapete("Sensores_Peca", "C" + this.number + "T7",this);
+        tapeteAEsquedaDoRotadorDeBaixo = new Tapete("Sensores_Peca", "C" + this.number + "T8",this);
     }
 
     public void checkEachCycle(){
@@ -57,38 +57,38 @@ public class CelulaFactory extends Celula {
          maquina6.addtapetesAssociado(tapeteRotativoDeBaixo);
 
          tapeteRotativoDeBaixo.addtapetesAssociado(tapeteAEsquedaDoRotadorDeBaixo);
-         if(name==4) {
+         if(number ==4) {
              tapeteRotativoDeBaixo.addtapetesAssociado(getUnload().getTapeteAbaixoDoTerceiroPusher());
          }
          else{
-             tapeteRotativoDeBaixo.addtapetesAssociado(getCell(name + 1).getTapeteAEsquedaDoRotadorDeBaixo());
+             tapeteRotativoDeBaixo.addtapetesAssociado(getCell(number + 1).getTapeteAEsquedaDoRotadorDeBaixo());
          }
          tapeteRotativoDeBaixo.addtapetesAssociado(maquina6);
 
 
          tapeteRotatorDeCima.addtapetesAssociado(tapeteAEsquerdaDoRotadorDeCima);
-         if(name==4){
+         if(number ==4){
              tapeteRotatorDeCima.addtapetesAssociado(getUnload().getTapeteRotatorDeCima());
          }
          else {
-             tapeteRotatorDeCima.addtapetesAssociado(getCell(name + 1).getTapeteAEsquerdaDoRotadorDeCima());
+             tapeteRotatorDeCima.addtapetesAssociado(getCell(number + 1).getTapeteAEsquerdaDoRotadorDeCima());
          }
          tapeteRotatorDeCima.addtapetesAssociado(tapeteAcimaDaMaquina4);
 
-         if(name==1){
+         if(number ==1){
              tapeteAEsquerdaDoRotadorDeCima.addtapetesAssociado(getStorage().getTapeteUnload());
          }
          else{
-             tapeteAEsquerdaDoRotadorDeCima.addtapetesAssociado(getCell(name-1).tapeteRotatorDeCima);
+             tapeteAEsquerdaDoRotadorDeCima.addtapetesAssociado(getCell(number -1).tapeteRotatorDeCima);
          }
 
          tapeteAEsquerdaDoRotadorDeCima.addtapetesAssociado(tapeteRotatorDeCima);
 
-         if(name==1){
+         if(number ==1){
              tapeteAEsquedaDoRotadorDeBaixo.addtapetesAssociado(getStorage().getTapeteLoad());
          }
          else{
-             tapeteAEsquedaDoRotadorDeBaixo.addtapetesAssociado(getCell(name-1).getTapeteRotativoDeBaixo());
+             tapeteAEsquedaDoRotadorDeBaixo.addtapetesAssociado(getCell(number -1).getTapeteRotativoDeBaixo());
          }
          tapeteAEsquedaDoRotadorDeBaixo.addtapetesAssociado(tapeteRotativoDeBaixo);
 
@@ -103,8 +103,8 @@ public class CelulaFactory extends Celula {
 
     }
 
-    public int getName() {
-        return name;
+    public int getNumber() {
+        return number;
     }
 
     public TapeteRotator getTapeteRotatorDeCima() {
@@ -140,7 +140,7 @@ public class CelulaFactory extends Celula {
     }
 
     private boolean hasPiece(int tapeteNumber){
-        return Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca","C"+this.name+"T"+tapeteNumber));
+        return Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca","C"+this.number +"T"+tapeteNumber));
     }
 
     public boolean hasPieceOnTapeteAEsquerdaDoTapeteRotadorDeCima(){

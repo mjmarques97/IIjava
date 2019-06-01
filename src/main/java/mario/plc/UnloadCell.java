@@ -20,7 +20,7 @@ public class UnloadCell extends Celula {
     private Peca p2=new Peca("P2");
 
     public UnloadCell() {
-
+        this.name="Unload";
         tapeteRotatorDeCima = new Tapete("Sensores_Peca", "C5T1",this);
         tapeteADireitaDoDeCima = new Tapete("Sensores_Peca", "C5T2",this);
         tapeteAcimaDoPrimeiroPusher = new Tapete("Sensores_Peca", "C5T3",this);

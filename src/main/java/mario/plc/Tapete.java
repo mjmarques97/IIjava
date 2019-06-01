@@ -48,15 +48,15 @@ public class Tapete {
 
         //System.out.println(pecaEsperadaNoTapete.getTipo());
         if (previousHasPiece == false && hasPiece() == true) {
-            if(this.plcVariableName.equals("AT1"))
-                System.out.println(pecaEsperadaNoTapete.getTipo());
+
             previousHasPiece = true;
             if(pecaEsperadaNoTapete==null)
                 System.out.println("NULLLLLLLLL");
             pecaNoTapete=pecaEsperadaNoTapete;
             pecaAEnviar=pecaNoTapete;
             pecaNoTapete.setTapete(this);
-           // System.out.println("Peça "+pecaNoTapete.getTipo()+" no tapete "+this.plcVariableName+" acabou de chegar!");
+            pecaNoTapete.setTapeteParaOndeVai(null);
+            pecaNoTapete.printPecaNoTapete();
           //  pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
 
             if(this.plcVariableName.equals("C1T1")){
@@ -91,14 +91,16 @@ public class Tapete {
                 this.risingEdge=true;
                 Storage armazem=getArmazemAssociado();
                 armazem.setQuantity(pecaAEnviar.getTipo(),armazem.getQuantity(pecaAEnviar.getTipo())-1);
-                System.out.println("Peca "+pecaAEnviar.getTipo()+ " no armazem diminuida para "+armazem.getQuantity(pecaAEnviar.getTipo()));
+               // System.out.println("Peca "+pecaAEnviar.getTipo()+ " no armazem diminuida para "+armazem.getQuantity(pecaAEnviar.getTipo()));
             }
             // SE DER MERDA REMOVER O COMENTARIO this.pecaNoTapete=this.pecaEsperadaNoTapete;
 
             this.pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
         }
-        if(fallingEdgePeca())
+        if(fallingEdgePeca()) {
             notifyTapetesAssociados(pecaAEnviar);
+            pecaAEnviar.checkJaChegou();
+        }
     }
 
 
@@ -239,6 +241,7 @@ public class Tapete {
     protected void setPecaEsperadaNoTapete(Peca peca){
         //System.out.println("Tapete "+this.plcVariableName +" espera uma peca " +peca.getTipo()+"!");
         this.pecaEsperadaNoTapete =peca;
+        peca.setTapeteParaOndeVai(this);
     }
 }
 

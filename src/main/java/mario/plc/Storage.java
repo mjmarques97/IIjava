@@ -33,6 +33,8 @@ public class Storage extends Celula {
     public Storage() {
         this.tapeteUnload = new Tapete("Sensores_Peca", "AT1");
         tapeteLoad = new Tapete("Sensores_Peca", "AT2");
+        this.name="Storage";
+
     }
     public void setUp(){
         tapeteUnload.addtapetesAssociado(this.getCelula1().getTapeteAEsquerdaDoRotadorDeCima());

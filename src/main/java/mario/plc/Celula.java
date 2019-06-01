@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Celula {
+    protected String name;
+
+    public String getName() {
+        return name;
+    }
+
+
     protected List<Celula> celulaList=new ArrayList<>();
 
     public List<Celula> getCelulaList() {
