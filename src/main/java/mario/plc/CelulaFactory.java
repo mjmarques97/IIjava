@@ -20,6 +20,7 @@ public class CelulaFactory extends Celula {
 
     public void setReady(boolean readySense){
         this.ready =readySense;
+       // System.out.println("PLC_PRG.C"+this.number);
         OPCUAConnection.setValue("PLC_PRG.C"+this.number,"T3_ready_send",readySense);
     }
 
@@ -69,7 +70,7 @@ public class CelulaFactory extends Celula {
     }
 
     public boolean full(){
-        if(!getTapeteAcimaDaMaquina4().getPecaNoTapeteTipo().equals("NAOTEMPECA"))
+        if(!getTapeteAcimaDaMaquina4().getPecaNoTapeteTipo().equals("NAOTEMPECA") || !tapeteAcimaDaMaquina4.pecaEsperadaNoTapete.getTipo().equals("NAOESPERAPECA") )
             return true;
             return false;
 

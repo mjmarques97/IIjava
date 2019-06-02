@@ -2,6 +2,7 @@ package mario.order;
 
 import com.google.common.collect.Lists;
 import mario.OPCUa.OPCUAConnection;
+import mario.graph.ListaDeListaInstrucoes;
 import mario.plc.*;
 
 import java.util.ArrayList;
@@ -107,6 +108,13 @@ public class Peca {
         }
 
 
+
+
+
+
+
+
+
     public void printPecaNoTapete(){
         if(order!=null) {
             System.out.println("Peça do Tipo " + this.getTipo() + " com a ordem n: " + this.getOrder().getNumber() + " acabou de chegar ao tapete " + this.getTapete().getPlcVariableName());
@@ -181,11 +189,26 @@ public class Peca {
         return false;
     }
     private void doNextPhase(TapeteMaquina tapeteMaquina,CelulaFactory celulaFactory){
+        if(instrucoes.size()>1){
+           // System.out.println(instrucoes.size());
+        instrucoes.get(1).setPecaInicial(instrucoes.get(0).getPecaInicial());
+        instrucoes.get(1).descobrirTapetea();
+        }
+
+
+
         instrucoes.remove(0);
+
+
+
         if(instrucoes.isEmpty()){
-            if(celulaFactory.getMaquina5().equals(tapeteMaquina)){
+            return;
+        }
+     /*       if(celulaFactory.getMaquina5().equals(tapeteMaquina)){
                // System.out.println("MoveDown");
                 celulaFactory.getMaquina5().goDownDirection();
+                celulaFactory.getMaquina4().goDownDirection();
+                celulaFactory.getMaquina6().goDownDirection();
                 return;
             }
 
@@ -204,52 +227,84 @@ public class Peca {
                 celulaFactory.getMaquina4().goDownDirection();
                 return;
             }
-        }
+        }*/
+            TapeteMaquina tapeteToGo = instrucoes.get(0).descobrirTapete();
+           // System.out.println(instrucoes.get(0).toString());
+            //tapeteMaquina.stopEverythingYouAreDoing();
 
-        TapeteMaquina tapeteToGo= instrucoes.get(0).descobrirTapete();
+        //System.out.println(tapeteToGo.getPlcVariableName());
+        //tapeteToGo.imWaitingForPiece();
+
 
 
 
         if(tapeteMaquina.equals(celulaFactory.getMaquina4())){
-            tapeteMaquina.goDownDirection();
-            if(celulaFactory.getMaquina5().equals(tapeteToGo)){
-                celulaFactory.getMaquina5().goDownDirection();
-                celulaFactory.getMaquina6().stopDownDirection();
+            if(tapeteMaquina.equals(tapeteToGo)) {
+                tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
                 return;
             }
-            if(celulaFactory.getMaquina6().equals(tapeteToGo)){
-                celulaFactory.getMaquina5().goDownDirection();
-                return;
+            else {
+                if (celulaFactory.getMaquina5().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                    //celulaFactory.getMaquina5().stopDownDirection();
+                    celulaFactory.getMaquina6().stopDownDirection();
+                    return;
+                }
+                if (celulaFactory.getMaquina6().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina5().goDownDirection();
+                    celulaFactory.getMaquina6().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+
+                    return;
+                }
             }
         }
 
 
-        if(tapeteMaquina.equals(celulaFactory.getMaquina5())){
-            if(celulaFactory.getMaquina4().equals(tapeteToGo)){
-                celulaFactory.getMaquina6().stopDownDirection();
-                celulaFactory.getMaquina5().stopDownDirection();
+        if(tapeteMaquina.equals(celulaFactory.getMaquina5())) {
+            if (tapeteMaquina.equals(tapeteToGo)){
+                tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                return;
             }
 
-            if(celulaFactory.getMaquina6().equals(tapeteToGo)){
-                celulaFactory.getMaquina4().goDownDirection();
-                celulaFactory.getMaquina5().goDownDirection();
+            else {
+                if (celulaFactory.getMaquina4().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina6().stopDownDirection();
+                    celulaFactory.getMaquina5().stopDownDirection();
+                }
+
+                if (celulaFactory.getMaquina6().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina4().goDownDirection();
+                    celulaFactory.getMaquina5().goDownDirection();
+                }
             }
         }
 
         if(tapeteMaquina.equals(celulaFactory.getMaquina6())){
-            if(celulaFactory.getMaquina4().equals(tapeteToGo)){
-                celulaFactory.getMaquina6().stopDownDirection();
-                celulaFactory.getMaquina5().stopDownDirection();
+            if(tapeteMaquina.equals(tapeteToGo)){
+                tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                return;
             }
 
-            if(celulaFactory.getMaquina5().equals(tapeteToGo)){
-                celulaFactory.getMaquina4().goDownDirection();
-                celulaFactory.getMaquina5().stopDownDirection();
+            else {
+                if (celulaFactory.getMaquina4().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina4().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                    celulaFactory.getMaquina6().stopDownDirection();
+                    celulaFactory.getMaquina5().stopDownDirection();
+                }
+
+                if (celulaFactory.getMaquina5().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                    celulaFactory.getMaquina4().goDownDirection();
+                    celulaFactory.getMaquina6().stopDownDirection();
+                }
             }
 
 
 
         }
+
+
+        //tapeteToGo.stopDoingWork();
 
 
     }
@@ -261,14 +316,9 @@ public class Peca {
 
     public void processaInstrucao(){
         if(!nomeDaCelulaParaOndeVai.equals("JACHEGOU")) {
+            //System.out.println(" Nao Cheguei");
             return;
         }
-
-
-
-
-
-
         if(order instanceof TransformationOrder){
             CelulaFactory celulaFactory=(CelulaFactory) celulaParaOndeVai;
             if(instrucoes.isEmpty()){
@@ -280,17 +330,27 @@ public class Peca {
             }
 
             InstrucaoTransformacoes instrucao=instrucoes.get(0);
+            if(instrucao==null)
+                System.out.println("NULLLLLLLLLL");
+
             TapeteMaquina tapeteMaquinaToGo=instrucao.descobrirTapete();
 
 
 
             if(tapeteParaOndeVai instanceof TapeteMaquina) {
+                System.out.println("Tapete a ir "+ tapeteMaquinaToGo.getPlcVariableName()+" Este Tapete:" );
                 TapeteMaquina tapeteMaquina = (TapeteMaquina) tapeteParaOndeVai;
                 if (tapeteMaquina != null) {
+                    System.out.println("Tapete a ir "+ tapeteMaquinaToGo.getPlcVariableName()+" Este Tapete a ir: " +tapeteMaquina.getPlcVariableName() );
                     if (tapeteMaquina.equals(tapeteMaquinaToGo)) {
-
+                        System.out.println("Chegou ao tapete");
                         tapeteMaquina.getToWork(instrucao.getFerramenta(), instrucao.getTempo());
+                        tapeteMaquina.stopDownDirection();
                         return;
+                    }
+                    else {
+                        tapeteMaquina.stopDoingWork();
+
                     }
                 }
             }
@@ -299,9 +359,11 @@ public class Peca {
             if(tapete instanceof TapeteMaquina){
                 TapeteMaquina tapeteMaquina=(TapeteMaquina) tapete;
                 if(tapeteMaquina!=null){
+                    System.out.println("Tapete a ir "+ tapeteMaquinaToGo.getPlcVariableName()+" Este Tapete: " +tapeteMaquina.getPlcVariableName() );
                     if(tapeteMaquina.equals(tapeteMaquinaToGo)){
                         if(tapeteMaquina.finishedWorking()){
                             this.changeType(instrucao.getPecaFinal());
+                            //System.out.println("Nova peca: "+instrucao.getPecaFinal());
                             //System.out.println(instrucao.toString());
                             doNextPhase(tapeteMaquina,celulaFactory);
                             return;

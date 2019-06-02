@@ -1,5 +1,6 @@
 package mario.OPCUa;
 
+import iiAplication.MES;
 import mario.UDP.UDPHandler;
 import mario.order.*;
 import mario.plc.CelulaFactory;
@@ -9,7 +10,9 @@ import mario.plc.Storage;
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderManager {
     public static OPCUAConnection myConnection;
@@ -21,14 +24,36 @@ public class OrderManager {
 
     private List<TransformationOrder> transformationOrdersConcluidas=new ArrayList<>();
     private List<UnloadOrder> unloadOrdersConcluidas=new ArrayList<>();
-
     private OrderParser orderParser=new OrderParser();
 
     public OrderParser getOrderParser() {
         return orderParser;
     }
 
+
     public  void addOrdersFromUdp(OrderParser orderParser) {
+        HashMap<UnloadOrder,Integer> unloadOrdersMap=new HashMap<>();
+        HashMap<TransformationOrder,Integer> transformationOrderMap=new HashMap<>();
+
+        if(orderParser.getUnloadOrders().size()>0) {
+            for (UnloadOrder unloadOrder : orderParser.getUnloadOrders()) {
+                unloadOrdersMap.put(unloadOrder, Integer.parseInt(unloadOrder.getQuantity()));
+            }
+
+            if(orderParser.getTransformationOrders().size()<0){
+                for (TransformationOrder transformationOrder : orderParser.getTransformationOrders()) {
+                    transformationOrderMap.put(transformationOrder, Integer.parseInt(transformationOrder.getQuantity()));
+                }
+            }
+            setUpOrders(unloadOrdersMap,transformationOrderMap);
+        }
+
+
+
+
+
+
+
 
         this.unloadOrdersToProcess.addAll(orderParser.getUnloadOrders());
         this.transformationOrdersToProcess.addAll(orderParser.getTransformationOrders());
@@ -38,6 +63,29 @@ public class OrderManager {
     //}
 
     }
+
+    public void setUpOrders(HashMap<UnloadOrder,Integer> unloadOrdersBeingProcessedMap,HashMap<TransformationOrder,Integer> transformationOrdersBeingProcessedMap){
+        if(unloadOrdersBeingProcessedMap.size()>0) {
+            for (Map.Entry<UnloadOrder, Integer> unloadOrderIntegerEntry : unloadOrdersBeingProcessedMap.entrySet()) {
+                int a = unloadOrderIntegerEntry.getValue();
+                for (int i = 0; i < a; i++) {
+                    this.unloadOrdersToProcess.add(unloadOrderIntegerEntry.getKey());
+                }
+            }
+        }
+        if(transformationOrdersBeingProcessedMap.size()>0) {
+            for (Map.Entry<TransformationOrder, Integer> transformationOrderIntegerEntry : transformationOrdersBeingProcessedMap.entrySet()) {
+                int a = transformationOrderIntegerEntry.getValue();
+                for (int i = 0; i < a; i++) {
+                    this.transformationOrdersToProcess.add(transformationOrderIntegerEntry.getKey());
+                }
+            }
+        }
+
+    }
+
+
+
 
     public List<TransformationOrder> getTransformationOrdersToProcess() {
         return transformationOrdersToProcess;

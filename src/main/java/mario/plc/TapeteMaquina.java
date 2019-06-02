@@ -61,7 +61,13 @@ public class TapeteMaquina extends Tapete {
 
     private void setPiece(boolean value){
         OPCUAConnection.setValue(this.plcCellName,esperaPeca,value);
+
     }
+    public void imWaitingForPiece(){
+        OPCUAConnection.setValue(this.plcCellName,esperaPeca,true);
+    }
+
+
     private void doWork(){
         this.setPiece(true);
         imWorking=true;
@@ -70,6 +76,12 @@ public class TapeteMaquina extends Tapete {
         this.setPiece(false);
 
     }
+    public void stopEverythingYouAreDoing(){
+        stopDoingWork();
+
+
+    }
+
     public boolean isWorking(){
         return imWorking;
     }
@@ -83,7 +95,8 @@ public class TapeteMaquina extends Tapete {
                 OPCUAConnection.setValue("Sensores_Peca", maquinaAcabou, false);
                 stopDoingWork();
                 imWorking = false;
-                stop=false;
+                stop=true;
+               //System.out.println("Im done");
 
             }
         }
@@ -109,9 +122,9 @@ public class TapeteMaquina extends Tapete {
         if(!finishedWorking())
             return;
         this.doWork();
-        this.selectTimeToOperateOnPiece(time);
         this.selectTool(toolNumber);
-        this.stopDownDirection();
+        this.selectTimeToOperateOnPiece(time);
+      // this.stopDownDirection();
     }
 
     @Override

@@ -96,6 +96,7 @@ public class Storage extends Celula {
                 if (tapeteUnload.getPecaNoTapeteTipo().equals("NAOTEMPECA")) {
                     OPCUAConnection.setValue("GVL", "Peca_Remover", type);
                     youCantWork();
+                    OPCUAConnection.setValue("PLC_PRG.C1","T8_ready_send",false);
                 }
             }
         }
@@ -151,4 +152,5 @@ public class Storage extends Celula {
         tapeteUnload.checkFallingAndRisingOrRisingEdge();
         tapeteLoad.checkFallingAndRisingOrRisingEdge();
     }
+
 }

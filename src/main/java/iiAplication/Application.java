@@ -24,8 +24,10 @@ public class Application {
         myConnection = new OPCUAConnection(clientName);
         myConnection.makeConnection();
 
-        MES mes=new MES(100);
+        MES mes=new MES(500);
         UDPHandler udpHandler=new UDPHandler(54321,mes.getSeguidorDePecas().getStorage(),mes.getOrderManager());
+
+       mes.getSeguidorDePecas().getC1().getTapeteRotatorDeCima().moveDown();
 
         mes.getSeguidorDePecas().getC3().getMaquina4().stopDownDirection();
         mes.getSeguidorDePecas().getC3().getMaquina5().goDownDirection();
@@ -40,7 +42,7 @@ public class Application {
         mes.getSeguidorDePecas().getC1().getMaquina6().goDownDirection();
 
         mes.getSeguidorDePecas().getC4().getMaquina4().goDownDirection();
-        mes.getSeguidorDePecas().getC4().getMaquina5().stopDownDirection();
+        mes.getSeguidorDePecas().getC4().getMaquina5().goDownDirection();
         mes.getSeguidorDePecas().getC4().getMaquina6().goDownDirection();
 
 
@@ -55,6 +57,11 @@ public class Application {
         while (true){
             mes.getSeguidorDePecas().updateAllEachCycle();
             mes.libertaPecas();
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         // XML test
 

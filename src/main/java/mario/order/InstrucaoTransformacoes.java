@@ -18,6 +18,7 @@ public class InstrucaoTransformacoes {
     private boolean a=false;
     private boolean b=false;
     private boolean c=false;
+    private TapeteMaquina tapeteAir;
 
 
     public boolean isAb() {
@@ -76,11 +77,27 @@ public class InstrucaoTransformacoes {
         this.ferramenta=ferramenta;
 
 
+
     }
+    public void setDescobrirTapete(){
+        this.tapeteAir=descobrirTapetea();
+    }
+
+    public TapeteMaquina descobrirTapete(){
+        return this.tapeteAir;
+    }
+
+
+
+
 
     @Override
     public String toString() {
         return "Peca inicial: "+pecaInicial.getTipo()+" peca final: "+pecaFinal+" Maquina: M"+maquina+" ferramenta: " +ferramenta+ " tempo: "+tempo;
+    }
+
+    public void changePiece(Peca peca){
+        this.pecaInicial=peca;
     }
 
     public Peca getPecaInicial() {
@@ -101,6 +118,7 @@ public class InstrucaoTransformacoes {
 
     public void setPecaInicial(Peca pecaInicial) {
         this.pecaInicial = pecaInicial;
+        this.tapeteAir=descobrirTapetea();
     }
 
     public void setPecaFinal(String pecaFinal) {
@@ -123,10 +141,17 @@ public class InstrucaoTransformacoes {
         this.tempo = tempo;
     }
 
-    public TapeteMaquina descobrirTapete(){
+    public TapeteMaquina descobrirTapetea(){
 
-        String variableName=pecaInicial.getNomeDaCelulaParaOndeVai();
+        //String variableName=pecaInicial.getNomeDaCelulaParaOndeVai();
+       // System.out.println(pecaInicial.getCelulaParaOndeVai());
+
         CelulaFactory celulaFactory=(CelulaFactory) pecaInicial.getCelulaParaOndeVai();
+
+
+
+       // System.out.println(celulaFactory.getName());
+
 
         if (celulaFactory.getMaquina4().getTipo().equals(maquina)){
             //System.out.println(celulaFactory.getMaquina6().getTipo());
@@ -137,9 +162,10 @@ public class InstrucaoTransformacoes {
             //System.out.println(celulaFactory.getMaquina5().getTipo());
         return celulaFactory.getMaquina5();}
 
-        if (celulaFactory.getMaquina4().getTipo().equals(maquina)){
+        if (celulaFactory.getMaquina6().getTipo().equals(maquina)){
             //System.out.println(celulaFactory.getMaquina4().getTipo());
         return celulaFactory.getMaquina6();}
+
 
         return null;
 

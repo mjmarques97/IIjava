@@ -5,6 +5,7 @@ import mario.order.Peca;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Tapete {
     protected String plcCellName;
@@ -67,12 +68,11 @@ public class Tapete {
 
         //System.out.println(pecaEsperadaNoTapete.getTipo());
         if (previousHasPiece == false && hasPiece() == true) {
-            if(this.plcVariableName.equals("AT2"))
+            if(this.plcVariableName.equals("AT2")) {
                 this.getArmazemAssociado().youCantWork();
+            }
 
             previousHasPiece = true;
-            if(pecaEsperadaNoTapete==null)
-                System.out.println("NULLLLLLLLL");
             pecaNoTapete=pecaEsperadaNoTapete;
             pecaAEnviar=pecaNoTapete;
             pecaNoTapete.setTapete(this);
@@ -81,9 +81,11 @@ public class Tapete {
 
             if(this.plcVariableName.equals("C1T1")){
                 this.getTapeteLadoEsquerdoOuEmCima().getArmazemAssociado().youCanWork();
+                OPCUAConnection.setValue("PLC_PRG.C1","T8_ready_send",true);
+
             }
 
-            if(this.plcVariableName.equals("C5T1") && this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().isHello()){
+            else if(this.plcVariableName.equals("C5T1") && this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().isHello()){
                 Peca p=new Peca("P1",null);
 
                 p.setTapete(this);
@@ -95,13 +97,13 @@ public class Tapete {
                 pecaNoTapete = p;
                 this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setHello(false);
                 hasPiece=true;
-                //m.out.println(this.plcVariableName+" "+ pecaNoTapete.getTipo());
+                //System.out.println(this.plcVariableName+" "+ pecaNoTapete.getTipo());
                 return true;
             }
 
 
 
-            if(this.plcVariableName.equals("C5T2")) {
+           else  if(this.plcVariableName.equals("C5T2")) {
                 Peca p=new Peca("P1",this);
                 UnloadCell celula=(UnloadCell) celulaFactory;
                 p.setNomeDaCelulaParaOndeVai(celula);
@@ -113,7 +115,7 @@ public class Tapete {
 
 
             }
-             if(this.plcVariableName.equals("C5T8")){
+            else if(this.plcVariableName.equals("C5T8")){
                  Peca p=new Peca("P2",this);
                  UnloadCell celula=(UnloadCell) celulaFactory;
                  p.setNomeDaCelulaParaOndeVai(celula);
@@ -137,8 +139,9 @@ public class Tapete {
                 Storage armazem=getArmazemAssociado();
                 armazem.setQuantity(pecaAEnviar.getTipo(),armazem.getQuantity(pecaAEnviar.getTipo())-1);
                // System.out.println("Peca "+pecaAEnviar.getTipo()+ " no armazem diminuida para "+armazem.getQuantity(pecaAEnviar.getTipo()));
+                OPCUAConnection.setValue("PLC_PRG.C1","T8_ready_send",true);
             }
-            // SE DER MERDA REMOVER O COMENTARIO this.pecaNoTapete=this.pecaEsperadaNoTapete;
+            this.pecaNoTapete=this.pecaEsperadaNoTapete;
 
             this.pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
         }
@@ -173,10 +176,13 @@ public class Tapete {
         if(this.plcVariableName.equals("AT2")){
             Storage armazem=getArmazemAssociado();
             armazem.setQuantity(pecaAEnviar.getTipo(),armazem.getQuantity(pecaAEnviar.getTipo())+1);
-            System.out.println("Peca "+pecaAEnviar.getTipo()+ " no armazem aumentada para "+armazem.getQuantity(pecaAEnviar.getTipo()));
+           // System.out.println("Peca "+pecaAEnviar.getTipo()+ " no armazem aumentada para "+armazem.getQuantity(pecaAEnviar.getTipo()));
             this.getTapeteDoLado(0).setPecaEsperadaNoTapete(pecaAEnviar);
             return;
         }
+
+
+
         else if(this.plcVariableName.contains("T7") ){
            // System.out.println(this.plcVariableName+ " "+ this.pecaAEnviar.getTipo());
             this.getTapeteLadoEsquerdoOuEmCima().setPecaEsperadaNoTapete(pecaAEnviar);
@@ -274,6 +280,9 @@ public class Tapete {
             //System.out.println("Peça "+pecaAEnviar.getTipo()+" no tapete "+this.plcVariableName+" acabou de sair!");
             pecaNoTapete=new Peca("NAOTEMPECA");
 
+
+
+
             return true;
 
 
@@ -345,6 +354,20 @@ public class Tapete {
         //System.out.println("Tapete "+this.plcVariableName +" espera uma peca " +peca.getTipo()+"!");
         this.pecaEsperadaNoTapete =peca;
         peca.setTapeteParaOndeVai(this);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tapete tapete = (Tapete) o;
+        return Objects.equals(plcVariableName, tapete.plcVariableName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(plcVariableName);
     }
 }
 
