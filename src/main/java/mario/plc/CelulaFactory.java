@@ -38,7 +38,7 @@ public class CelulaFactory extends Celula {
         tapeteAcimaDaMaquina4 = new Tapete("Sensores_Peca", "C" + this.number + "T3",this);
         tapeteRotativoDeBaixo = new Tapete("Sensores_Peca", "C" + this.number + "T7",this);
         tapeteAEsquedaDoRotadorDeBaixo = new Tapete("Sensores_Peca", "C" + this.number + "T8",this);
-
+        setReady(true);
 
 
         if(number==1) {
