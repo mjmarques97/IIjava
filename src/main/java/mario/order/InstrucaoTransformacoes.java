@@ -18,7 +18,8 @@ public class InstrucaoTransformacoes {
     private boolean a=false;
     private boolean b=false;
     private boolean c=false;
-    private TapeteMaquina tapeteAir;
+    private String tapeteAir;
+
 
 
     public boolean isAb() {
@@ -83,8 +84,12 @@ public class InstrucaoTransformacoes {
         this.tapeteAir=descobrirTapetea();
     }
 
-    public TapeteMaquina descobrirTapete(){
+    public String descobrirTapete(){
         return this.tapeteAir;
+    }
+
+    public void setTapeteAir(String string){
+        this.tapeteAir=string;
     }
 
 
@@ -141,7 +146,7 @@ public class InstrucaoTransformacoes {
         this.tempo = tempo;
     }
 
-    public TapeteMaquina descobrirTapetea(){
+    public String descobrirTapetea(){
 
         //String variableName=pecaInicial.getNomeDaCelulaParaOndeVai();
        // System.out.println(pecaInicial.getCelulaParaOndeVai());
@@ -155,16 +160,16 @@ public class InstrucaoTransformacoes {
 
         if (celulaFactory.getMaquina4().getTipo().equals(maquina)){
             //System.out.println(celulaFactory.getMaquina6().getTipo());
-                return celulaFactory.getMaquina4();
+                return celulaFactory.getMaquina4().getPlcVariableName();
             }
 
         if (celulaFactory.getMaquina5().getTipo().equals(maquina)){
             //System.out.println(celulaFactory.getMaquina5().getTipo());
-        return celulaFactory.getMaquina5();}
+        return celulaFactory.getMaquina5().getPlcVariableName();}
 
         if (celulaFactory.getMaquina6().getTipo().equals(maquina)){
             //System.out.println(celulaFactory.getMaquina4().getTipo());
-        return celulaFactory.getMaquina6();}
+        return celulaFactory.getMaquina6().getPlcVariableName();}
 
 
         return null;

@@ -91,6 +91,8 @@ public class MES {
 
 
 
+
+
             //      System.out.println(peca.getInstrucoes().get(0).descobrirTapete().getPlcVariableName());
 
             //System.out.println(peca.getInstrucoes().get(0).toString());

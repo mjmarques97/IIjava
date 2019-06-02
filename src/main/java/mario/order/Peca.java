@@ -228,7 +228,7 @@ public class Peca {
                 return;
             }
         }*/
-            TapeteMaquina tapeteToGo = instrucoes.get(0).descobrirTapete();
+            String tapeteToGo =instrucoes.get(0).descobrirTapete();
            // System.out.println(instrucoes.get(0).toString());
             //tapeteMaquina.stopEverythingYouAreDoing();
 
@@ -239,18 +239,18 @@ public class Peca {
 
 
         if(tapeteMaquina.equals(celulaFactory.getMaquina4())){
-            if(tapeteMaquina.equals(tapeteToGo)) {
+            if(tapeteMaquina.getPlcVariableName().equals(tapeteToGo)) {
                 tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
                 return;
             }
             else {
-                if (celulaFactory.getMaquina5().equals(tapeteToGo)) {
+                if (celulaFactory.getMaquina5().getPlcVariableName().equals(tapeteToGo)) {
                     celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
                     //celulaFactory.getMaquina5().stopDownDirection();
                     celulaFactory.getMaquina6().stopDownDirection();
                     return;
                 }
-                if (celulaFactory.getMaquina6().equals(tapeteToGo)) {
+                if (celulaFactory.getMaquina6().getPlcVariableName().equals(tapeteToGo)) {
                     celulaFactory.getMaquina5().goDownDirection();
                     celulaFactory.getMaquina6().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
 
@@ -333,16 +333,16 @@ public class Peca {
             if(instrucao==null)
                 System.out.println("NULLLLLLLLLL");
 
-            TapeteMaquina tapeteMaquinaToGo=instrucao.descobrirTapete();
-
+            String tapeteMaquinaToGo=instrucoes.get(0).descobrirTapete();
+            tapeteMaquinaToGo=celulaFactory.getName()+ tapeteMaquinaToGo.substring(2);
 
 
             if(tapeteParaOndeVai instanceof TapeteMaquina) {
-                System.out.println("Tapete a ir "+ tapeteMaquinaToGo.getPlcVariableName()+" Este Tapete:" );
+                System.out.println("Tapete a ir "+ tapeteMaquinaToGo +" Este Tapete:" );
                 TapeteMaquina tapeteMaquina = (TapeteMaquina) tapeteParaOndeVai;
                 if (tapeteMaquina != null) {
-                    System.out.println("Tapete a ir "+ tapeteMaquinaToGo.getPlcVariableName()+" Este Tapete a ir: " +tapeteMaquina.getPlcVariableName() );
-                    if (tapeteMaquina.equals(tapeteMaquinaToGo)) {
+                    System.out.println("Tapete a ir "+ tapeteMaquinaToGo+" Este Tapete a ir: " +tapeteMaquina.getPlcVariableName() );
+                    if (tapeteMaquina.getPlcVariableName().equals(tapeteMaquinaToGo)) {
                         System.out.println("Chegou ao tapete");
                         tapeteMaquina.getToWork(instrucao.getFerramenta(), instrucao.getTempo());
                         tapeteMaquina.stopDownDirection();
@@ -359,8 +359,8 @@ public class Peca {
             if(tapete instanceof TapeteMaquina){
                 TapeteMaquina tapeteMaquina=(TapeteMaquina) tapete;
                 if(tapeteMaquina!=null){
-                    System.out.println("Tapete a ir "+ tapeteMaquinaToGo.getPlcVariableName()+" Este Tapete: " +tapeteMaquina.getPlcVariableName() );
-                    if(tapeteMaquina.equals(tapeteMaquinaToGo)){
+                    System.out.println("Tapete a ir "+ tapeteMaquinaToGo+" Este Tapete: " +tapeteMaquina.getPlcVariableName() );
+                    if(tapeteMaquina.getPlcVariableName().equals(tapeteMaquinaToGo)){
                         if(tapeteMaquina.finishedWorking()){
                             this.changeType(instrucao.getPecaFinal());
                             //System.out.println("Nova peca: "+instrucao.getPecaFinal());
