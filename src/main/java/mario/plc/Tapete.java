@@ -2,7 +2,6 @@ package mario.plc;
 
 import mario.OPCUa.OPCUAConnection;
 import mario.order.Peca;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +19,15 @@ public class Tapete {
     protected Celula celulaFactory;
     private boolean fallingEdge=false;
     private boolean risingEdge=false;
+    private boolean hello=false;
 
+    public Celula getCelulaFactory() {
+        return celulaFactory;
+    }
 
+    public void setArmazemAssociado(Storage armazemAssociado) {
+        this.armazemAssociado = armazemAssociado;
+    }
 
     public Storage getArmazemAssociado() {
         return armazemAssociado;
@@ -42,13 +48,25 @@ public class Tapete {
     }
 
 
+    public boolean isHello() {
+        return hello;
+    }
+
+    public void setHello(boolean hello) {
+        this.hello = hello;
+    }
+
     protected boolean risingEdgePeca() {
-        if(pecaEsperadaNoTapete.getTipo().equals("NAOESPERAPECA"))
+
+
+
+
+        if(pecaEsperadaNoTapete.getTipo().equals("NAOESPERAPECA") && !this.plcVariableName.contains("C5"))
             return false;
+
 
         //System.out.println(pecaEsperadaNoTapete.getTipo());
         if (previousHasPiece == false && hasPiece() == true) {
-
             if(this.plcVariableName.equals("AT2"))
                 this.getArmazemAssociado().youCantWork();
 
@@ -60,25 +78,49 @@ public class Tapete {
             pecaNoTapete.setTapete(this);
             pecaNoTapete.setTapeteParaOndeVai(null);
            // pecaNoTapete.printPecaNoTapete();
-            pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
 
             if(this.plcVariableName.equals("C1T1")){
                 this.getTapeteLadoEsquerdoOuEmCima().getArmazemAssociado().youCanWork();
             }
 
+            if(this.plcVariableName.equals("C5T1") && this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().isHello()){
+                Peca p=new Peca("P1",null);
+
+                p.setTapete(this);
+                UnloadCell celula=(UnloadCell) celulaFactory;
+                p.setNomeDaCelulaParaOndeVai(celula);
+                pecaEsperadaNoTapete=new Peca("NAOESPERAPECA");
+                UnloadCell celulai= (UnloadCell) celulaFactory;
+                p.setNomeDaCelulaParaOndeVai(celulai);
+                pecaNoTapete = p;
+                this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setHello(false);
+                hasPiece=true;
+                //m.out.println(this.plcVariableName+" "+ pecaNoTapete.getTipo());
+                return true;
+            }
+
+
+
             if(this.plcVariableName.equals("C5T2")) {
                 Peca p=new Peca("P1",this);
+                UnloadCell celula=(UnloadCell) celulaFactory;
+                p.setNomeDaCelulaParaOndeVai(celula);
                 pecaEsperadaNoTapete=p;
                 pecaNoTapete = p;
+                hello=true;
                 hasPiece=true;
+                //System.out.println(this.plcVariableName+" "+ pecaNoTapete.getTipo());
 
 
             }
              if(this.plcVariableName.equals("C5T8")){
                  Peca p=new Peca("P2",this);
+                 UnloadCell celula=(UnloadCell) celulaFactory;
+                 p.setNomeDaCelulaParaOndeVai(celula);
                  pecaEsperadaNoTapete=p;
                  pecaNoTapete=p;
                  hasPiece=true;
+                // System.out.println(this.plcVariableName+" "+ pecaNoTapete.getTipo());
 
 
             }
@@ -108,12 +150,12 @@ public class Tapete {
     }
 
 
-    public String getPecaNoTapete() {
+    public String getPecaNoTapeteTipo() {
         return pecaNoTapete.getTipo();
     }
 
     public boolean disponivel(){
-        if(this.getPecaNoTapete().equals("NAOTEMPECA") && this.pecaEsperadaNoTapete.equals("NAOESPERAPECA")){
+        if(this.getPecaNoTapeteTipo().equals("NAOTEMPECA") && this.pecaEsperadaNoTapete.equals("NAOESPERAPECA")){
             return true;
         }
         return false;
@@ -133,53 +175,98 @@ public class Tapete {
             armazem.setQuantity(pecaAEnviar.getTipo(),armazem.getQuantity(pecaAEnviar.getTipo())+1);
             System.out.println("Peca "+pecaAEnviar.getTipo()+ " no armazem aumentada para "+armazem.getQuantity(pecaAEnviar.getTipo()));
             this.getTapeteDoLado(0).setPecaEsperadaNoTapete(pecaAEnviar);
+            return;
         }
         else if(this.plcVariableName.contains("T7") ){
-           // System.out.println("Peça do tipo "+pecaAEnviar.getTipo()+" saiu do tapete "+this.plcVariableName);
+           // System.out.println(this.plcVariableName+ " "+ this.pecaAEnviar.getTipo());
             this.getTapeteLadoEsquerdoOuEmCima().setPecaEsperadaNoTapete(pecaAEnviar);
+            return;
         }
-        else if(this.plcVariableName.contains("T8") || this.plcVariableName.equals("C5T2") || this.plcVariableName.equals("C5T8")){
+        else if(this.plcVariableName.contains("T8")){
+
             this.getTapeteLadoEsquerdoOuEmCima().setPecaEsperadaNoTapete(pecaAEnviar);
+            return;
         }
+
+
         else if(this.plcVariableName.equals("C5T1")){
+
             this.getTapeteEmBaixoDoRotador().setPecaEsperadaNoTapete(pecaAEnviar);
+            return;
         }
 
         else if(this.plcVariableName.equals("C5T3")){
+
             this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+            return;
         }
         else if(this.plcVariableName.equals("C5T4")){
+
+
             this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+            return;
         }
         else if(this.plcVariableName.equals("C5T5")){
+            //System.out.println("T5 "+pecaAEnviar.getTipo());
+
             this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+            return;
         }
-        else if(this.plcVariableName.equals("C5T6")){
+        else if(this.plcVariableName.equals("C5T6")) {
+            //System.out.println("T6 " + pecaAEnviar.getTipo());
             this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+            return;
         }
+
+            else if(this.plcVariableName.equals("C5T7")){
+                //System.out.println("T7 "+pecaAEnviar.getTipo());
+                this.getTapeteLadoEsquerdoOuEmCima().setPecaEsperadaNoTapete(pecaAEnviar);
+                return;
+            }
+
+
+
         else if(this.plcVariableName.contains("T3")) {
            // System.out.println(pecaAEnviar.getTipo());
             //System.out.println("Peça do tipo " + pecaAEnviar.getTipo() + " saiu do tapete " + this.plcVariableName);
             this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+
+            ((CelulaFactory) celulaFactory).setReady(false);
+            return;
         }
-            else if(this.plcVariableName.contains("T1") && !this.plcVariableName.contains("C5") && !this.plcVariableName.contains("A")){
+            else if(this.plcVariableName.contains("T1") && !this.plcVariableName.contains("C5") && !this.plcVariableName.contains("A")) {
             //System.out.println("Peça do tipo " + pecaAEnviar.getTipo() + " saiu do tapete " + this.plcVariableName);
             this.getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
-
+            return;
+        }
+            else if(this.plcVariableName.equals("C1T8")){
+                this.getTapeteLadoEsquerdoOuEmCima().getArmazemAssociado().youCantWork();
+                return;
+        }
+            else if(this.plcVariableName.equals("C5T8")){
+                this.getTapeteDoLado(0).setPecaEsperadaNoTapete(pecaAEnviar);
+                return;
+        }
 
         }
 
 
-    }
+
+
 
     public boolean fallingEdgePeca(){
-        if(pecaNoTapete.equals("NAOTEMPECA") && !plcVariableName.contains("C5"))
+        if(pecaNoTapete.equals("NAOTEMPECA")) //&& !plcVariableName.contains("C5"))
             return false;
+
+
         if (previousHasPiece == true && hasPiece() == false) {
             if(this.plcVariableName.equals("AT1")) {
                 this.risingEdge = false;
                 this.fallingEdge=true;
             }
+
+
+
             if(this.plcVariableName.equals("AT2"))
                 this.getArmazemAssociado().youCanWork();
             previousHasPiece = false;
@@ -188,7 +275,10 @@ public class Tapete {
             pecaNoTapete=new Peca("NAOTEMPECA");
 
             return true;
-        }
+
+
+            }
+
         return false;
 
     }

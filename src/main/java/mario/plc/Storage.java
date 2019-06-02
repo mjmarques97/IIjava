@@ -86,14 +86,14 @@ public class Storage extends Celula {
     }
 
     public void retrievePieceOPCua(Peca peca) {
-        if(peca==null || !iCanWork)
+        if(peca==null || !iCanWork || this.getQuantity(peca.getTipo())==0)
             return;
         int type=Integer.parseInt(peca.getTipo().substring(1));
-        if (tapeteUnload.getPecaNoTapete().equals("NAOTEMPECA")) {
+        if (tapeteUnload.getPecaNoTapeteTipo().equals("NAOTEMPECA")) {
             if (type >= 1 && type <= 9) {
                 tapeteUnload.setPecaEsperadaNoTapete(peca);
                 //!Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca", "AT1") Original
-                if (tapeteUnload.getPecaNoTapete().equals("NAOTEMPECA")) {
+                if (tapeteUnload.getPecaNoTapeteTipo().equals("NAOTEMPECA")) {
                     OPCUAConnection.setValue("GVL", "Peca_Remover", type);
                     youCantWork();
                 }

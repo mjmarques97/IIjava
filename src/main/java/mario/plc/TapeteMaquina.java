@@ -10,9 +10,21 @@ public class TapeteMaquina extends Tapete {
     private String tempoServico;
     private CelulaFactory celulaFactory;
     private int machinenumber;
+    private String maquinaAcabou;
     public boolean downDirection=false;
+    private boolean imWorking=false;
+    boolean stop=false;
+    private String tipo;
 
-    public TapeteMaquina(int plcCellName,int machineNumber,CelulaFactory celulaFactory) {
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public TapeteMaquina(int plcCellName, int machineNumber, CelulaFactory celulaFactory) {
         super(plcCellName);
         this.machinenumber=machineNumber;
         this.down="T"+machineNumber+"_direcao_baixo";
@@ -21,12 +33,16 @@ public class TapeteMaquina extends Tapete {
         this.tempoServico="T"+machineNumber+"_tempo_Servico";
         this.plcVariableName="C"+plcCellName+"T"+machineNumber;
         this.celulaFactory=celulaFactory;
+        maquinaAcabou="C"+plcCellName+"M"+(machinenumber-3);
 
     }
     public void setPlcVariableName(String variableName){
         this.plcVariableName=variableName;
     }
 
+    public boolean isImWorking() {
+        return imWorking;
+    }
 
     private void setDownDirection(boolean value){
         OPCUAConnection.setValue(this.plcCellName,down,value);
@@ -48,12 +64,30 @@ public class TapeteMaquina extends Tapete {
     }
     private void doWork(){
         this.setPiece(true);
+        imWorking=true;
     }
     public void stopDoingWork(){
         this.setPiece(false);
+
     }
-    public String isWorking(){
-        return OPCUAConnection.getValue(this.plcCellName,esperaPeca);
+    public boolean isWorking(){
+        return imWorking;
+    }
+
+    public boolean finishedWorking(){
+        if(imWorking) {
+            Boolean b = Boolean.parseBoolean(OPCUAConnection.getValue("Sensores_Peca", maquinaAcabou));
+            if (b == false) {
+                return false;
+            } else {
+                OPCUAConnection.setValue("Sensores_Peca", maquinaAcabou, false);
+                stopDoingWork();
+                imWorking = false;
+                stop=false;
+
+            }
+        }
+        return true;
     }
 
     private void selectTool(int toolNumber){
@@ -72,6 +106,8 @@ public class TapeteMaquina extends Tapete {
     }
 
     public void getToWork(int toolNumber, int time){
+        if(!finishedWorking())
+            return;
         this.doWork();
         this.selectTimeToOperateOnPiece(time);
         this.selectTool(toolNumber);
@@ -100,6 +136,7 @@ public class TapeteMaquina extends Tapete {
         if(this.equals(celulaDoTapete.getMaquina6())){
             if(celulaDoTapete.getMaquina6().downDirection==true){
                 getTapeteDoLadoDireitoOuEmBaixoSemSerRotatorDeCelula().setPecaEsperadaNoTapete(pecaAEnviar);
+                this.celulaFactory.setReady(true);
                 return;
             }
             else if(celulaDoTapete.getMaquina6().downDirection==false){

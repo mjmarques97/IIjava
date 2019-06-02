@@ -15,6 +15,16 @@ public class CelulaFactory extends Celula {
     private Tapete tapeteAcimaDaMaquina4;
     private Tapete tapeteRotativoDeBaixo;
     private Tapete tapeteAEsquedaDoRotadorDeBaixo;
+    private boolean ready =true;
+
+
+    public void setReady(boolean readySense){
+        this.ready =readySense;
+        OPCUAConnection.setValue("PLC_PRG.C"+this.number,"T3_ready_send",readySense);
+    }
+
+
+
 
 
     public CelulaFactory(int number) {
@@ -28,12 +38,53 @@ public class CelulaFactory extends Celula {
         tapeteAcimaDaMaquina4 = new Tapete("Sensores_Peca", "C" + this.number + "T3",this);
         tapeteRotativoDeBaixo = new Tapete("Sensores_Peca", "C" + this.number + "T7",this);
         tapeteAEsquedaDoRotadorDeBaixo = new Tapete("Sensores_Peca", "C" + this.number + "T8",this);
+
+
+
+        if(number==1) {
+            maquina4.setTipo("A");
+            maquina5.setTipo("B");
+            maquina6.setTipo("B");
+        }
+        if(number==2) {
+            maquina4.setTipo("A");
+            maquina5.setTipo("A");
+            maquina6.setTipo("C");
+        }
+        if(number==3) {
+            maquina4.setTipo("A");
+            maquina5.setTipo("B");
+            maquina6.setTipo("B");
+        }
+        if(number==4) {
+            maquina4.setTipo("A");
+            maquina5.setTipo("A");
+            maquina6.setTipo("C");
+        }
+
+
+
+
+
     }
 
     public boolean full(){
-       if(maquina4.disponivel() && maquina5.disponivel() && maquina6.disponivel() && tapeteAcimaDaMaquina4.disponivel())
-           return false;
-       return true;
+        if(!getTapeteAcimaDaMaquina4().getPecaNoTapeteTipo().equals("NAOTEMPECA"))
+            return true;
+            return false;
+
+    }
+    public TapeteMaquina getTapeteMaquina(String string){
+
+        if(string.equals(maquina4.getPlcVariableName()))
+            return maquina4;
+        if(string.equals(maquina4.getPlcVariableName()))
+            return maquina5;
+
+        if(string.equals(maquina5.getPlcVariableName()))
+                return maquina6;
+
+            return null;
     }
 
 

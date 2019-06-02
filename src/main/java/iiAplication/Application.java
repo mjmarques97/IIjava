@@ -24,7 +24,7 @@ public class Application {
         myConnection = new OPCUAConnection(clientName);
         myConnection.makeConnection();
 
-        MES mes=new MES(50);
+        MES mes=new MES(100);
         UDPHandler udpHandler=new UDPHandler(54321,mes.getSeguidorDePecas().getStorage(),mes.getOrderManager());
 
         mes.getSeguidorDePecas().getC3().getMaquina4().stopDownDirection();
@@ -48,7 +48,7 @@ public class Application {
 
        /* Tapete tapete=mes.getSeguidorDePecas().getStorage().getTapeteUnload();
         Peca peca=new Peca(1,tapete);
-        peca.setCelulaParaOndeVai(1);
+        peca.setNomeDaCelulaParaOndeVai(1);
 
         mes.getSeguidorDePecas().getStorage().retrievePieceOPCua(peca);*/
 
