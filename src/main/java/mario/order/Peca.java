@@ -248,16 +248,18 @@ public class Peca {
             if (tapeteMaquina.getPlcVariableName().equals(tapeteToGo)) {
                 if(tapeteMaquina.finishedWorking())
                 tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(), instrucoes.get(0).getTempo());
+                celulaFactory.stopMachines("C1T4");
                 return;
             } else if (tapeteMaquina.equals(celulaFactory.getMaquina5())) {
 
                 if (celulaFactory.getMaquina5().getPlcVariableName().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina4().goDownDirection();
                     celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(), instrucoes.get(0).getTempo());
-                    //celulaFactory.getMaquina5().stopDownDirection();
-                    celulaFactory.getMaquina6().stopDownDirection();
+                    celulaFactory.getMaquina6().stopEverythingYouAreDoing();
                     return;
                 }
                 if (celulaFactory.getMaquina6().getPlcVariableName().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina4().goDownDirection();
                     celulaFactory.getMaquina5().goDownDirection();
                     celulaFactory.getMaquina6().getToWork(instrucoes.get(0).getFerramenta(), instrucoes.get(0).getTempo());
 
@@ -271,17 +273,19 @@ public class Peca {
         if (tapeteMaquina.equals(celulaFactory.getMaquina5())) {
             if (tapeteMaquina.getPlcVariableName().equals(tapeteToGo)) {
                 tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(), instrucoes.get(0).getTempo());
+                celulaFactory.stopMachines("C1T5");
                 return;
             } else {
                 if (celulaFactory.getMaquina4().getPlcVariableName().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina5().stopEverythingYouAreDoing();
+                    celulaFactory.getMaquina6().stopEverythingYouAreDoing();
                     celulaFactory.getMaquina4().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
-                    celulaFactory.getMaquina6().stopDownDirection();
-                    celulaFactory.getMaquina5().stopDownDirection();
+
                 }
 
                 if (celulaFactory.getMaquina6().getPlcVariableName().equals(tapeteToGo)) {
-                    celulaFactory.getMaquina4().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
-                    celulaFactory.getMaquina4().goDownDirection();
+                    celulaFactory.getMaquina6().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                    celulaFactory.getMaquina4().stopEverythingYouAreDoing();
                     celulaFactory.getMaquina5().goDownDirection();
                 }
             }
@@ -289,11 +293,12 @@ public class Peca {
     }
 
         if(tapeteMaquina.equals(celulaFactory.getMaquina6())){
-            System.out.println(tapeteToGo + "  " + "Este tapete: " + tapeteMaquina.getPlcVariableName());
-            System.out.println("6");
+           // System.out.println(tapeteToGo + "  " + "Este tapete: " + tapeteMaquina.getPlcVariableName());
+           // System.out.println("6");
             if(tapeteMaquina.getPlcVariableName().equals(tapeteToGo)){
-                System.out.println("Stay");
+                //System.out.println("Stay");
                 tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                celulaFactory.stopMachines("C1T6");
                 return;
             }
 
@@ -301,13 +306,14 @@ public class Peca {
                 if (celulaFactory.getMaquina4().getPlcVariableName().equals(tapeteToGo)) {
                     celulaFactory.getMaquina4().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
                     //celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
-                    celulaFactory.getMaquina6().stopDownDirection();
+                    celulaFactory.getMaquina6().stopEverythingYouAreDoing();
+                    celulaFactory.getMaquina5().stopEverythingYouAreDoing();
                 }
 
                 if (celulaFactory.getMaquina5().getPlcVariableName().equals(tapeteToGo)) {
                     celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
-                    celulaFactory.getMaquina4().goDownDirection();
-                    celulaFactory.getMaquina6().stopDownDirection();
+                    celulaFactory.getMaquina4().stopEverythingYouAreDoing();
+                    celulaFactory.getMaquina6().stopEverythingYouAreDoing();
                 }
             }
 
@@ -371,7 +377,8 @@ public class Peca {
                         //celulaFactory.getMaquina4().stopEverythingYouAreDoing();
                     }
                 } else {
-                    // tapeteMaquina.stopDoingWork();
+                     tapeteMaquina.stopDoingWork();
+                     tapeteMaquina.goDownDirection();
 
                 }
             }
