@@ -26,9 +26,15 @@ public class Application {
 
         MES mes=new MES(500);
         UDPHandler udpHandler=new UDPHandler(54321,mes.getSeguidorDePecas().getStorage(),mes.getOrderManager());
+       // OPCUAConnection.setValue("PLC_PRG.C1","T8_ready_send",true);
+       // OPCUAConnection.setValue("PLC_PRG.C1","T8_ready_send",false);
+
 
        mes.getSeguidorDePecas().getC1().getTapeteRotatorDeCima().moveDown();
-
+        mes.getSeguidorDePecas().getC2().getTapeteRotatorDeCima().moveDown();
+        mes.getSeguidorDePecas().getC3().getTapeteRotatorDeCima().moveDown();
+        mes.getSeguidorDePecas().getC4().getTapeteRotatorDeCima().moveDown();
+        mes.getSeguidorDePecas().getC1().getTapeteRotatorDeCima().moveDown();
         mes.getSeguidorDePecas().getC3().getMaquina4().stopDownDirection();
         mes.getSeguidorDePecas().getC3().getMaquina5().goDownDirection();
         mes.getSeguidorDePecas().getC3().getMaquina6().goDownDirection();

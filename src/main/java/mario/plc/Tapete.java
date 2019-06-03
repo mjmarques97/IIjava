@@ -18,6 +18,27 @@ public class Tapete {
     protected List<Tapete> tapetesAssociados = new ArrayList<>();
     protected Storage armazemAssociado;
     protected Celula celulaFactory;
+
+    public Peca getPecaNoTapete() {
+        return pecaNoTapete;
+    }
+
+    public void setPecaNoTapete(Peca pecaNoTapete) {
+        this.pecaNoTapete = pecaNoTapete;
+    }
+
+    public Peca getPecaEsperadaNoTapete() {
+        return pecaEsperadaNoTapete;
+    }
+
+    public Peca getPecaAEnviar() {
+        return pecaAEnviar;
+    }
+
+    public void setPecaAEnviar(Peca pecaAEnviar) {
+        this.pecaAEnviar = pecaAEnviar;
+    }
+
     private boolean fallingEdge=false;
     private boolean risingEdge=false;
     private boolean hello=false;
@@ -148,8 +169,10 @@ public class Tapete {
         if(fallingEdgePeca()) {
             notifyTapetesAssociados(pecaAEnviar);
             pecaAEnviar.checkJaChegou();
-            pecaAEnviar.processaInstrucao();
         }
+        if(pecaAEnviar==null || pecaAEnviar.getTipo().equals("NAOESPERAPECA") || pecaAEnviar.getTipo().equals("NAOTEMPECA"))
+            return;
+        pecaAEnviar.processaInstrucao();
     }
 
 
@@ -355,6 +378,8 @@ public class Tapete {
         this.pecaEsperadaNoTapete =peca;
         peca.setTapeteParaOndeVai(this);
     }
+
+
 
 
 

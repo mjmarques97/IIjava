@@ -16,6 +16,8 @@ public class TapeteMaquina extends Tapete {
     boolean stop=false;
     private String tipo;
 
+
+
     public String getTipo() {
         return tipo;
     }
@@ -74,10 +76,12 @@ public class TapeteMaquina extends Tapete {
     }
     public void stopDoingWork(){
         this.setPiece(false);
+       // this.stopDownDirection();
 
     }
     public void stopEverythingYouAreDoing(){
         stopDoingWork();
+        this.stopDownDirection();
 
 
     }
@@ -97,6 +101,7 @@ public class TapeteMaquina extends Tapete {
                 imWorking = false;
                 stop=true;
                //System.out.println("Im done");
+                return true;
 
             }
         }
@@ -119,12 +124,16 @@ public class TapeteMaquina extends Tapete {
     }
 
     public void getToWork(int toolNumber, int time){
-        if(!finishedWorking())
+        if(imWorking)
             return;
         this.doWork();
         this.selectTool(toolNumber);
         this.selectTimeToOperateOnPiece(time);
-      // this.stopDownDirection();
+        this.stopDownDirection();
+        imWorking=true;
+
+
+
     }
 
     @Override

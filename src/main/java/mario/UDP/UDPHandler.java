@@ -106,9 +106,9 @@ public OrderParser getOrderParser(){
 
                         if(proccessOrder) {
                             sendStores();
-                            synchronized (orderManager) {
+
                                 orderManager.addOrdersFromUdp(orderParser);
-                            }
+
                         }
                         Thread.sleep(50);
                 //}

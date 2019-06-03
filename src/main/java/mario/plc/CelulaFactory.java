@@ -75,14 +75,39 @@ public class CelulaFactory extends Celula {
             return false;
 
     }
+
+    public void stopMachines(String string){
+        int a=Integer.parseInt(string.substring(3));
+        if(a==4) {
+            maquina5.stopEverythingYouAreDoing();
+            maquina6.stopEverythingYouAreDoing();
+        }
+       else if(a==5){
+            maquina4.stopEverythingYouAreDoing();
+            maquina6.stopEverythingYouAreDoing();
+        }
+         else if (a==6){
+            maquina5.stopEverythingYouAreDoing();
+            maquina6.stopEverythingYouAreDoing();
+        }
+         else {
+            maquina5.stopEverythingYouAreDoing();
+            maquina6.stopEverythingYouAreDoing();
+            maquina4.stopEverythingYouAreDoing();
+        }
+    }
+
+
+
+
     public TapeteMaquina getTapeteMaquina(String string){
 
         if(string.equals(maquina4.getPlcVariableName()))
             return maquina4;
-        if(string.equals(maquina4.getPlcVariableName()))
+        if(string.equals(maquina5.getPlcVariableName()))
             return maquina5;
 
-        if(string.equals(maquina5.getPlcVariableName()))
+        if(string.equals(maquina6.getPlcVariableName()))
                 return maquina6;
 
             return null;

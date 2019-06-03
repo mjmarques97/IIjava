@@ -54,6 +54,7 @@ public class UnloadCell extends Celula {
         tapeteAbaixoDoTerceiroPusher.checkFallingAndRisingOrRisingEdge();
         tapeteADireitaDoTapeteDeBaixo.checkFallingAndRisingOrRisingEdge();
 
+
     }
 
 

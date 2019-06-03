@@ -151,6 +151,8 @@ public class Storage extends Celula {
     public void checkEachCycle(){
         tapeteUnload.checkFallingAndRisingOrRisingEdge();
         tapeteLoad.checkFallingAndRisingOrRisingEdge();
+        if(tapeteUnload.pecaNoTapete.getTipo().equals("NAOTEMPECA") && tapeteLoad.pecaNoTapete.getTipo().equals("NAOTEMPECA"))
+            OPCUAConnection.setValue("PLC_PRG.C1","T8_ready_send",true);
     }
 
 }

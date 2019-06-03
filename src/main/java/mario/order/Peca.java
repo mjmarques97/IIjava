@@ -18,6 +18,8 @@ public class Peca {
     private String nomeDaCelulaParaOndeVai ="JACHEGOU";
     private String whereToUnload;
     private Celula celulaParaOndeVai;
+    private boolean imWorking=false;
+    private TapeteMaquina whereIshouldWork;
 
     private boolean firstTime=true;
 
@@ -188,23 +190,22 @@ public class Peca {
                 return true;
         return false;
     }
-    private void doNextPhase(TapeteMaquina tapeteMaquina,CelulaFactory celulaFactory){
-        if(instrucoes.size()>1){
-           // System.out.println(instrucoes.size());
-        instrucoes.get(1).setPecaInicial(instrucoes.get(0).getPecaInicial());
-        instrucoes.get(1).descobrirTapetea();
+    private void doNextPhase(TapeteMaquina tapeteMaquina,CelulaFactory celulaFactory) {
+        if (instrucoes.size() > 1) {
+            // System.out.println(instrucoes.size());
+            instrucoes.get(1).setPecaInicial(instrucoes.get(0).getPecaInicial());
+            instrucoes.get(1).descobrirTapete();
         }
-
 
 
         instrucoes.remove(0);
 
 
-
-        if(instrucoes.isEmpty()){
+        if (instrucoes.isEmpty()) {
             return;
         }
-     /*       if(celulaFactory.getMaquina5().equals(tapeteMaquina)){
+        /*System.out.println("Tapete a ir: "+ instrucoes.get(1).descobrirTapete());
+            if(celulaFactory.getMaquina5().equals(tapeteMaquina)){
                // System.out.println("MoveDown");
                 celulaFactory.getMaquina5().goDownDirection();
                 celulaFactory.getMaquina4().goDownDirection();
@@ -226,73 +227,84 @@ public class Peca {
                // System.out.println("MoveDown");
                 celulaFactory.getMaquina4().goDownDirection();
                 return;
-            }
-        }*/
-            String tapeteToGo =instrucoes.get(0).descobrirTapete();
-           // System.out.println(instrucoes.get(0).toString());
-            //tapeteMaquina.stopEverythingYouAreDoing();
+            }*/
+
+        String tapete = instrucoes.get(0).descobrirTapete();
+        String tapeteToGo = this.celulaParaOndeVai.getName() + tapete.substring(2);
+        //String tapeteToGo=this.getNomeDaCelulaParaOndeVai();
+
+
+        // System.out.println(instrucoes.get(0).toString());
+        //tapeteMaquina.stopEverythingYouAreDoing();
 
         //System.out.println(tapeteToGo.getPlcVariableName());
         //tapeteToGo.imWaitingForPiece();
+       // tapeteMaquina.setPecaNoTapete(tapeteMaquina.getPecaAEnviar());
+         //tapeteMaquina.getPecaAEnviar().setTapete(tapeteMaquina);
 
 
-
-
-        if(tapeteMaquina.equals(celulaFactory.getMaquina4())){
-            if(tapeteMaquina.getPlcVariableName().equals(tapeteToGo)) {
-                tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+        if (tapeteMaquina.getPlcVariableName().equals(celulaFactory.getMaquina4().getPlcVariableName())) {
+            System.out.println(tapeteToGo + "  " + "Este tapete: " + tapeteMaquina.getPlcVariableName());
+            if (tapeteMaquina.getPlcVariableName().equals(tapeteToGo)) {
+                if(tapeteMaquina.finishedWorking())
+                tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(), instrucoes.get(0).getTempo());
                 return;
-            }
-            else {
+            } else if (tapeteMaquina.equals(celulaFactory.getMaquina5())) {
+
                 if (celulaFactory.getMaquina5().getPlcVariableName().equals(tapeteToGo)) {
-                    celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                    celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(), instrucoes.get(0).getTempo());
                     //celulaFactory.getMaquina5().stopDownDirection();
                     celulaFactory.getMaquina6().stopDownDirection();
                     return;
                 }
                 if (celulaFactory.getMaquina6().getPlcVariableName().equals(tapeteToGo)) {
                     celulaFactory.getMaquina5().goDownDirection();
-                    celulaFactory.getMaquina6().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                    celulaFactory.getMaquina6().getToWork(instrucoes.get(0).getFerramenta(), instrucoes.get(0).getTempo());
 
                     return;
                 }
             }
         }
 
-
-        if(tapeteMaquina.equals(celulaFactory.getMaquina5())) {
-            if (tapeteMaquina.equals(tapeteToGo)){
-                tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+        if(tapeteMaquina.getPlcVariableName().equals(celulaFactory.getMaquina5().getPlcVariableName())){
+            System.out.println(tapeteToGo + "  " + "Este tapete: " + tapeteMaquina.getPlcVariableName());
+        if (tapeteMaquina.equals(celulaFactory.getMaquina5())) {
+            if (tapeteMaquina.getPlcVariableName().equals(tapeteToGo)) {
+                tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(), instrucoes.get(0).getTempo());
                 return;
-            }
-
-            else {
-                if (celulaFactory.getMaquina4().equals(tapeteToGo)) {
-                    celulaFactory.getMaquina6().stopDownDirection();
-                    celulaFactory.getMaquina5().stopDownDirection();
-                }
-
-                if (celulaFactory.getMaquina6().equals(tapeteToGo)) {
-                    celulaFactory.getMaquina4().goDownDirection();
-                    celulaFactory.getMaquina5().goDownDirection();
-                }
-            }
-        }
-
-        if(tapeteMaquina.equals(celulaFactory.getMaquina6())){
-            if(tapeteMaquina.equals(tapeteToGo)){
-                tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
-                return;
-            }
-
-            else {
-                if (celulaFactory.getMaquina4().equals(tapeteToGo)) {
+            } else {
+                if (celulaFactory.getMaquina4().getPlcVariableName().equals(tapeteToGo)) {
                     celulaFactory.getMaquina4().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
                     celulaFactory.getMaquina6().stopDownDirection();
                     celulaFactory.getMaquina5().stopDownDirection();
                 }
 
-                if (celulaFactory.getMaquina5().equals(tapeteToGo)) {
+                if (celulaFactory.getMaquina6().getPlcVariableName().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina4().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                    celulaFactory.getMaquina4().goDownDirection();
+                    celulaFactory.getMaquina5().goDownDirection();
+                }
+            }
+        }
+    }
+
+        if(tapeteMaquina.equals(celulaFactory.getMaquina6())){
+            System.out.println(tapeteToGo + "  " + "Este tapete: " + tapeteMaquina.getPlcVariableName());
+            System.out.println("6");
+            if(tapeteMaquina.getPlcVariableName().equals(tapeteToGo)){
+                System.out.println("Stay");
+                tapeteMaquina.getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                return;
+            }
+
+            else {
+                if (celulaFactory.getMaquina4().getPlcVariableName().equals(tapeteToGo)) {
+                    celulaFactory.getMaquina4().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                    //celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                    celulaFactory.getMaquina6().stopDownDirection();
+                }
+
+                if (celulaFactory.getMaquina5().getPlcVariableName().equals(tapeteToGo)) {
                     celulaFactory.getMaquina5().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
                     celulaFactory.getMaquina4().goDownDirection();
                     celulaFactory.getMaquina6().stopDownDirection();
@@ -315,70 +327,83 @@ public class Peca {
     }
 
     public void processaInstrucao(){
+       // int pecaFinal=Integer.parseInt(instrucoes.get(0).getPecaFinal().substring(1));
         if(!nomeDaCelulaParaOndeVai.equals("JACHEGOU")) {
             //System.out.println(" Nao Cheguei");
             return;
         }
-        if(order instanceof TransformationOrder){
-            CelulaFactory celulaFactory=(CelulaFactory) celulaParaOndeVai;
-            if(instrucoes.isEmpty()){
+        if(order instanceof TransformationOrder) {
+            CelulaFactory celulaFactory = (CelulaFactory) celulaParaOndeVai;
+            if (instrucoes.isEmpty()) {
                 celulaFactory.getMaquina4().goDownDirection();
                 celulaFactory.getMaquina5().goDownDirection();
                 celulaFactory.getMaquina6().goDownDirection();
                 return;
 
             }
+            int pecaFinal = Integer.parseInt(instrucoes.get(0).getPecaFinal().substring(1));
 
-            InstrucaoTransformacoes instrucao=instrucoes.get(0);
-            if(instrucao==null)
+            InstrucaoTransformacoes instrucao = instrucoes.get(0);
+            if (instrucao == null)
                 System.out.println("NULLLLLLLLLL");
 
-            String tapeteMaquinaToGo=instrucoes.get(0).descobrirTapete();
-            tapeteMaquinaToGo=celulaFactory.getName()+ tapeteMaquinaToGo.substring(2);
+            String tapeteMaquinaToGo = instrucoes.get(0).descobrirTapete();
+            tapeteMaquinaToGo = celulaFactory.getName() + tapeteMaquinaToGo.substring(2);
 
+            whereIshouldWork=celulaFactory.getTapeteMaquina(tapeteMaquinaToGo);
 
-            if(tapeteParaOndeVai instanceof TapeteMaquina) {
-                System.out.println("Tapete a ir "+ tapeteMaquinaToGo +" Este Tapete:" );
+            if (tapeteParaOndeVai instanceof TapeteMaquina) {
                 TapeteMaquina tapeteMaquina = (TapeteMaquina) tapeteParaOndeVai;
                 if (tapeteMaquina != null) {
-                    System.out.println("Tapete a ir "+ tapeteMaquinaToGo+" Este Tapete a ir: " +tapeteMaquina.getPlcVariableName() );
-                    if (tapeteMaquina.getPlcVariableName().equals(tapeteMaquinaToGo)) {
-                        System.out.println("Chegou ao tapete");
-                        tapeteMaquina.getToWork(instrucao.getFerramenta(), instrucao.getTempo());
-                        tapeteMaquina.stopDownDirection();
-                        return;
-                    }
-                    else {
-                        tapeteMaquina.stopDoingWork();
 
+
+                    //System.out.println("Tapete para onde deve ir " + tapeteMaquinaToGo + " Este Tapete a ir: " + tapeteMaquina.getPlcVariableName());
+                    if (tapeteMaquina.getPlcVariableName().equals(tapeteMaquinaToGo)) {
+                        imWorking = true;
+                        System.out.println("Chegou ao tapete");
+                       // celulaFactory.stopMachines(tapeteMaquinaToGo);
+                        tapeteMaquina.getToWork(instrucao.getFerramenta(), instrucao.getTempo());
+                        celulaFactory.stopMachines(tapeteMaquinaToGo);
+                        pecaFinal = Integer.parseInt(instrucao.getPecaFinal().substring(1));
+                        //doNextPhase(tapeteMaquina,celulaFactory);
+                        //tapeteMaquina.stopDownDirection();
+                        //doNextPhase(tapeteMaquina, celulaFactory);
+                        //celulaFactory.getMaquina4().stopEverythingYouAreDoing();
                     }
+                } else {
+                    // tapeteMaquina.stopDoingWork();
+
                 }
             }
 
 
-            if(tapete instanceof TapeteMaquina){
-                TapeteMaquina tapeteMaquina=(TapeteMaquina) tapete;
-                if(tapeteMaquina!=null){
-                    System.out.println("Tapete a ir "+ tapeteMaquinaToGo+" Este Tapete: " +tapeteMaquina.getPlcVariableName() );
-                    if(tapeteMaquina.getPlcVariableName().equals(tapeteMaquinaToGo)){
-                        if(tapeteMaquina.finishedWorking()){
-                            this.changeType(instrucao.getPecaFinal());
+            if (tapete instanceof TapeteMaquina) {
+                TapeteMaquina tapeteMaquina = (TapeteMaquina) tapete;
+                if (tapeteMaquina != null) {
+                   // System.out.println("Este Tapete: " + tapeteMaquina.getPlcVariableName());
+                    if (tapeteMaquina.getPlcVariableName().equals(tapeteMaquinaToGo)) {
+                        if (tapeteMaquina.finishedWorking()) {
+                            this.changeType("P" + pecaFinal);
                             //System.out.println("Nova peca: "+instrucao.getPecaFinal());
+                            doNextPhase(tapeteMaquina, celulaFactory);
+                            imWorking=false;
                             //System.out.println(instrucao.toString());
-                            doNextPhase(tapeteMaquina,celulaFactory);
                             return;
 
                         }
                     }
                 }
             }
-
-
         }
 
 
 
-        if(tapeteParaOndeVai==null || order==null){
+
+
+
+
+
+        if(tapeteParaOndeVai!=null || order==null){
 
 
             //System.out.println(tapeteParaOndeVai.getPlcVariableName());

@@ -20,13 +20,7 @@
 >
 ]>
 <ORDERS>
-<Order Number="004">
-<Transform From="P1" To="P3" Quantity="9"/>
-</Order>
 <Order Number="005">
-<Transform From="P8" To="P5" Quantity="10"/>
-</Order>
-<Order Number="006">
-<Transform From="P5" To="P6" Quantity="10"/>
+<Transform From="P4" To="P6" Quantity="10"/>
 </Order>
 </ORDERS>

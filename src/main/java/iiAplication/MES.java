@@ -70,6 +70,7 @@ public class MES {
         synchronized (orderManager){
 
         if (orderManager.getUnloadOrdersToProcess().size() > 0) {
+           // System.out.println(orderManager.getUnloadOrdersToProcess().size());
             UnloadOrder order = orderManager.getUnloadOrdersToProcess().get(0);
             orderManager.getUnloadOrdersToProcess().remove(0);
 
@@ -82,6 +83,7 @@ public class MES {
         }
 
         if (orderManager.getTransformationOrdersToProcess().size() > 0) {
+          //  System.out.println(orderManager.getTransformationOrdersToProcess().size());
             TransformationOrder order = orderManager.getTransformationOrdersToProcess().get(0);
             //System.out.println(order.getFrom());
             transformationOrdersBeingProcessed.remove(order);
