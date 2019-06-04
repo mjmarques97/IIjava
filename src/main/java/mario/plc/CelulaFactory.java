@@ -283,5 +283,14 @@ public class CelulaFactory extends Celula {
         }
     }
 
+    @Override
+    public String toString() {
+        return "CelulaFactory{" +
+                "maquina4=" + maquina4.toString() +
+                ", maquina5=" + maquina5.toString() +
+                ", maquina6=" + maquina6.toString() +
+                '}';
+    }
+
 
 }

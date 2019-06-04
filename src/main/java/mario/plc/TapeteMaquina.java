@@ -76,7 +76,7 @@ public class TapeteMaquina extends Tapete {
     }
     public void stopDoingWork(){
         this.setPiece(false);
-       // this.stopDownDirection();
+       this.stopDownDirection();
 
     }
     public void stopEverythingYouAreDoing(){
@@ -211,5 +211,13 @@ public class TapeteMaquina extends Tapete {
         return hasPiece;
     }
 
-
+    @Override
+    public String toString() {
+        return "TapeteMaquina{" +
+                "down='" + down + '\'' +
+                ", esperaPeca='" + esperaPeca + '\'' +
+                ", maquinaAcabou='" + maquinaAcabou + '\'' +
+                ", stop=" + stop +
+                '}';
+    }
 }

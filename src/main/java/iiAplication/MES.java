@@ -86,7 +86,7 @@ public class MES {
           //  System.out.println(orderManager.getTransformationOrdersToProcess().size());
             TransformationOrder order = orderManager.getTransformationOrdersToProcess().get(0);
             //System.out.println(order.getFrom());
-            transformationOrdersBeingProcessed.remove(order);
+           orderManager.getTransformationOrdersToProcess().remove(0);
             Peca peca = celulaSelector(order);
             //System.out.println(peca.getCelulaParaOndeVai());
             peca.setPieceComida(peca);

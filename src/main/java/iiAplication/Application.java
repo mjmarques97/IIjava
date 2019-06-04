@@ -24,9 +24,9 @@ public class Application {
         myConnection = new OPCUAConnection(clientName);
         myConnection.makeConnection();
 
-        MES mes=new MES(500);
+        MES mes=new MES(750);
         UDPHandler udpHandler=new UDPHandler(54321,mes.getSeguidorDePecas().getStorage(),mes.getOrderManager());
-       // OPCUAConnection.setValue("PLC_PRG.C1","T8_ready_send",true);
+        OPCUAConnection.setValue("PLC_PRG.C1","T8_ready_send",false);
        // OPCUAConnection.setValue("PLC_PRG.C1","T8_ready_send",false);
 
 
@@ -63,11 +63,7 @@ public class Application {
         while (true){
             mes.getSeguidorDePecas().updateAllEachCycle();
             mes.libertaPecas();
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
         }
         // XML test
 

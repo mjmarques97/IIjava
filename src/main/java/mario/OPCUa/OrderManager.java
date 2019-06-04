@@ -39,14 +39,14 @@ public class OrderManager {
             for (UnloadOrder unloadOrder : orderParser.getUnloadOrders()) {
                 unloadOrdersMap.put(unloadOrder, Integer.parseInt(unloadOrder.getQuantity()));
             }
+        }
 
-            if(orderParser.getTransformationOrders().size()<0){
+            if(orderParser.getTransformationOrders().size()>0){
                 for (TransformationOrder transformationOrder : orderParser.getTransformationOrders()) {
                     transformationOrderMap.put(transformationOrder, Integer.parseInt(transformationOrder.getQuantity()));
                 }
             }
             setUpOrders(unloadOrdersMap,transformationOrderMap);
-        }
 
 
 
@@ -55,8 +55,9 @@ public class OrderManager {
 
 
 
-        this.unloadOrdersToProcess.addAll(orderParser.getUnloadOrders());
-        this.transformationOrdersToProcess.addAll(orderParser.getTransformationOrders());
+
+        //this.unloadOrdersToProcess.addAll(orderParser.getUnloadOrders());
+        //this.transformationOrdersToProcess.addAll(orderParser.getTransformationOrders());
       //  printUnloads();
        // printTransformations();
 

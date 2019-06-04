@@ -277,13 +277,15 @@ public class Peca {
                 return;
             } else {
                 if (celulaFactory.getMaquina4().getPlcVariableName().equals(tapeteToGo)) {
+                    System.out.println("Devo ir para 4");
                     celulaFactory.getMaquina5().stopEverythingYouAreDoing();
                     celulaFactory.getMaquina6().stopEverythingYouAreDoing();
-                    celulaFactory.getMaquina4().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
+                   // celulaFactory.getMaquina4().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
 
                 }
 
                 if (celulaFactory.getMaquina6().getPlcVariableName().equals(tapeteToGo)) {
+                    System.out.println("Devo ir para 6");
                     celulaFactory.getMaquina6().getToWork(instrucoes.get(0).getFerramenta(),instrucoes.get(0).getTempo());
                     celulaFactory.getMaquina4().stopEverythingYouAreDoing();
                     celulaFactory.getMaquina5().goDownDirection();
@@ -381,6 +383,7 @@ public class Peca {
                      tapeteMaquina.goDownDirection();
 
                 }
+                return;
             }
 
 
@@ -390,9 +393,17 @@ public class Peca {
                    // System.out.println("Este Tapete: " + tapeteMaquina.getPlcVariableName());
                     if (tapeteMaquina.getPlcVariableName().equals(tapeteMaquinaToGo)) {
                         if (tapeteMaquina.finishedWorking()) {
+
+                            celulaFactory.stopMachines("C2T9");
+
+                          //  System.out.println("Acabei");
                             this.changeType("P" + pecaFinal);
                             //System.out.println("Nova peca: "+instrucao.getPecaFinal());
                             doNextPhase(tapeteMaquina, celulaFactory);
+                            if(instrucoes.size()>0)
+                            System.out.println("Tapete novo "+instrucoes.get(0).descobrirTapete());
+                            System.out.println(celulaFactory.toString());
+
                             imWorking=false;
                             //System.out.println(instrucao.toString());
                             return;
@@ -464,4 +475,7 @@ public class Peca {
        setArrayList(array);
 
     }
+
+
+
 }
